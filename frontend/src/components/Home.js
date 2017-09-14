@@ -1,27 +1,34 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
+import ListPosts from './ListPosts';
+import ListCategories  from './ListCategories';
 
-class noPage extends Component{
-    render(){
-        return(
+class noPage extends Component {
+    render() {
 
-                <div className="row">
-                    <div className="col-md-4">
-                        <h2>Heading</h2>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                        <p><a className="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-                    </div>
-                    <div className="col-md-4">
-                        <h2>Heading</h2>
-                        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                        <p><a className="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-                    </div>
-                    <div className="col-md-4">
-                        <h2>Heading</h2>
-                        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                        <p><a className="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+        return (
+
+            <div className="container">
+
+                <div className="jumbotron">
+                    <div className="container">
+                        <h1 className="display-3">Readable Project</h1>
+                        <p>This is the readable project from the Udacity React Nanodegree Program, in this web app you
+                            will be able
+                            to post content to predefined categories, comment on your posts and other users' posts, and
+                            vote on posts and comments. You will also be able to edit and delete posts and comments.
+                        </p>
+                        <p><Link className="btn btn-primary btn-lg" to="/">Add Post</Link></p>
                     </div>
                 </div>
+
+
+                <ListCategories/>
+                <ListPosts/>
+
+
+
+            </div>
 
 
 
