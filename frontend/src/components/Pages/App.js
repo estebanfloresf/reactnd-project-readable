@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Switch, Route, Link} from 'react-router-dom'
 
-import '../css/App.css';
-import noPage from '../components/noPage';
-import Home from '../components/Home';
+import '../../css/App.css';
+import noPage from './noPage';
+import Home from './Home';
+import PostDetail from '../Post/PostDetail';
+import CategoryDetail from '../Category/CategoryDetail';
+
 
 class App extends Component {
     render() {
@@ -21,6 +24,8 @@ class App extends Component {
                         <Route exact path="/" component={Home}>
 
                         </Route>
+                        <Route path="/postdetail/:post" component={PostDetail}/>
+                        <Route path="/categorydetail/:category" component={CategoryDetail}/>
                         <Route component={noPage}/>
                     </Switch>
                 </div>

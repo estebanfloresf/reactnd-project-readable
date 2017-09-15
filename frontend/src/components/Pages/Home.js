@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import ListPosts from './ListPosts';
-import ListCategories  from './ListCategories';
+import PostList from '../Post/PostList';
+import CategoryList from '../Category/CategoryList';
+
 
 class noPage extends Component {
     render() {
@@ -23,9 +24,15 @@ class noPage extends Component {
                 </div>
 
 
-                <ListCategories/>
-                <ListPosts/>
+                <CategoryList/>
 
+                <div className="row flex flex-wrap">
+                    <div className="col-md-12">
+                        <h4 className="title display-3">Posts</h4>
+                        <PostList/>
+                    </div>
+
+                </div>
 
 
             </div>
