@@ -46,17 +46,17 @@ class listPosts extends Component {
                             <div className="d-flex flex-row justify-content-around">
                                 <div className="p-2">
                                     <p className="card-text" id="card-text-info">
-                                        <small className="text-muted"><i className="fa fa-user"/> Author Name</small>
+                                        <small className="text-muted"><i className="fa fa-user"/> | Author Name</small>
                                     </p>
                                 </div>
 
                                 <div className="d-flex flex-row">
-                                    <div className="p-2"><small>Total Score: <strong>4</strong></small></div>
+                                    <div className="p-2"><small>4 votes |</small></div>
                                     <div className="p-2">
-                                        <small className="text-muted"><i className="fa fa-thumbs-up"/> </small>
+                                        <small className="text-muted"><Link to="/"> <i className="fa fa-thumbs-up"/></Link> </small>
                                     </div>
                                     <div className="p-2">
-                                        <small className="text-muted"><i className="fa fa-thumbs-down"/> </small>
+                                        <small className="text-muted"><Link to="/"> <i className="fa fa-thumbs-down"/></Link> </small>
                                     </div>
                                 </div>
 
@@ -64,7 +64,8 @@ class listPosts extends Component {
                                 <div className="p-2">
                                     <p className="card-text">
 
-                                        <small className="text-muted"><i className="fa fa-comment"/> 2</small>
+
+                                        <small className="text-muted"> <strong> 2</strong> comments | <Link to="/"> <i className="fa fa-comment"/></Link></small>
                                     </p>
                                 </div>
 
@@ -89,14 +90,27 @@ class listPosts extends Component {
 
                             <div className="d-flex flex-row justify-content-around">
                                 <div className="p-2">
-                                    <p className="card-text">
-                                        <small className="text-muted"><i className="fa fa-user"/> Author Name</small>
+                                    <p className="card-text" id="card-text-info">
+                                        <small className="text-muted"><i className="fa fa-user"/> | Author Name</small>
                                     </p>
                                 </div>
 
+                                <div className="d-flex flex-row">
+                                    <div className="p-2"><small>4 votes |</small></div>
+                                    <div className="p-2">
+                                        <small className="text-muted"><Link to="/"> <i className="fa fa-thumbs-up"/></Link> </small>
+                                    </div>
+                                    <div className="p-2">
+                                        <small className="text-muted"><Link to="/"> <i className="fa fa-thumbs-down"/></Link> </small>
+                                    </div>
+                                </div>
+
+
                                 <div className="p-2">
                                     <p className="card-text">
-                                        <small className="text-muted"><i className="fa fa-thumbs-up"/> 4</small>
+
+
+                                        <small className="text-muted"> <strong> 2</strong> comments | <Link to="/"> <i className="fa fa-comment"/></Link></small>
                                     </p>
                                 </div>
 
@@ -111,6 +125,52 @@ class listPosts extends Component {
 
                         </div>
                     </div>
+                    <div className="card border-light mb-3">
+
+                        <div className="card-body">
+                            <h4 className="card-title">Card title</h4>
+                            <p className="card-text">This is a wider card with supporting text below as a natural
+                                lead-in to additional content. This content is a little bit longer.</p>
+
+
+                            <div className="d-flex flex-row justify-content-around">
+                                <div className="p-2">
+                                    <p className="card-text" id="card-text-info">
+                                        <small className="text-muted"><i className="fa fa-user"/> | Author Name</small>
+                                    </p>
+                                </div>
+
+                                <div className="d-flex flex-row">
+                                    <div className="p-2"><small>4 votes |</small></div>
+                                    <div className="p-2">
+                                        <small className="text-muted"><Link to="/"> <i className="fa fa-thumbs-up"/></Link> </small>
+                                    </div>
+                                    <div className="p-2">
+                                        <small className="text-muted"><Link to="/"> <i className="fa fa-thumbs-down"/></Link> </small>
+                                    </div>
+                                </div>
+
+
+                                <div className="p-2">
+                                    <p className="card-text">
+
+
+                                        <small className="text-muted"> <strong> 2</strong> comments | <Link to="/"> <i className="fa fa-comment"/></Link></small>
+                                    </p>
+                                </div>
+
+                                <div className="p-2">
+                                    <p className="card-text">
+                                        <small className="text-muted"><i className="fa fa-calendar"/> Last updated 3
+                                            mins ago
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
 
 
                 </div>
