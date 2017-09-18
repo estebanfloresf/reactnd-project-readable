@@ -4,8 +4,11 @@ import Post from './Post';
 import Comment from '../Comment/Comment';
 
 class PostDetail extends Component {
+
+
+
     render() {
-        return (
+          return (
             <div>
 
                 <div className="col-md-12">

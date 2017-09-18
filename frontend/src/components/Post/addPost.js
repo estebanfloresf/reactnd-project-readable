@@ -15,6 +15,16 @@ class addPost extends  Component{
                     <input type="email" className="form-control" id="postTitle" placeholder="My title"/>
                 </div>
                 <div className="form-group">
+                    <label htmlFor="postCategory">Category</label>
+                    <select className="form-control" id="postCategory">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+                <div className="form-group">
                     <label htmlFor="postDescription">Description</label>
                     <textarea className="form-control" id="postDescription" rows="3"/>
                 </div>

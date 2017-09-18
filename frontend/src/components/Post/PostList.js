@@ -1,27 +1,32 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import Post from './Post';
-import {fetch_posts} from "../../utils/api";
+import {postsFetchData} from "../../actions";
+import { connect } from 'react-redux';
+
 
 
 class listPosts extends Component {
 
-    state = {
-        posts: {}
-    };
-
 
     componentDidMount() {
 
-        fetch_posts()
-            .then((posts) => this.setState(() => ({
-                posts,
+        const url = ' http://localhost:3001/posts';
+        this.props.fetchData(url)
 
-            })));
     }
 
 
     render() {
+
+        if(this.props.hasErrored){
+            return <p>Sorry! There was an error loading the items</p>;
+        }
+
+        if (this.props.isLoading) {
+            return <p>Loading…</p>;
+        }
+
         return (
 
             <div className="">
@@ -50,8 +55,11 @@ class listPosts extends Component {
 
                 </div>
 
-                {this.state.posts.length > 0 && this.state.posts.map((post) => {
-                    return <Post key={post.id}/>
+
+
+
+                {this.props.posts  && this.props.posts.map((post) => {
+                    return <Post key={post.id}  postID={post.id}/>
                 })}
 
 
@@ -63,4 +71,21 @@ class listPosts extends Component {
 
 }
 
-export default listPosts;
+
+function  mapStateToProps  (state)  {
+    return {
+        posts: state.posts,
+        hasErrored: state.postsErrored,
+        isLoading: state.postsLoading
+    };
+}
+
+function mapDispatchToProps(dispatch){
+    return{
+        fetchData: (url) => dispatch(postsFetchData(url))
+    }
+}
+
+
+
+export default connect (mapStateToProps,mapDispatchToProps) (listPosts);
