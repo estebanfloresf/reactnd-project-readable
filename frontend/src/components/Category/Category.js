@@ -17,7 +17,7 @@ class Category extends Component{
                             the
                             bulk of the card's content.</p>
 
-                        <Link className="btn btn-primary" to="/categorydetail/:category">View Category</Link>
+                        <Link className="btn btn-primary" to="/categorydetail/:category">View Category <i className="fa fa-arrow-circle-right" aria-hidden="true"></i></Link>
                     </div>
                 </div>
 

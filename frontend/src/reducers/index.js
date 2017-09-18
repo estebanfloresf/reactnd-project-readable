@@ -1,24 +1,44 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
 
 import {
-  ORDER_BY
+    ORDER_BY,
+    GET_ALL_POST
 
 } from '../actions'
 
-function orderBy(state={},action) {
+const posts = {};
 
-  switch (action.type){
-      case ORDER_BY:
-        const {label} = action;
-          return{
-              ...state,
-              [label.order]: label
-          };
-      default:
-        return state;
-  }
+function orderBy(state = {}, action) {
+
+    switch (action.type) {
+        case ORDER_BY:
+            const {label} = action;
+            return {
+                ...state,
+                [label.order]: label
+            };
+        default:
+            return state;
+    }
 
 }
+
+function Posts(state=posts,action){
+
+    const { post } = action;
+
+    switch (action.type){
+        case GET_ALL_POST:
+            return{
+                ...state,
+                [post]: post
+            };
+        default:
+            return state
+    }
+}
+
+
 //
 // function food (state = {}, action) {
 //   switch (action.type) {
@@ -98,6 +118,7 @@ function orderBy(state={},action) {
 // }
 //
 export default combineReducers({
-  orderBy
+    orderBy,
+    Posts
 
 })

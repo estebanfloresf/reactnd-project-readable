@@ -1,11 +1,25 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
 import Post from './Post';
-
-// import Comment from './Comment';
+import {fetch_posts} from "../../utils/api";
 
 
 class listPosts extends Component {
+
+    state = {
+        posts: {}
+    };
+
+
+    componentDidMount() {
+
+        fetch_posts()
+            .then((posts) => this.setState(() => ({
+                posts,
+
+            })));
+    }
+
 
     render() {
         return (
@@ -15,7 +29,7 @@ class listPosts extends Component {
                     <div className="p-2">
                         <div className="btn-group" role="group">
                             <button id="btnGroupDrop1" type="button"
-                                    className="btn btn-outline-info btn-sm dropdown-toggle" data-toggle="dropdown"
+                                    className="btn btn-outline-info btn-sm dropdown-toggle"                                                  data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
                                 Order By
                             </button>
@@ -29,16 +43,17 @@ class listPosts extends Component {
 
 
                     <div className="p-2">
-                        <Link className="btn btn-primary btn-sm" to="/">Add Post </Link>
+                        <Link className="btn btn-primary btn-sm" to="/addPost/post">Add Post <i
+                            className="fa fa-plus-circle" aria-hidden="true"/></Link>
                     </div>
 
 
                 </div>
-                <Post/>
-                <Post/>
-                <Post/>
-                <Post/>
-                <Post/>
+
+                {this.state.posts.length > 0 && this.state.posts.map((post) => {
+                    return <Post key={post.id}/>
+                })}
+
 
             </div>
 

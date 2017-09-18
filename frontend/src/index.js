@@ -16,9 +16,9 @@ const logger = store => next => action => {
     console.log('next state', store.getState());
     console.groupEnd(action.type);
     return result
-}
+};
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
     reducer,

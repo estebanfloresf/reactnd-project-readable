@@ -4,6 +4,11 @@ import React, {Component} from 'react';
 import PostList from '../Post/PostList';
 
 class CategoryDetail extends Component {
+    componentDidMount () {
+        window.scrollTo(0, 0)
+    }
+
+
     render() {
         return (
             <div className="row flex flex-wrap ">

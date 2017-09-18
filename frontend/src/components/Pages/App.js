@@ -6,9 +6,22 @@ import noPage from './noPage';
 import Home from './Home';
 import PostDetail from '../Post/PostDetail';
 import CategoryDetail from '../Category/CategoryDetail';
+import addPost from '../Post/addPost';
+
 
 
 class App extends Component {
+
+
+
+    state ={
+        posts : {},
+        loadingPosts: false
+    };
+
+
+
+
     render() {
         return (
             <div>
@@ -24,6 +37,7 @@ class App extends Component {
                         <Route exact path="/" component={Home}>
 
                         </Route>
+                        <Route path="/addPost/:post" component={addPost}/>
                         <Route path="/postdetail/:post" component={PostDetail}/>
                         <Route path="/categorydetail/:category" component={CategoryDetail}/>
                         <Route component={noPage}/>
@@ -35,5 +49,7 @@ class App extends Component {
         );
     }
 }
+
+
 
 export default App;
