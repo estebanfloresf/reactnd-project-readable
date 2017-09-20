@@ -19,6 +19,11 @@ class ListCategories extends Component {
                         <Category/>
                         <Category/>
                         <Category/>
+                        <Category/>
+                        <Category/>
+                        <Category/>
+                        <Category/>
+                        <Category/>
 
                 </div>
 

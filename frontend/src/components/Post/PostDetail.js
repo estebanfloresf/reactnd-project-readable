@@ -6,20 +6,25 @@ import Comment from '../Comment/Comment';
 class PostDetail extends Component {
 
 
-
     render() {
-          return (
-            <div>
 
-                <div className="col-md-12">
+        const postID = this.props.match.params.post;
+        return (
+            <div className="d-flex flex-column">
+
+                <div className="p-2">
                     <Link to="/" className="btn btn-secondary btn-sm">Back to Home Page</Link>
 
                 </div>
-                <div className="col-md-12">
+                <div className="p-2">
 
-                    <Post/>
-                    <Comment/>
+                    <Post key={postID} postID={postID}/>
                 </div>
+                <div className="p-2">
+                    <Comment/>
+
+                </div>
+
 
             </div>
 

@@ -25,8 +25,8 @@ class Post extends Component {
             <div className="card border-primary mb-3">
 
                         <div className="card-body text-primary">
-                            <h4 className="card-title display-4">
-                                <Link to={`/postdetail/${post.id}`}>{post.title} </Link></h4>
+                            <h5 >
+                                <Link to={`/postdetail/${post.id}`} >{post.title} </Link></h5>
                                 <p className="card-text">{post.body}</p>
                             <div className="d-flex flex-row justify-content-around">
                                 <div className="p-2">
