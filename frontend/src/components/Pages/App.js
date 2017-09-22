@@ -38,7 +38,8 @@ class App extends Component {
 
                         </Route>
                         <Route path="/addPost/:post" component={addPost}/>
-                        <Route path="/postdetail/:post" component={PostDetail}/>
+                        <Route exact path="/addPost" component={addPost}/>
+                        <Route exact   path="/postdetail/:post" component={PostDetail}/>
                         <Route path="/categorydetail/:category" component={CategoryDetail}/>
                         <Route component={noPage}/>
                     </Switch>
