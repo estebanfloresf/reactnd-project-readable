@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import {Switch, Route, Link} from 'react-router-dom'
-
+import {Switch, Route, Link} from 'react-router-dom';
 import '../../css/App.css';
 import noPage from './noPage';
 import Home from './Home';
@@ -34,11 +33,9 @@ class App extends Component {
                 <div className="container">
 
                     <Switch>
-                        <Route exact path="/" component={Home}>
-
-                        </Route>
-                        <Route path="/addPost/:post" component={addPost}/>
+                        <Route exact path="/" component={Home}/>
                         <Route exact path="/addPost" component={addPost}/>
+                        <Route exact path="/addPost/:post" component={addPost}/>
                         <Route exact   path="/postdetail/:post" component={PostDetail}/>
                         <Route path="/categorydetail/:category" component={CategoryDetail}/>
                         <Route component={noPage}/>

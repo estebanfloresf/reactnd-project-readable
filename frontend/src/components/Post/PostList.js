@@ -1,31 +1,11 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
+import React from 'react';
+import {Link} from 'react-router-dom';
 import Post from './Post';
-import {postsFetchData} from "../../actions";
-import { connect } from 'react-redux';
 
 
-
-class listPosts extends Component {
-
-
-    componentDidMount() {
-
-        const url = ' http://localhost:3001/posts';
-        this.props.fetchData(url)
-
-    }
+export default function PostList ({posts}) {
 
 
-    render() {
-
-        if(this.props.hasErrored){
-            return <p>Sorry! There was an error loading the items</p>;
-        }
-
-        if (this.props.isLoading) {
-            return <p>Loading…</p>;
-        }
 
         return (
 
@@ -56,10 +36,8 @@ class listPosts extends Component {
                 </div>
 
 
-
-
-                {this.props.posts  && this.props.posts.map((post) => {
-                    return <Post key={post.id}  postID={post.id}/>
+                {posts  && posts.map((post) => {
+                    return <Post key={post.id}  post={post}/>
                 })}
 
 
@@ -67,25 +45,9 @@ class listPosts extends Component {
 
 
         )
-    }
+
 
 }
 
 
-function  mapStateToProps  (state)  {
-    return {
-        posts: state.posts,
-        hasErrored: state.postsErrored,
-        isLoading: state.postsLoading
-    };
-}
 
-function mapDispatchToProps(dispatch){
-    return{
-        fetchData: (url) => dispatch(postsFetchData(url))
-    }
-}
-
-
-
-export default connect (mapStateToProps,mapDispatchToProps) (listPosts);

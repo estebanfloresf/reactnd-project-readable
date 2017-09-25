@@ -1,21 +1,23 @@
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom'
-
-
-class Category extends Component{
-
-    render(){
-        return(
-            <div className="p-2">
-
-
-                        <Link className=" btn btn-primary" to="/categorydetail/:category">Category <i className="fa fa-tag" aria-hidden="true"></i></Link>
+import React from 'react';
+import {Link} from 'react-router-dom';
 
 
 
-            </div>
-        )
-    }
-}
 
-export default Category;
+export default function Category({category}) {
+    // console.log(category);
+    return (
+
+
+        <div className="p-2">
+
+
+            <Link className=" btn btn-primary text-capitalize" to={`/categorydetail/${category.name}`}>{category.name} <i className="fa fa-tag"
+                                                                                          aria-hidden="true"/></Link>
+
+
+        </div>
+    )
+
+
+};
