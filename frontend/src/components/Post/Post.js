@@ -19,7 +19,7 @@ export default function Post ({post}) {
 
 
                     {/*title*/}
-                    <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-end align-items-center">
                         <div className="mr-auto p-2">
                             <h5>
                                 <Link to={`/postdetail/${post.id}`}>{post.title}</Link>
@@ -45,21 +45,22 @@ export default function Post ({post}) {
                     <div className="d-flex flex-row justify-content-around">
                         <div className="p-2">
                             <p className="card-text" id="card-text-info">
-                                <small className="text-capitalize"><i className="fa fa-user"/> {post.author}</small>
+                                <small className="text-capitalize"><i className="fa fa-user fa-fw"/> {post.author}</small>
                             </p>
                         </div>
 
                         <div className="d-flex flex-row">
+
                             <div className="p-2">
-                                <small>{post.voteScore} votes |</small>
+                                <small className="text-muted"><Link to="/"> <i
+                                    className="fa fa-thumbs-up fa-fw"/></Link></small>
+                            </div>
+                            <div className="p-2">
+                                <small>{post.voteScore} votes</small>
                             </div>
                             <div className="p-2">
                                 <small className="text-muted"><Link to="/"> <i
-                                    className="fa fa-thumbs-up"/></Link></small>
-                            </div>
-                            <div className="p-2">
-                                <small className="text-muted"><Link to="/"> <i
-                                    className="fa fa-thumbs-down"/></Link></small>
+                                    className="fa fa-thumbs-down fa-fw "/></Link></small>
                             </div>
                         </div>
 
@@ -67,7 +68,7 @@ export default function Post ({post}) {
                             <p className="card-text">
 
 
-                                <small className="text-muted"><i className="fa fa-comment"/> <strong> 2 </strong>
+                                <small className="text-muted"><i className="fa fa-comment fa-fw"/> <strong> 2 </strong>
                                     comments
                                 </small>
                             </p>
@@ -77,7 +78,7 @@ export default function Post ({post}) {
 
 
                                 <small className="text-muted">
-                                    <i className="fa fa-tag"
+                                    <i className="fa fa-tag fa-fw"
                                        aria-hidden="true"></i> {post.category}
                                 </small>
                             </p>
@@ -85,7 +86,7 @@ export default function Post ({post}) {
                         <div className="p-2">
                             <p className="card-text">
                                 <small className="text-muted"><i
-                                    className="fa fa-calendar"/> {formatDate(post.timestamp)}
+                                    className="fa fa-calendar fa-fw"/> {formatDate(post.timestamp)}
                                 </small>
                             </p>
                         </div>

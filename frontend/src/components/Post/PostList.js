@@ -10,7 +10,7 @@ export default function PostList ({posts}) {
         return (
 
             <div className="">
-                <div className="col-md-12 d-flex flex-rowalign-content-end" id="order">
+                <div className="col-md-12 d-flex flex-row align-content-end" id="order">
                     <div className="p-2">
                         <div className="btn-group" role="group">
                             <button id="btnGroupDrop1" type="button"
@@ -28,8 +28,8 @@ export default function PostList ({posts}) {
 
 
                     <div className="p-2">
-                        <Link className="btn btn-primary btn-sm" to="/addPost/post">Add Post <i
-                            className="fa fa-plus-circle" aria-hidden="true"/></Link>
+                        <Link className="btn btn-primary btn-sm" to="/addPost"> <i
+                            className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
                     </div>
 
 

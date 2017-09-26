@@ -43,11 +43,13 @@ class PostDetail extends Component {
                 {this.props.hasErrored ?
                     <div><p>Sorry! There was an error loading the items</p></div> :
 
-                    this.props.isLoading ?  <div><p>Loading…</p></div> :
+                    this.props.isLoading ? <div><p>Loading…</p></div> :
 
                         <div>
                             <div className="p-2">
-                                <Link to="/" className="btn btn-secondary btn-sm">Back to Home Page</Link>
+                                <Link to="/" className="btn btn-secondary btn-sm"><i className="fa fa-arrow-left fa-fw"
+                                                                                     aria-hidden="true"/>
+                                       Back to Home Page</Link>
 
                             </div>
 

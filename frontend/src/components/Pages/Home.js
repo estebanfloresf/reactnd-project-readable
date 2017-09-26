@@ -16,10 +16,7 @@ class Home extends Component {
     componentDidMount(){
         this.getCategories();
         this.getPosts();
-        this.setState({
-            categories: this.props.categories,
-            posts: this.props.posts
-        });
+
     }
 
     getCategories(){
@@ -71,7 +68,7 @@ class Home extends Component {
                             to post content to predefined categories, comment on your posts and other user's posts, and
                             vote on posts and comments. You will also be able to edit and delete posts and comments.
                         </p>
-                        <p><Link className="btn btn-primary btn-lg" to="/addPost">Add Post <i className="fa fa-plus-circle" aria-hidden="true"/></Link></p>
+                        <p><Link className="btn btn-primary btn-lg" to="/addPost"> <i className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link></p>
                     </div>
                 </div>
 
