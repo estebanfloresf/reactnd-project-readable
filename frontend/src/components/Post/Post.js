@@ -39,7 +39,7 @@ export default function Post ({post}) {
                     {/*Body*/}
                     <div className="d-flex">
 
-                        <p className="card-text">{post.body}</p>
+                        <p className="card-text p-2">{post.body}</p>
                     </div>
                     {/*Controls*/}
                     <div className="d-flex flex-row justify-content-around">

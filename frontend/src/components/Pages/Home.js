@@ -3,19 +3,14 @@ import {Link} from 'react-router-dom';
 import PostList from '../Post/PostList';
 import CategoryList from '../Category/CategoryList';
 import {url} from "../../utils/helpers";
-import {postsFetchData} from "../../actions/index";
-import {categoriesFetchData} from "../../actions/index"
+import {postsFetchData} from "../../actions/Post";
+import {categoriesFetchData} from "../../actions/Category"
 import { connect } from 'react-redux';
 
 
 
 
 class Home extends Component {
-
-    state={
-        posts : [],
-        categories:[]
-    };
 
 
     componentDidMount(){
@@ -31,23 +26,21 @@ class Home extends Component {
 
         const fetchURL = url('categories');
         this.props.categoriesfetchData(fetchURL);
-        this.setState({
-            categories: this.props.categories
-        });
+
 
     };
     getPosts(){
 
         const fetchURL = url('posts');
         this.props.postsfetchData(fetchURL);
-        this.setState({
-            posts: this.props.posts
-        });
+
 
     };
 
     render() {
         const {categories,posts} = this.props;
+
+        console.log(this.props);
 
 
         if(this.props.categorieshasErrored){

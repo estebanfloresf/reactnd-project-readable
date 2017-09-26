@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 class addPost extends  Component{
      render(){
         return(
-            <form action="">
+            <form action="POST">
                 <div className="form-group">
                     <label htmlFor="postAuthor">Your Name</label>
                     <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"/>
@@ -38,5 +38,8 @@ class addPost extends  Component{
         )
     }
 }
+
+
+
 
 export default addPost;

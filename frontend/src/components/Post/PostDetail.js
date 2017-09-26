@@ -3,9 +3,9 @@ import {Link} from 'react-router-dom';
 import Post from './Post';
 import Comment from '../Comment/Comment';
 import {connect} from 'react-redux';
-import {postDetailFetchData} from "../../actions";
+import {postDetailFetchData} from "../../actions/Post";
 import {url} from "../../utils/helpers";
-import CommentForm  from '../Comment/CommentForm';
+import CommentForm from '../Comment/CommentForm';
 
 
 class PostDetail extends Component {
@@ -23,7 +23,7 @@ class PostDetail extends Component {
 
     componentDidMount() {
 
-        const fetchURL = url('posts/'+this.state.postID);
+        const fetchURL = url('posts/' + this.state.postID);
 
         this.props.fetchData(fetchURL);
     }
@@ -32,51 +32,51 @@ class PostDetail extends Component {
     render() {
 
         const {post} = this.props;
-        console.log(post);
-
-
-
-
-        if (this.props.hasErrored) {
-            return ( <div><p>Sorry! There was an error loading the items</p></div>)
-        }
-
-        if (this.props.isLoading) {
-            return <p>Loading…</p>;
-        }
 
 
         return (
 
 
+
             <div className="d-flex flex-column">
 
+                {this.props.hasErrored ?
+                    <div><p>Sorry! There was an error loading the items</p></div> :
 
-                <div className="p-2">
-                    <Link to="/" className="btn btn-secondary btn-sm">Back to Home Page</Link>
+                    this.props.isLoading ?  <div><p>Loading…</p></div> :
 
-                </div>
+                        <div>
+                            <div className="p-2">
+                                <Link to="/" className="btn btn-secondary btn-sm">Back to Home Page</Link>
 
-                <div className="p-2">
+                            </div>
+
+                            <div className="p-2">
 
 
-                    <Post key={post.id} post={post}/>
-                </div>
+                                <Post key={post.id} post={post}/>
+                            </div>
 
-                <div className="p-2">
-                    <Comment/>
-                    <Comment/>
-                    <Comment/>
-                    <Comment/>
+                            <div className="p-2">
+                                <Comment/>
+                                <Comment/>
+                                <Comment/>
+                                <Comment/>
 
-                </div>
-                <div className="p-2">
-                    <CommentForm/>
+                            </div>
+                            <div className="p-2">
+                                <CommentForm/>
 
-                </div>
+                            </div>
+
+
+                        </div>
+                }
 
 
             </div>
+
+
 
 
 

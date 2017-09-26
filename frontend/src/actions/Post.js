@@ -2,14 +2,12 @@ export const POSTS_ERROR= 'POSTS_ERROR';
 export const POSTS_LOADING= 'POSTS_LOADING';
 export const POSTS_FETCH= 'POSTS_FETCH';
 
-export const CATEGORIES_ERROR= 'CATEGORIES_ERROR';
-export const CATEGORIES_LOADING= 'CATEGORIES_LOADING';
-export const CATEGORIES_FETCH= 'CATEGORIES_FETCH';
-
 export const POSTDETAIL_ERROR= 'POSTDETAIL_ERROR';
 export const POSTDETAIL_LOADING= 'POSTDETAIL_LOADING';
 export const POSTDETAIL_FETCH= 'POSTDETAIL_FETCH';
 
+
+//ALL POSTS
 export function postsErrored(bool) {
     return {
         type: POSTS_ERROR,
@@ -32,29 +30,7 @@ export function postsFetch(posts) {
 }
 
 
-
-export function categoriesErrored(bool) {
-    return {
-        type: CATEGORIES_ERROR,
-        hasErrored: bool
-    };
-}
-
-export function categoriesLoading(bool) {
-    return {
-        type: CATEGORIES_LOADING,
-        isLoading: bool
-    };
-}
-
-export function categoriesFetch(categories) {
-    return {
-        type:CATEGORIES_FETCH,
-        ...categories
-    };
-}
-
-
+//SINGLE POST
 export function postDetailErrored(bool) {
     return {
         type: POSTDETAIL_ERROR,
@@ -78,7 +54,6 @@ export function postDetailFetch(post) {
 }
 
 
-
 //Redux Thunk
 
 //GET ALL THE POSTS
@@ -86,15 +61,15 @@ export function postsFetchData(url) {
     return (dispatch) => {
         dispatch(postsLoading(true));
         fetch(
-                    url,
-                    {
-                         headers: {
-                             'Accept': 'application/json',
-                             'Authorization': 'posts',
-                             'Content-Type': 'application/json'
-                         }
-                    }
-                )
+            url,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'posts',
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
             .then((response) => {
                 if (!response.ok) {
                     throw Error(response.statusText);
@@ -111,43 +86,6 @@ export function postsFetchData(url) {
                 console.log('There has been a problem with your fetch operation: ' + error.message);
                 dispatch(postsErrored(true));
             });
-    };
-}
-
-
-// GET ALL THE CATEGORIES
-export function categoriesFetchData(url) {
-    return (dispatch) => {
-        dispatch(categoriesLoading(true));
-        fetch(
-            url,
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Authorization': 'categories',
-                    'Content-Type': 'application/json'
-                }
-
-            }
-        )
-            .then((response) => {
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                dispatch(categoriesLoading(false));
-
-
-
-                return response;
-
-            })
-            .then((response) => response.json())
-            .then((categories) => dispatch(categoriesFetch(categories)))
-            .catch(function (error) {
-                console.log('There has been a problem with your fetch operation: ' + error.message);
-                dispatch(categoriesErrored(true));
-                }
-            );
     };
 }
 
