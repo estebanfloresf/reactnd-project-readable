@@ -41,9 +41,9 @@ class PostDetail extends Component {
             <div className="d-flex flex-column">
 
                 {this.props.hasErrored ?
-                    <div><p>Sorry! There was an error loading the items</p></div> :
+                    <div className="alert alert-danger" role="alert"><p>Sorry! There was an error loading the items</p></div> :
 
-                    this.props.isLoading ? <div><p>Loading…</p></div> :
+                    this.props.isLoading ? <div className="alert alert-info" role="alert"><p>Loading…</p></div> :
 
                         <div>
                             <div className="p-2">

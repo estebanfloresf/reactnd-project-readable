@@ -8,30 +8,20 @@ import {categoriesFetchData} from "../../actions/Category"
 import { connect } from 'react-redux';
 
 
-
-
 class Home extends Component {
-
 
     componentDidMount(){
         this.getCategories();
         this.getPosts();
-
     }
 
     getCategories(){
-
         const fetchURL = url('categories');
         this.props.categoriesfetchData(fetchURL);
-
-
     };
     getPosts(){
-
         const fetchURL = url('posts');
         this.props.postsfetchData(fetchURL);
-
-
     };
 
     render() {
@@ -54,7 +44,6 @@ class Home extends Component {
         if (this.props.postsisLoading) {
             return <p>Loading…</p>;
         }
-
 
         return (
 
@@ -82,26 +71,20 @@ class Home extends Component {
                     </div>
                 </div>
 
-
                 <div className="row flex flex-wrap">
                     <div className="col-md-12">
                         <p className="title display-3">Posts</p>
+
                         <PostList posts={posts}/>
                     </div>
 
                 </div>
 
-
-
             </div>
-
-
-
 
         )
     }
 }
-
 
 function  mapStateToProps  (state)  {
     return {
