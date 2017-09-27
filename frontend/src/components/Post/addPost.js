@@ -13,7 +13,7 @@ class addPost extends Component {
 
         this.state = {
             postID: '',
-            authorfield: ''
+            postAuthor: ''
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,8 +33,18 @@ class addPost extends Component {
         if (this.state.postID) {
 
             this.getPostID(this.state.postID);
+
         }
 
+
+    }
+
+    componentWillReceiveProps(nextProps){
+        if(this.state.postID){
+            this.setState({
+                postAuthor: nextProps.post.author
+            });
+        }
     }
 
     getCategories() {
@@ -45,6 +55,14 @@ class addPost extends Component {
     getPostID(post) {
         const fetchURL = url('posts/' + post);
         this.props.postfetchData(fetchURL);
+
+    }
+
+    onChange(e){
+
+        this.setState({
+           postAuthor: e.value
+        });
     }
 
     handleSubmit(e) {
@@ -55,15 +73,14 @@ class addPost extends Component {
         console.log(e.target.postTitle.value);
         console.log(e.target.postDescription.value);
         console.log(e.target.postCategory.value);
-        this.setState({
-            authorfield: e.target.postAuthor.value.trim()
-        });
+
     }
 
 
     render() {
         const {categories, post} = this.props;
-        const {postID, authorfield} = this.state;
+        const {postID, postAuthor} = this.state;
+console.log(postID);
 
         return (
 
@@ -73,8 +90,8 @@ class addPost extends Component {
                     <div className="form-group">
                         <label htmlFor="postAuthor">Your Name</label>
                         <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"
-                               value={postID ? post.author : ''}/>
-                        {authorfield && <div>This field cannot be blank</div>}
+                               value={postAuthor} onChange={e=>this.onChange(e)}/>
+
                     </div>
                     <div className="form-group">
                         <label htmlFor="postTilte">Title</label>
