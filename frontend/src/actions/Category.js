@@ -1,3 +1,6 @@
+
+import {url} from "../utils/helpers";
+
 export const CATEGORIES_ERROR= 'CATEGORIES_ERROR';
 export const CATEGORIES_LOADING= 'CATEGORIES_LOADING';
 export const CATEGORIES_FETCH= 'CATEGORIES_FETCH';
@@ -60,11 +63,14 @@ export function categoryDetailFetch(categories) {
 
 
 // GET ALL THE CATEGORIES
-export function categoriesFetchData(url) {
+export function categoriesFetchData() {
+    const fetchURL = url('categories');
+
+
     return (dispatch) => {
         dispatch(categoriesLoading(true));
         fetch(
-            url,
+            fetchURL,
             {
                 headers: {
                     'Accept': 'application/json',

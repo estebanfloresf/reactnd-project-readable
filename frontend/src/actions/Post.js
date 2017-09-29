@@ -1,3 +1,5 @@
+import {url, uuid} from "../utils/helpers";
+
 export const POSTS_ERROR= 'POSTS_ERROR';
 export const POSTS_LOADING= 'POSTS_LOADING';
 export const POSTS_FETCH= 'POSTS_FETCH';
@@ -5,6 +7,12 @@ export const POSTS_FETCH= 'POSTS_FETCH';
 export const POSTDETAIL_ERROR= 'POSTDETAIL_ERROR';
 export const POSTDETAIL_LOADING= 'POSTDETAIL_LOADING';
 export const POSTDETAIL_FETCH= 'POSTDETAIL_FETCH';
+export const CREATE_POSTDETAIL_FETCH= 'CREATE_POSTDETAIL_FETCH';
+export const UPDATE_POSTDETAIL_FIELD= 'UPDATE_POSTDETAIL_FIELD';
+export const INSERT_POST_LOADING= 'INSERT_POST_LOADING';
+export const INSERT_POST_ERRORED= 'INSERT_POST';
+export const INSERT_POST= 'INSERT_POST';
+
 
 
 //ALL POSTS
@@ -53,6 +61,51 @@ export function postDetailFetch(post) {
     };
 }
 
+//INSERT NEW POST OR UPDATE ONE
+export function insertPostErrored(bool) {
+    return {
+        type: INSERT_POST_ERRORED,
+        hasErrored: bool
+    };
+}
+
+export function insertPostLoading(bool) {
+    return {
+        type: INSERT_POST_LOADING,
+        isLoading: bool
+    };
+}
+
+
+export function insertPost(post) {
+    return {
+        type:INSERT_POST,
+        post
+    };
+}
+
+
+
+export const createPostDetail = () => ({
+    type: CREATE_POSTDETAIL_FETCH,
+    payload:{
+        author:'',
+        title:'',
+        category:'react',
+        body:'',
+        id: uuid()
+    }
+});
+
+export const updatePostDetailField = (field, value) => ({
+    type: UPDATE_POSTDETAIL_FIELD,
+    payload: {
+        field,
+        value
+    }
+});
+
+
 
 //Redux Thunk
 
@@ -91,11 +144,12 @@ export function postsFetchData(url) {
 
 
 // GET A POST ID
-export function postDetailFetchData(url) {
+export function postDetailFetchData(postID) {
+    const fetchURL = url('posts/' + postID);
     return (dispatch) => {
         dispatch(postDetailLoading(true));
         fetch(
-            url,
+            fetchURL,
             {
                 headers: {
                     'Accept': 'application/json',
@@ -125,3 +179,41 @@ export function postDetailFetchData(url) {
             );
     };
 }
+
+// INSERT A POST ID
+export function insertPostData(post,param) {
+    const fetchURL = url('posts/' + post);
+    return (dispatch) => {
+        dispatch(insertPostLoading(true));
+        fetch(
+            fetchURL,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'insertpost',
+                    'Content-Type': 'application/json'
+                }
+
+            }
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                dispatch(insertPostLoading(false));
+
+
+
+                return response;
+
+            })
+            .then((response) => response.json())
+            .then((post) => dispatch(postDetailFetch(post)))
+            .catch(function (error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                    dispatch(insertPostErrored(true));
+                }
+            );
+    };
+}
+

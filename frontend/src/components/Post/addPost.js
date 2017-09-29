@@ -1,107 +1,169 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {postDetailFetchData} from "../../actions/Post";
+import {postDetailFetchData, createPostDetail, updatePostDetailField} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
-import {url} from "../../utils/helpers";
+import Modal from 'react-modal';
 
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '50%',
+        backgroundColor: '#e9ecef',
+
+        width: '500px',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 class addPost extends Component {
 
     constructor(props) {
         super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
 
         this.state = {
-            postID: '',
-            postAuthor: ''
-        };
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentWillMount() {
-        if (this.props.match.params.post) {
-            this.setState({
-                postID: this.props.match.params.post
-            });
+            fieldMissingOpen: false,
+            missingauthor: false,
+            missingtitle: false,
+            missingdesc: false,
+            action: ''
         }
-    };
+    }
 
     componentDidMount() {
         this.getCategories();
 
-        if (this.state.postID) {
-
-            this.getPostID(this.state.postID);
-
-        }
-
-
-    }
-
-    componentWillReceiveProps(nextProps){
-        if(this.state.postID){
+        if (this.props.match.params.post) {
+            this.getPostID(this.props.match.params.post);
             this.setState({
-                postAuthor: nextProps.post.author
-            });
+                action: 'PUT'
+            })
+        } else {
+            this.props.createPostDetail();
+            this.setState({
+                action: 'POST'
+            })
         }
     }
 
     getCategories() {
-        const fetchURL = url('categories');
-        this.props.categoriesfetchData(fetchURL);
+
+        this.props.categoriesFetchData();
     }
 
-    getPostID(post) {
-        const fetchURL = url('posts/' + post);
-        this.props.postfetchData(fetchURL);
+    getPostID(postID) {
+
+        this.props.postDetailFetchData(postID);
 
     }
 
-    onChange(e){
+    onChange(field, e) {
+        this.props.updatePostDetailField(field, e.currentTarget.value);
 
+    }
+
+    openMissingFields = () => {
         this.setState({
-           postAuthor: e.value
-        });
-    }
+            fieldMissingOpen: true
+        })
+    };
 
-    handleSubmit(e) {
+    closeModal = () => {
+        this.setState({
+            fieldMissingOpen: false
+        })
+    };
+
+    handleSubmit(post, e) {
         e.preventDefault();
+        if (post.author && post.title && post.body) {
+            console.log(post.author.trim().toLowerCase());
+        }
+        else {
 
 
-        console.log(e.target.postAuthor.value);
-        console.log(e.target.postTitle.value);
-        console.log(e.target.postDescription.value);
-        console.log(e.target.postCategory.value);
+            if (post.author.trim() === '') {
+                this.setState({
+                    missingauthor: true
+                })
+            }
+            if (post.title.trim() === '') {
+                this.setState({
+                    missingtitle: true
+                })
+            }
+            if (post.body.trim() === '') {
+                this.setState({
+                    missingbody: true
+                })
+            }
+            this.openMissingFields();
 
+
+        }
     }
 
 
     render() {
         const {categories, post} = this.props;
-        const {postID, postAuthor} = this.state;
-console.log(postID);
+        const {fieldMissingOpen,missingauthor,missingtitle,missingbody} = this.state;
+
+
 
         return (
 
             <div>
 
-                <form onSubmit={this.handleSubmit}>
+                <Modal
+                    style={customStyles}
+                    overlayClassName='overlay'
+                    isOpen={fieldMissingOpen}
+                    onRequestClose={this.closeModalFields}
+                    contentLabel='Modal'
+                >
+
+
+                        <div className="modal-header">
+                            <h5 className="modal-title">Form Incomplete</h5>
+                            <button type="button" className="close" aria-label="Close" onClick={this.closeModal}>
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="text-danger">{missingauthor? 'Your author name is missing': ''}</div>
+                            <div className="text-danger">{missingtitle? 'Your post title is missing': ''}</div>
+                            <div className="text-danger">{missingbody? 'Your post body is missing': ''}</div>
+
+                        </div>
+
+
+
+
+                </Modal>
+
+
+                <form onSubmit={this.handleSubmit.bind(this, post)}>
                     <div className="form-group">
                         <label htmlFor="postAuthor">Your Name</label>
                         <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"
-                               value={postAuthor} onChange={e=>this.onChange(e)}/>
+                               value={post.author} onChange={this.onChange.bind(this, 'author')}/>
+
 
                     </div>
                     <div className="form-group">
                         <label htmlFor="postTilte">Title</label>
                         <input type="text" className="form-control" id="postTitle" placeholder="Post Title"
-                               value={postID ? post.title : ''}/>
+                               value={post.title} onChange={this.onChange.bind(this, 'title')}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="postCategory">Category</label>
                         <select className="form-control text-capitalize" id="postCategory"
-                                value={postID ? post.category : ''}>
+                                value={post.category} onChange={this.onChange.bind(this, 'category')}>
                             {
                                 this.props.categorieshasErrored ?
                                     <div className="alert alert-danger" role="alert"><p>Sorry! There was an error
@@ -123,7 +185,7 @@ console.log(postID);
                     <div className="form-group">
                         <label htmlFor="postDescription">Description</label>
                         <textarea className="form-control" id="postDescription" rows="3" placeholder="Post Description"
-                                  value={postID ? post.body : ''}/>
+                                  value={post.body} onChange={this.onChange.bind(this, 'body')}/>
                     </div>
                     <div className=" pull-right col-md-3 d-flex flex-row justify-content-around">
 
@@ -152,12 +214,12 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        categoriesfetchData: (url) => dispatch(categoriesFetchData(url)),
-        postfetchData: (url) => dispatch(postDetailFetchData(url))
-    }
-}
+const mapDispatchToProps = {
+    categoriesFetchData,
+    postDetailFetchData,
+    createPostDetail,
+    updatePostDetailField
+};
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(addPost);
