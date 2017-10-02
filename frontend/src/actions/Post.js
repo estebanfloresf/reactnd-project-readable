@@ -178,7 +178,7 @@ export function postDetailFetchData(postID) {
 export function insertPostData(post, param) {
     const fetchURL = url('posts');
     param = param.toUpperCase().trim();
-    debugger;
+
     return (dispatch) => {
         dispatch(insertPostLoading(true));
         fetch(
@@ -189,7 +189,7 @@ export function insertPostData(post, param) {
                     'Authorization': 'addPost',
                     'Content-Type': 'application/json'
                 },
-                method: 'POST',
+                method: param,
                 body: JSON.stringify({post})
 
             }
