@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom';
 class CommentForm extends Component {
     render() {
         return (
-            <div className="col-md-8">
+
                 <div className="card border-light mb-3">
                     <form action="">
                         <div className="form-group">
@@ -16,16 +16,7 @@ class CommentForm extends Component {
                             <label htmlFor="commentTitle">Title</label>
                             <input type="text" className="form-control" id="commentTitle" placeholder="Comment Title"/>
                         </div>
-                        {/*<div className="form-group">*/}
-                        {/*<label htmlFor="postCategory">Category</label>*/}
-                        {/*<select className="form-control" id="postCategory">*/}
-                        {/*<option>1</option>*/}
-                        {/*<option>2</option>*/}
-                        {/*<option>3</option>*/}
-                        {/*<option>4</option>*/}
-                        {/*<option>5</option>*/}
-                        {/*</select>*/}
-                        {/*</div>*/}
+
                         <div className="form-group">
                             <label htmlFor="commentDescription">Description</label>
                             <textarea className="form-control" id="commentDescription" rows="3"
@@ -39,7 +30,7 @@ class CommentForm extends Component {
 
                     </form>
                 </div>
-            </div>
+
         )
     }
 }

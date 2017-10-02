@@ -1,18 +1,16 @@
 import {url, uuid} from "../utils/helpers";
 
-export const POSTS_ERROR= 'POSTS_ERROR';
-export const POSTS_LOADING= 'POSTS_LOADING';
-export const POSTS_FETCH= 'POSTS_FETCH';
-
-export const POSTDETAIL_ERROR= 'POSTDETAIL_ERROR';
-export const POSTDETAIL_LOADING= 'POSTDETAIL_LOADING';
-export const POSTDETAIL_FETCH= 'POSTDETAIL_FETCH';
-export const CREATE_POSTDETAIL_FETCH= 'CREATE_POSTDETAIL_FETCH';
-export const UPDATE_POSTDETAIL_FIELD= 'UPDATE_POSTDETAIL_FIELD';
-export const INSERT_POST_LOADING= 'INSERT_POST_LOADING';
-export const INSERT_POST_ERRORED= 'INSERT_POST';
-export const INSERT_POST= 'INSERT_POST';
-
+export const POSTS_ERROR = 'POSTS_ERROR';
+export const POSTS_LOADING = 'POSTS_LOADING';
+export const POSTS_FETCH = 'POSTS_FETCH';
+export const POSTDETAIL_ERROR = 'POSTDETAIL_ERROR';
+export const POSTDETAIL_LOADING = 'POSTDETAIL_LOADING';
+export const POSTDETAIL_FETCH = 'POSTDETAIL_FETCH';
+export const CREATE_POSTDETAIL_FETCH = 'CREATE_POSTDETAIL_FETCH';
+export const UPDATE_POSTDETAIL_FIELD = 'UPDATE_POSTDETAIL_FIELD';
+export const INSERT_POST_LOADING = 'INSERT_POST_LOADING';
+export const INSERT_POST_ERRORED = 'INSERT_POST';
+export const INSERT_POST = 'INSERT_POST';
 
 
 //ALL POSTS
@@ -32,7 +30,7 @@ export function postsLoading(bool) {
 
 export function postsFetch(posts) {
     return {
-        type:POSTS_FETCH,
+        type: POSTS_FETCH,
         posts
     };
 }
@@ -56,7 +54,7 @@ export function postDetailLoading(bool) {
 
 export function postDetailFetch(post) {
     return {
-        type:POSTDETAIL_FETCH,
+        type: POSTDETAIL_FETCH,
         post
     };
 }
@@ -77,22 +75,21 @@ export function insertPostLoading(bool) {
 }
 
 
-export function insertPost(post) {
+export function insertPost(bool) {
     return {
-        type:INSERT_POST,
-        post
+        type: INSERT_POST,
+        isSaved: bool
     };
 }
 
 
-
 export const createPostDetail = () => ({
     type: CREATE_POSTDETAIL_FETCH,
-    payload:{
-        author:'',
-        title:'',
-        category:'react',
-        body:'',
+    payload: {
+        author: '',
+        title: '',
+        category: 'react',
+        body: '',
         id: uuid()
     }
 });
@@ -104,7 +101,6 @@ export const updatePostDetailField = (field, value) => ({
         value
     }
 });
-
 
 
 //Redux Thunk
@@ -142,7 +138,6 @@ export function postsFetchData(url) {
     };
 }
 
-
 // GET A POST ID
 export function postDetailFetchData(postID) {
     const fetchURL = url('posts/' + postID);
@@ -166,14 +161,13 @@ export function postDetailFetchData(postID) {
                 dispatch(postDetailLoading(false));
 
 
-
                 return response;
 
             })
             .then((response) => response.json())
             .then((post) => dispatch(postDetailFetch(post)))
             .catch(function (error) {
-                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                    console.log('There has been a problem with your fetch operation: ' + error.message + ' ' + fetchURL);
                     dispatch(postDetailErrored(true));
                 }
             );
@@ -181,8 +175,10 @@ export function postDetailFetchData(postID) {
 }
 
 // INSERT A POST ID
-export function insertPostData(post,param) {
-    const fetchURL = url('posts/' + post);
+export function insertPostData(post, param) {
+    const fetchURL = url('posts');
+    param = param.toUpperCase().trim();
+    debugger;
     return (dispatch) => {
         dispatch(insertPostLoading(true));
         fetch(
@@ -190,25 +186,25 @@ export function insertPostData(post,param) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'insertpost',
+                    'Authorization': 'addPost',
                     'Content-Type': 'application/json'
-                }
+                },
+                method: 'POST',
+                body: JSON.stringify({post})
 
             }
         )
             .then((response) => {
+
                 if (!response.ok) {
                     throw Error(response.statusText);
                 }
                 dispatch(insertPostLoading(false));
 
-
-
-                return response;
+                dispatch(insertPost(true));
 
             })
-            .then((response) => response.json())
-            .then((post) => dispatch(postDetailFetch(post)))
+
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(insertPostErrored(true));

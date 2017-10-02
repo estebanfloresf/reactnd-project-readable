@@ -4,34 +4,69 @@ import Post from './Post';
 import Comment from '../Comment/Comment';
 import {connect} from 'react-redux';
 import {postDetailFetchData} from "../../actions/Post";
-import {url} from "../../utils/helpers";
+import Modal from 'react-modal';
 import CommentForm from '../Comment/CommentForm';
 
+const customStyles = {
+    content: {
+        top: '20%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '50%',
+        backgroundColor: '#e9ecef',
+
+        width: '500px',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 class PostDetail extends Component {
 
-    state = {
-        postID: ''
-    };
+    constructor(props) {
+        super(props);
+
+        this.openModal = this.openModal.bind(this);
+        this.closeModal = this.closeModal.bind(this);
+
+        this.state = {
+            postID: '',
+            addComment: false
+        };
+    }
 
     componentWillMount() {
         this.setState({
             postID: this.props.match.params.post
         });
 
-    };
+    }
 
     componentDidMount() {
 
-        const fetchURL = url('posts/' + this.state.postID);
 
-        this.props.fetchData(fetchURL);
+        this.props.fetchData(this.state.postID);
     }
 
 
+    openModal(){
+        window.scrollTo(0, 0);
+
+        this.setState({
+            addComment: true
+        });
+    }
+    
+    closeModal(){
+        this.setState({
+            addComment: false
+        });
+    }
+    
     render() {
 
         const {post} = this.props;
+        const {addComment} = this.state;
 
 
         return (
@@ -67,13 +102,28 @@ class PostDetail extends Component {
 
                             </div>
                             <div className="p-2">
-                                <CommentForm/>
+
+                                <button onClick={this.openModal}>Add Comment</button>
 
                             </div>
 
 
                         </div>
                 }
+                <Modal
+                    style={customStyles}
+                    overlayClassName='overlay'
+                    isOpen={addComment}
+                    onRequestClose={this.closeModal}
+                    contentLabel='Modal'
+                >
+
+
+                    <CommentForm/>
+
+
+
+                </Modal>
 
 
             </div>
@@ -106,4 +156,4 @@ function mapDispatchToProps(dispatch) {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostDetail);
-// export default  PostDetail;
+

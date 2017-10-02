@@ -18,16 +18,16 @@ class Home extends Component {
     getCategories(){
         const fetchURL = url('categories');
         this.props.categoriesfetchData(fetchURL);
-    };
+    }
     getPosts(){
         const fetchURL = url('posts');
         this.props.postsfetchData(fetchURL);
-    };
+    }
 
     render() {
         const {categories,posts} = this.props;
 
-        console.log(this.props);
+
 
 
         if(this.props.categorieshasErrored){
@@ -91,7 +91,7 @@ function  mapStateToProps  (state)  {
         categories:state.categories,
         categorieshasErrored: state.categoriesErrored,
         categoriesisLoading: state.categoriesLoading,
-        posts:state.posts,
+        posts:state.posts.filter((post)=> post.deleted===false),
         postshasErrored: state.postsErrored,
         postsisLoading: state.postsLoading
     };
