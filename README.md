@@ -16,7 +16,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Licensing
 
-[License](LICENSE.md). 
+[LICENSE.md](LICENSE.md). 
 
 
 ## Contributing
