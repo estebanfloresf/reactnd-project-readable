@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPostData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
+
+
 import {connect} from 'react-redux';
+
 
 
 class addPost extends Component {
@@ -17,7 +20,8 @@ class addPost extends Component {
             missingauthor: false,
             missingtitle: false,
             missingdesc: false,
-            action: ''
+            action: '',
+
         };
     }
 
@@ -63,6 +67,7 @@ class addPost extends Component {
             });
         }
         if (field === 'body') {
+
             this.setState({
                 missingbody: false
             });
@@ -71,12 +76,15 @@ class addPost extends Component {
 
     }
 
+
+
     handleSubmit(post, e) {
         e.preventDefault();
         if (post.author && post.title && post.body) {
 
             //    make the call to post/put the post item
             this.props.insertPostData(post, this.state.action);
+
 
         }
         else {
@@ -105,15 +113,12 @@ class addPost extends Component {
         const {categories, post, created} = this.props;
         const {missingauthor, missingtitle, missingbody} = this.state;
 
-        // console.log(created);
+        console.log(created);
 
         return (
 
             <div>
 
-
-                {this.props.createdisLoading && <div>Saving your posts</div>}
-                {this.props.createdhasErrored && <div>There was an error saving your posts</div>}
 
                 <form onSubmit={this.handleSubmit.bind(this, post)}>
                     <div className="form-group">
@@ -171,12 +176,43 @@ class addPost extends Component {
                     </div>
                     <div className=" pull-right col-md-3 d-flex flex-row justify-content-around">
 
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        {/*<button type="submit" className="btn btn-primary">Submit</button>*/}
+                        <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-submit="submit">Submit</button>
                         <Link to="/" className="btn btn-warning">Cancel</Link>
                     </div>
 
                 </form>
 
+
+
+
+
+                <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLabel">{ this.props.created? <div>Success</div>: <div>Whoops</div>} </h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <form>
+
+                                    <div className="form-group">
+                                        {
+                                            this.props.createdisLoading? <div>Loading</div> :
+                                                this.props.created? <div>Your post <strong> {this.props.created.title}</strong> has been created</div>:
+                                                    this.props.createdhasErrored? <div>Sorry, there was a problem creating your post</div>: ''
+
+                                        }
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
@@ -193,7 +229,7 @@ function mapStateToProps(state) {
         post: state.postDetail,
         posthasErrored: state.postDetailErrored,
         postisLoading: state.postDetailLoading,
-        created: state.insertPostAction,
+        created: state.insertPostReduce,
         createdisLoading: state.insertPostLoading,
         createdhasErrored: state.insertPostErrored
 

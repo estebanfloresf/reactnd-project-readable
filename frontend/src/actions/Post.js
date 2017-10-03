@@ -9,7 +9,7 @@ export const POSTDETAIL_FETCH = 'POSTDETAIL_FETCH';
 export const CREATE_POSTDETAIL_FETCH = 'CREATE_POSTDETAIL_FETCH';
 export const UPDATE_POSTDETAIL_FIELD = 'UPDATE_POSTDETAIL_FIELD';
 export const INSERT_POST_LOADING = 'INSERT_POST_LOADING';
-export const INSERT_POST_ERRORED = 'INSERT_POST';
+export const INSERT_POST_ERRORED = 'INSERT_POST_ERRORED';
 export const INSERT_POST = 'INSERT_POST';
 
 
@@ -216,9 +216,10 @@ export function insertPostData(post, param) {
 
             })
             .then((response) => response.json())
-            .then((post) =>
+            .then((post) => {
+
                 dispatch(insertPostAction(post))
-            )
+            })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(insertPostErrored(true));

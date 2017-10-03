@@ -119,6 +119,7 @@ class PostDetail extends Component {
                 >
 
 
+
                     <CommentForm/>
 
 
@@ -138,7 +139,7 @@ class PostDetail extends Component {
     }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
 
     return {
 
