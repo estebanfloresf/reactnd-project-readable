@@ -76,9 +76,7 @@ class addPost extends Component {
         if (post.author && post.title && post.body) {
 
             //    make the call to post/put the post item
-            post.timestamp = Date.now();
-
-            insertPostData(post, this.state.action);
+            this.props.insertPostData(post, this.state.action);
 
         }
         else {
@@ -119,7 +117,9 @@ class addPost extends Component {
                         <label htmlFor="postAuthor">Your Name</label>
                         <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"
                                value={post.author} onChange={this.onChange.bind(this, 'author')}/>
-                        {missingauthor && <div className="text-danger"> <small>You must provide an author</small> </div>}
+                        {missingauthor && <div className="text-danger">
+                            <small>You must provide an author</small>
+                        </div>}
 
 
                     </div>
@@ -127,7 +127,9 @@ class addPost extends Component {
                         <label htmlFor="postTilte">Title</label>
                         <input type="text" className="form-control" id="postTitle" placeholder="Post Title"
                                value={post.title} onChange={this.onChange.bind(this, 'title')}/>
-                        {missingtitle && <div className="text-danger"> <small>You must provide a title</small></div>}
+                        {missingtitle && <div className="text-danger">
+                            <small>You must provide a title</small>
+                        </div>}
                     </div>
                     <div className="form-group">
                         <label htmlFor="postCategory">Category</label>
@@ -135,7 +137,7 @@ class addPost extends Component {
                         {
                             this.props.categorieshasErrored ?
                                 <p className="alert alert-danger" role="alert">Sorry! There was an error
-                                                                               loading the categories</p> :
+                                    loading the categories</p> :
                                 this.props.categoriesisLoading ?
                                     <p className="alert alert-info" role="alert">Loading Categories...</p> :
                                     <select className="form-control text-capitalize" id="postCategory"
@@ -160,7 +162,9 @@ class addPost extends Component {
                         <label htmlFor="postDescription">Description</label>
                         <textarea className="form-control" id="postDescription" rows="3" placeholder="Post Description"
                                   value={post.body} onChange={this.onChange.bind(this, 'body')}/>
-                        {missingbody && <div className="text-danger"> <small>You must provide a description </small></div>}
+                        {missingbody && <div className="text-danger">
+                            <small>You must provide a description</small>
+                        </div>}
                     </div>
                     <div className=" pull-right col-md-3 d-flex flex-row justify-content-around">
 

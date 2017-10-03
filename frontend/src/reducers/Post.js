@@ -99,6 +99,7 @@ export function insertPostLoading(state = false, action) {
 }
 
 export function insertPost(state = false, action) {
+
     switch (action.type) {
         case  INSERT_POST:
             return action.isSaved;

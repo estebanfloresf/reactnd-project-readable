@@ -75,13 +75,10 @@ export function insertPostLoading(bool) {
 }
 
 
-export function insertPost(bool) {
-    return {
-        type: INSERT_POST,
-        isSaved: bool
-    };
-}
-
+export const insertPost = (bool) => ({
+    type: INSERT_POST,
+    isSaved: bool
+});
 
 export const createPostDetail = () => ({
     type: CREATE_POSTDETAIL_FETCH,
@@ -176,12 +173,21 @@ export function postDetailFetchData(postID) {
 
 // INSERT A POST ID
 export function insertPostData(post, param) {
-    const fetchURL = url('posts');
+    //Use the param option to see if is a POST OR PUT action
     param = param.toUpperCase().trim();
+    let fetchURL = url('posts');
+    //Change the api endpoint in case is a put action
+    if (param === 'PUT') {
+        fetchURL += '/' + post.id
+    }
+    //add the timestamp
+    post.timestamp = Date.now();
 
     return (dispatch) => {
+
         dispatch(insertPostLoading(true));
-        fetch(
+
+       fetch(
             fetchURL,
             {
                 headers: {
@@ -190,7 +196,7 @@ export function insertPostData(post, param) {
                     'Content-Type': 'application/json'
                 },
                 method: param,
-                body: JSON.stringify({post})
+                body: JSON.stringify(post)
 
             }
         )
@@ -201,10 +207,13 @@ export function insertPostData(post, param) {
                 }
                 dispatch(insertPostLoading(false));
 
-                dispatch(insertPost(true));
+                return response;
 
             })
-
+            .then((response) => response.json())
+            .then(() =>
+                dispatch(insertPost(true))
+            )
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(insertPostErrored(true));
