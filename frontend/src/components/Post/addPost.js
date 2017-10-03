@@ -105,12 +105,15 @@ class addPost extends Component {
         const {categories, post, created} = this.props;
         const {missingauthor, missingtitle, missingbody} = this.state;
 
-        console.log(created);
+        // console.log(created);
 
         return (
 
             <div>
 
+
+                {this.props.createdisLoading && <div>Saving your posts</div>}
+                {this.props.createdhasErrored && <div>There was an error saving your posts</div>}
 
                 <form onSubmit={this.handleSubmit.bind(this, post)}>
                     <div className="form-group">
@@ -190,7 +193,7 @@ function mapStateToProps(state) {
         post: state.postDetail,
         posthasErrored: state.postDetailErrored,
         postisLoading: state.postDetailLoading,
-        created: state.insertPost,
+        created: state.insertPostAction,
         createdisLoading: state.insertPostLoading,
         createdhasErrored: state.insertPostErrored
 

@@ -14,6 +14,7 @@ import {
 } from '../actions/Post';
 
 
+
 //All Posts
 export function postsErrored(state = false, action) {
     switch (action.type) {
@@ -98,11 +99,11 @@ export function insertPostLoading(state = false, action) {
     }
 }
 
-export function insertPost(state = false, action) {
+export function insertPostReduce(state = [], action) {
 
     switch (action.type) {
         case  INSERT_POST:
-            return action.isSaved;
+            return action.post;
         default:
             return state;
     }
