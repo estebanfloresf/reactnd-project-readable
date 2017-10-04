@@ -16,7 +16,7 @@ import {
     postDetailErrored,
     postDetailLoading,
     postDetail,
-    insertPostReduce,
+    insertPostSuccess,
     insertPostErrored,
     insertPostLoading
 
@@ -40,7 +40,7 @@ export default combineReducers({
     postDetailErrored,
     postDetailLoading,
     postDetail,
-    insertPostReduce,
+    insertPostSuccess,
     insertPostErrored,
     insertPostLoading,
 

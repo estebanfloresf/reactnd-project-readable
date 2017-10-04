@@ -63,14 +63,14 @@ export function postDetailFetch(post) {
 export function insertPostErrored(bool) {
     return {
         type: INSERT_POST_ERRORED,
-        hasErrored: bool
+        insertPostErrored: bool
     };
 }
 
 export function insertPostLoading(bool) {
     return {
         type: INSERT_POST_LOADING,
-        isLoading: bool
+        insertPostLoading: bool
     };
 }
 
@@ -211,13 +211,11 @@ export function insertPostData(post, param) {
                 }
                 dispatch(insertPostLoading(false));
 
-
                 return response;
 
             })
             .then((response) => response.json())
             .then((post) => {
-
                 dispatch(insertPostAction(post))
             })
             .catch(function (error) {

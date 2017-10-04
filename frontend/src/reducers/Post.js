@@ -14,6 +14,14 @@ import {
 } from '../actions/Post';
 
 
+const postInitialState = {
+    id: '',
+    author: '',
+    body: '',
+    title: '',
+    category: 'react',
+    timestamp: null
+};
 
 //All Posts
 export function postsErrored(state = false, action) {
@@ -67,7 +75,7 @@ export function postDetail(state = [], action) {
         case  POSTDETAIL_FETCH:
             return action.post;
         case CREATE_POSTDETAIL_FETCH:
-            return    action.payload;
+            return action.payload;
         case UPDATE_POSTDETAIL_FIELD:
             return {
                 ...state,
@@ -84,26 +92,37 @@ export function postDetail(state = [], action) {
 export function insertPostErrored(state = false, action) {
     switch (action.type) {
         case INSERT_POST_ERRORED:
-            return action.hasErrored;
+            return action.insertPostErrored;
         default:
             return state;
     }
 }
 
 export function insertPostLoading(state = false, action) {
+
     switch (action.type) {
+
         case INSERT_POST_LOADING:
-            return action.isLoading;
+            return action.insertPostLoading;
         default:
             return state;
     }
 }
 
-export function insertPostReduce(state = [], action) {
+export function insertPostSuccess(state = postInitialState, action) {
+
+    const {post} = action;
 
     switch (action.type) {
         case  INSERT_POST:
-            return action.post;
+            return {
+                ...state,
+                [post.id] : action.post.id,
+                [post.title] : action.post.title,
+                [post.body] : action.post.body,
+                [post.category] : action.post.category,
+                [post.author] : action.post.author,
+};
         default:
             return state;
     }

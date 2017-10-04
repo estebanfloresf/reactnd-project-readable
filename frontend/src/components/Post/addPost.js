@@ -20,7 +20,7 @@ class addPost extends Component {
             missingtitle: false,
             missingdesc: false,
             action: '',
-            postcreated: false
+
 
         };
     }
@@ -40,12 +40,7 @@ class addPost extends Component {
             });
         }
 
-        if(this.props.created.length>0){
-            this.setState({
-                postcreated: true
-            });
 
-        }
     }
 
     getCategories() {
@@ -118,9 +113,10 @@ class addPost extends Component {
 
 
     render() {
-        const {categories, post} = this.props;
-        const {missingauthor, missingtitle, missingbody, postcreated} = this.state;
-        console.log(postcreated);
+        const {categories, post, insertPostSuccess} = this.props;
+        const {missingauthor, missingtitle, missingbody} = this.state;
+        console.log(insertPostSuccess);
+
 
         return (
 
@@ -191,41 +187,46 @@ class addPost extends Component {
 
 
 
-                {postcreated &&        <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"
+                     <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"
                                         aria-hidden="false">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">{this.props.created ?
-                                    <div>Success</div> : <div>Whoops</div>} </h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <form>
 
-                                    <div className="form-group">
-                                        {
-                                            this.props.createdisLoading ?
-                                                <div className="alert alert-light">Loading</div> :
-                                                this.props.created ?
-                                                    <div className="alert alert-success">Your post
-                                                        <strong> {this.props.created.title}</strong> has been
-                                                                                         created</div> :
-                                                    this.props.createdhasErrored ?
-                                                        <div className="alert alert-danger">Sorry, there was a problem
-                                                                                            creating your
-                                                                                            post</div> : ''
 
-                                        }
-                                    </div>
-                                </form>
-                            </div>
+                             <div className="modal-dialog" role="document">
+                                 <div className="modal-content">
+                                     <div className="modal-header">
+                                         <h5 className="modal-title" id="exampleModalLabel">{this.props.insertPostSuccess ?
+                                             <div>Success</div> : <div>Whoops something went wrong</div>} </h5>
+                                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                             <span aria-hidden="true">&times;</span>
+                                         </button>
+                                     </div>
+                                     <div className="modal-body">
+                                         <form>
 
-                        </div>
-                    </div>
-                </div>}
+                                             <div className="form-group">
+                                                 {
+                                                     this.props.insertPostLoading ?
+                                                         <div className="alert alert-light">Loading</div> :
+                                                         this.props.insertPostSuccess ?
+                                                             <div className="alert alert-success">Your post
+                                                                 <strong> {this.props.insertPostSuccess.title}</strong> has been
+                                                                 insertPostSuccess</div> :
+                                                             this.props.insertPostErrored ?
+                                                                 <div className="alert alert-danger">Sorry, there was a problem
+                                                                     creating your
+                                                                     post</div> : <div>Some fields are missing</div>
+
+                                                 }
+                                             </div>
+                                         </form>
+                                     </div>
+
+                                 </div>
+                             </div>
+
+
+
+                </div>
 
 
             </div>
@@ -244,9 +245,9 @@ function mapStateToProps(state) {
         post: state.postDetail,
         posthasErrored: state.postDetailErrored,
         postisLoading: state.postDetailLoading,
-        created: state.insertPostReduce,
-        createdisLoading: state.insertPostLoading,
-        createdhasErrored: state.insertPostErrored
+        insertPostSuccess: state.insertPostSuccess,
+        insertPostLoading: state.insertPostLoading,
+        insertPostErrored: state.insertPostErrored
 
 
     };
