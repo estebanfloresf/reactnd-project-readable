@@ -40,3 +40,24 @@ body {
 
 }
 
+/*Buttons*/
+
+#addcomment {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+
+}
+
+#edit{
+    border-radius: 50%;
+
+}
+
+#delete{
+    border-radius: 50%;
+}
+

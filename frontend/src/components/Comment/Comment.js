@@ -6,7 +6,7 @@ class Comment extends Component {
         return (
             <div className="col-md-10">
 
-                <div className="card border-light mb-3">
+                <div className="card border-light mb-6">
 
                     <div className="card-body">
 
@@ -15,12 +15,12 @@ class Comment extends Component {
                                 <h4 className="card-title">Comment title</h4>
                             </div>
                             <div className="p-2">
-                                <Link to={`/comment/:commentid`} className="btn btn-info btn-sm"><i
+                                <Link to={`/comment/:commentid`} id="edit" className="btn btn-info btn-sm"><i
                                     className="fa fa-pencil"
                                     aria-hidden="true"/></Link>
                             </div>
                             <div className="p-2">
-                                <Link to="/" className="btn btn-danger btn-sm"><i className="fa fa-trash"
+                                <Link to="/" id="delete" className="btn btn-danger btn-sm"><i className="fa fa-trash"
                                                                                   aria-hidden="true"/>
                                 </Link>
                             </div>

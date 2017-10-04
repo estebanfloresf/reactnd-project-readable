@@ -7,7 +7,6 @@ import {categoriesFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
 
 
-
 class addPost extends Component {
 
     constructor(props) {
@@ -21,6 +20,7 @@ class addPost extends Component {
             missingtitle: false,
             missingdesc: false,
             action: '',
+            postcreated: false
 
         };
     }
@@ -38,6 +38,13 @@ class addPost extends Component {
             this.setState({
                 action: 'POST'
             });
+        }
+
+        if(this.props.created.length>0){
+            this.setState({
+                postcreated: true
+            });
+
         }
     }
 
@@ -77,13 +84,14 @@ class addPost extends Component {
     }
 
 
-
     handleSubmit(post, e) {
         e.preventDefault();
         if (post.author && post.title && post.body) {
 
             //    make the call to post/put the post item
+
             this.props.insertPostData(post, this.state.action);
+
 
 
         }
@@ -110,10 +118,9 @@ class addPost extends Component {
 
 
     render() {
-        const {categories, post, created} = this.props;
-        const {missingauthor, missingtitle, missingbody} = this.state;
-
-        console.log(created);
+        const {categories, post} = this.props;
+        const {missingauthor, missingtitle, missingbody, postcreated} = this.state;
+        console.log(postcreated);
 
         return (
 
@@ -122,7 +129,7 @@ class addPost extends Component {
 
                 <form onSubmit={this.handleSubmit.bind(this, post)}>
                     <div className="form-group">
-                        <label htmlFor="postAuthor">Your Name</label>
+                        <label htmlFor="postAuthor"/>Your Name
                         <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"
                                value={post.author} onChange={this.onChange.bind(this, 'author')}/>
                         {missingauthor && <div className="text-danger">
@@ -145,7 +152,7 @@ class addPost extends Component {
                         {
                             this.props.categorieshasErrored ?
                                 <p className="alert alert-danger" role="alert">Sorry! There was an error
-                                    loading the categories</p> :
+                                                                               loading the categories</p> :
                                 this.props.categoriesisLoading ?
                                     <p className="alert alert-info" role="alert">Loading Categories...</p> :
                                     <select className="form-control text-capitalize" id="postCategory"
@@ -157,10 +164,7 @@ class addPost extends Component {
                                             )
                                         })
 
-
                                     }
-
-
                                     </select>
                         }
 
@@ -177,21 +181,23 @@ class addPost extends Component {
                     <div className=" pull-right col-md-3 d-flex flex-row justify-content-around">
 
                         {/*<button type="submit" className="btn btn-primary">Submit</button>*/}
-                        <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-submit="submit">Submit</button>
-                        <Link to="/" className="btn btn-warning">Cancel</Link>
+                        <Link to="/" className="btn btn-light">Cancel</Link>
+                        <button type="submit" className="btn btn-primary" data-toggle="modal"
+                                data-target="#exampleModal" data-submit="submit">Submit
+                        </button>
                     </div>
 
                 </form>
 
 
 
-
-
-                <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                {postcreated &&        <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"
+                                        aria-hidden="false">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLabel">{ this.props.created? <div>Success</div>: <div>Whoops</div>} </h5>
+                                <h5 className="modal-title" id="exampleModalLabel">{this.props.created ?
+                                    <div>Success</div> : <div>Whoops</div>} </h5>
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -201,9 +207,16 @@ class addPost extends Component {
 
                                     <div className="form-group">
                                         {
-                                            this.props.createdisLoading? <div>Loading</div> :
-                                                this.props.created? <div>Your post <strong> {this.props.created.title}</strong> has been created</div>:
-                                                    this.props.createdhasErrored? <div>Sorry, there was a problem creating your post</div>: ''
+                                            this.props.createdisLoading ?
+                                                <div className="alert alert-light">Loading</div> :
+                                                this.props.created ?
+                                                    <div className="alert alert-success">Your post
+                                                        <strong> {this.props.created.title}</strong> has been
+                                                                                         created</div> :
+                                                    this.props.createdhasErrored ?
+                                                        <div className="alert alert-danger">Sorry, there was a problem
+                                                                                            creating your
+                                                                                            post</div> : ''
 
                                         }
                                     </div>
@@ -212,11 +225,13 @@ class addPost extends Component {
 
                         </div>
                     </div>
-                </div>
+                </div>}
+
 
             </div>
 
-        )
+        );
+
     }
 }
 

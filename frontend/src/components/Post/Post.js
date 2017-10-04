@@ -14,14 +14,16 @@ export default function Post({post}) {
                         </h5>
                     </div>
                     <div className="p-2">
-                        <Link to={`/addPost/${post.id}`} className="btn btn-info btn-sm"><i
+                        <Link to={`/addPost/${post.id}`} id="edit" className="btn btn-info btn-sm"><i
                             className="fa fa-pencil"
                             aria-hidden="true"/></Link>
                     </div>
                     <div className="p-2">
-                        <Link to="/" className="btn btn-danger btn-sm"><i className="fa fa-trash"
-                                                                          aria-hidden="true"/>
-                        </Link>
+
+                        <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePost"
+                                data-deletepost="deletePost"><i className="fa fa-trash"
+                                                                aria-hidden="true"/></button>
+
                     </div>
                 </div>
                 {/*Body*/}

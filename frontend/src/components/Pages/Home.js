@@ -6,6 +6,8 @@ import {url} from "../../utils/helpers";
 import {postsFetchData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category"
 import { connect } from 'react-redux';
+import DeletePost from "../Post/deletePost";
+
 
 
 class Home extends Component {
@@ -79,6 +81,7 @@ class Home extends Component {
                     </div>
 
                 </div>
+                <DeletePost/>
 
             </div>
 
