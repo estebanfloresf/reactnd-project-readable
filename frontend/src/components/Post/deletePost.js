@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 
 
-class deletePost extends Component {
-    render() {
+export default function deletePost ({post}) {
+
         return (
 
             <div className="modal fade" id="deletePost" role="dialog" aria-labelledby="deletePost"
@@ -17,7 +17,7 @@ class deletePost extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
-                            <div>Are you sure you want to delete post :id? </div>
+                            <div>Are you sure you want to delete the post ? </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-light" data-dismiss="modal">Cancel</button>
@@ -28,7 +28,6 @@ class deletePost extends Component {
             </div>
 
         )
-    }
+
 }
 
-export default deletePost;

@@ -45,7 +45,12 @@ export function postsLoading(state = false, action) {
 export function posts(state = [], action) {
     switch (action.type) {
         case  POSTS_FETCH:
-            return action.posts;
+            // I just ordered from highest to lowest when returning the array
+            action.posts.sort(function (a, b) {
+                return (a.voteScore > b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0)
+            });
+            //returned the posts array ordered
+            return  action.posts;
         default:
             return state;
     }
@@ -70,7 +75,7 @@ export function postDetailLoading(state = false, action) {
     }
 }
 
-export function postDetail(state = [], action) {
+export function postDetail(state = postInitialState, action) {
     switch (action.type) {
         case  POSTDETAIL_FETCH:
             return action.post;
@@ -109,20 +114,11 @@ export function insertPostLoading(state = false, action) {
     }
 }
 
-export function insertPostSuccess(state = postInitialState, action) {
-
-    const {post} = action;
+export function insertPostSuccess(state = false, action) {
 
     switch (action.type) {
         case  INSERT_POST:
-            return {
-                ...state,
-                [post.id] : action.post.id,
-                [post.title] : action.post.title,
-                [post.body] : action.post.body,
-                [post.category] : action.post.category,
-                [post.author] : action.post.author,
-};
+            return action.insertPostSuccess;
         default:
             return state;
     }

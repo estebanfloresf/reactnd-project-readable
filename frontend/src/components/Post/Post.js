@@ -21,7 +21,7 @@ export default function Post({post}) {
                     <div className="p-2">
 
                         <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePost"
-                                data-deletepost="deletePost"><i className="fa fa-trash"
+                                data-deletepost={post.id}><i className="fa fa-trash"
                                                                 aria-hidden="true"/></button>
 
                     </div>

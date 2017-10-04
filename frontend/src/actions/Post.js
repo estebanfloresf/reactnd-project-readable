@@ -75,10 +75,10 @@ export function insertPostLoading(bool) {
 }
 
 
-export function insertPostAction(post) {
+export function insertPostAction(bool) {
     return {
         type: INSERT_POST,
-        post
+        insertPostSuccess: bool
     };
 }
 
@@ -90,7 +90,6 @@ export const createPostDetail = () => ({
         title: '',
         category: 'react',
         body: '',
-        id: uuid()
     }
 });
 
@@ -114,7 +113,7 @@ export function postsFetchData(url) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'posts',
+                    'Authorization': 'addPost',
                     'Content-Type': 'application/json'
                 }
             }
@@ -143,6 +142,7 @@ export function postDetailFetchData(postID) {
     const fetchURL = url('posts/' + postID);
     return (dispatch) => {
         dispatch(postDetailLoading(true));
+        dispatch(insertPostAction(false));
         fetch(
             fetchURL,
             {
@@ -183,8 +183,12 @@ export function insertPostData(post, param) {
     if (param === 'PUT') {
         fetchURL += '/' + post.id;
     }
+   if(param==='POST'){
+       post.id = uuid();
+   }
     //add the timestamp
     post.timestamp = Date.now();
+
 
     return (dispatch) => {
 
@@ -199,7 +203,7 @@ export function insertPostData(post, param) {
                     'Content-Type': 'application/json'
                 },
                 method: param,
-                body: JSON.stringify(post)
+                body: JSON.stringify({post})
 
             }
         )
@@ -215,8 +219,8 @@ export function insertPostData(post, param) {
 
             })
             .then((response) => response.json())
-            .then((post) => {
-                dispatch(insertPostAction(post))
+            .then(() => {
+                dispatch(insertPostAction(true))
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);

@@ -87,7 +87,7 @@ class PostDetail extends Component {
                 </button>
 
                 <CommentForm/>
-                <DeletePost/>
+                <DeletePost post={post}/>
 
 
             </div>

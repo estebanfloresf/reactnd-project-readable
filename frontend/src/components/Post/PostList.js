@@ -4,6 +4,8 @@ import Post from './Post';
 
 export default function PostList ({posts}) {
 
+
+
         return (
 
             <div >
@@ -20,6 +22,9 @@ export default function PostList ({posts}) {
 
                             </div>
                         </div>
+
+
+
                     </div>
 
                     <div className="p-2">

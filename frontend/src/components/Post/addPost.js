@@ -4,6 +4,8 @@ import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPost
 import {categoriesFetchData} from "../../actions/Category";
 
 
+
+
 import {connect} from 'react-redux';
 
 
@@ -115,10 +117,9 @@ class addPost extends Component {
     render() {
         const {categories, post, insertPostSuccess} = this.props;
         const {missingauthor, missingtitle, missingbody} = this.state;
-        console.log(insertPostSuccess);
-
 
         return (
+
 
             <div>
 
@@ -195,30 +196,32 @@ class addPost extends Component {
                                  <div className="modal-content">
                                      <div className="modal-header">
                                          <h5 className="modal-title" id="exampleModalLabel">{this.props.insertPostSuccess ?
-                                             <div>Success</div> : <div>Whoops something went wrong</div>} </h5>
+                                             <div className="text-success text-bold">Success</div> : <div className="text-danger text-bold">Whoops something went wrong</div>} </h5>
                                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                              <span aria-hidden="true">&times;</span>
                                          </button>
                                      </div>
                                      <div className="modal-body">
-                                         <form>
+
 
                                              <div className="form-group">
                                                  {
+
                                                      this.props.insertPostLoading ?
                                                          <div className="alert alert-light">Loading</div> :
-                                                         this.props.insertPostSuccess ?
-                                                             <div className="alert alert-success">Your post
-                                                                 <strong> {this.props.insertPostSuccess.title}</strong> has been
-                                                                 insertPostSuccess</div> :
+
                                                              this.props.insertPostErrored ?
                                                                  <div className="alert alert-danger">Sorry, there was a problem
                                                                      creating your
-                                                                     post</div> : <div>Some fields are missing</div>
+                                                                     post</div> :
+                                                                 this.props.insertPostSuccess  ?
+                                                                     <div className="alert alert-success">Your post
+                                                                         <strong> {this.props.insertPostSuccess.title}</strong> has been
+                                                                          saved <span>Redirecting..</span></div> : <div className="text-danger">You have some missing fields</div>
 
                                                  }
                                              </div>
-                                         </form>
+
                                      </div>
 
                                  </div>
