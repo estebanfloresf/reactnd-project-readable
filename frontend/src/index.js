@@ -10,6 +10,8 @@ import reducer from './reducers';
 import thunk from 'redux-thunk';
 
 
+
+
 const logger = store => next => action => {
     console.group(action.type);
     console.info('dispatching', action);
@@ -20,7 +22,6 @@ const logger = store => next => action => {
 };
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
 const store = createStore(
     reducer,
     composeEnhancers(
@@ -30,7 +31,7 @@ const store = createStore(
 
 ReactDOM.render(
     <Provider store={store}>
-        <BrowserRouter>
+        <BrowserRouter >
 
             <App/>
         </BrowserRouter>

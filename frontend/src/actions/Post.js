@@ -1,5 +1,7 @@
 import {url, uuid} from "../utils/helpers";
 
+
+
 export const POSTS_ERROR = 'POSTS_ERROR';
 export const POSTS_LOADING = 'POSTS_LOADING';
 export const POSTS_FETCH = 'POSTS_FETCH';
@@ -219,8 +221,9 @@ export function insertPostData(post, param) {
 
             })
             .then((response) => response.json())
-            .then(() => {
-                dispatch(insertPostAction(true))
+            .then((post) => {
+                dispatch(insertPostAction(true));
+
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);

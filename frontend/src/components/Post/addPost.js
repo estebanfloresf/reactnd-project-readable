@@ -3,10 +3,10 @@ import {Link} from 'react-router-dom';
 import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPostData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
 
-
-
-
 import {connect} from 'react-redux';
+
+
+
 
 
 class addPost extends Component {
@@ -15,16 +15,16 @@ class addPost extends Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-
         this.state = {
             fieldMissingOpen: false,
             missingauthor: false,
             missingtitle: false,
             missingdesc: false,
             action: '',
-
-
         };
+
+
+
     }
 
     componentDidMount() {
@@ -41,7 +41,6 @@ class addPost extends Component {
                 action: 'POST'
             });
         }
-
 
     }
 
@@ -76,21 +75,13 @@ class addPost extends Component {
                 missingbody: false
             });
         }
-
-
     }
-
 
     handleSubmit(post, e) {
         e.preventDefault();
         if (post.author && post.title && post.body) {
-
             //    make the call to post/put the post item
-
             this.props.insertPostData(post, this.state.action);
-
-
-
         }
         else {
 
@@ -109,21 +100,21 @@ class addPost extends Component {
                     missingbody: true
                 });
             }
-
         }
     }
 
-
     render() {
-        const {categories, post, insertPostSuccess} = this.props;
+        const {categories, post,  history} = this.props;
         const {missingauthor, missingtitle, missingbody} = this.state;
 
+        console.log(this.props);
+
+
+        if(this.props.insertPostSuccess){
+
+        }
         return (
-
-
             <div>
-
-
                 <form onSubmit={this.handleSubmit.bind(this, post)}>
                     <div className="form-group">
                         <label htmlFor="postAuthor"/>Your Name
@@ -186,51 +177,57 @@ class addPost extends Component {
 
                 </form>
 
+                {/*<div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"*/}
+                     {/*aria-hidden="false">*/}
+                    {/*<div className="modal-dialog" role="document">*/}
+                        {/*<div className="modal-content">*/}
+                            {/*<div className="modal-header">*/}
+                                {/*<h5 className="modal-title" id="exampleModalLabel">{this.props.insertPostSuccess ?*/}
+                                    {/*<div className="text-success text-bold">Success</div> : <div className="text-danger text-bold">Whoops something went wrong</div>} </h5>*/}
+                                {/*<button type="button" className="close" data-dismiss="modal" aria-label="Close">*/}
+                                    {/*<span aria-hidden="true">&times;</span>*/}
+                                {/*</button>*/}
+                            {/*</div>*/}
+                            {/*<div className="modal-body">*/}
+
+                                {/*<div className="form-group">*/}
+                                    {/*{*/}
+
+                                        {/*this.props.insertPostLoading ?*/}
+                                            {/*<div className="alert alert-light">Loading</div> :*/}
+
+                                            {/*this.props.insertPostErrored ?*/}
+                                                {/*<div className="alert alert-danger">Sorry, there was a problem*/}
+                                                    {/*creating your*/}
+                                                    {/*post</div> :*/}
+                                                {/*this.props.insertPostSuccess  ?*/}
+                                                    {/*<div className="alert alert-success">Your post*/}
+                                                        {/*<strong> {this.props.insertPostSuccess.title}</strong> has been*/}
+                                                        {/*saved <span>Redirecting..</span>*/}
+                                                        {/*/!*{ history.push(`/postdetail/${post.id}`)}*!/*/}
+
+                                                    {/*</div>*/}
+
+                                                    {/*: <div className="text-danger">You have some missing fields</div>*/}
+
+                                    {/*}*/}
+                                {/*</div>*/}
+
+                            {/*</div>*/}
+
+                        {/*</div>*/}
+                    {/*</div>*/}
 
 
-                     <div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"
-                                        aria-hidden="false">
 
+                {/*</div>*/}
 
-                             <div className="modal-dialog" role="document">
-                                 <div className="modal-content">
-                                     <div className="modal-header">
-                                         <h5 className="modal-title" id="exampleModalLabel">{this.props.insertPostSuccess ?
-                                             <div className="text-success text-bold">Success</div> : <div className="text-danger text-bold">Whoops something went wrong</div>} </h5>
-                                         <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                             <span aria-hidden="true">&times;</span>
-                                         </button>
-                                     </div>
-                                     <div className="modal-body">
+                                {
+                                    this.props.insertPostLoading? <div className="text-info">Loading</div> :
+                                    this.props.insertPostSuccess ?  history.push(`/postdetail/${post.id}`) :
+                                        this.props.insertPostErrored? <div className="text-danger">There has been an error</div>: ''
 
-
-                                             <div className="form-group">
-                                                 {
-
-                                                     this.props.insertPostLoading ?
-                                                         <div className="alert alert-light">Loading</div> :
-
-                                                             this.props.insertPostErrored ?
-                                                                 <div className="alert alert-danger">Sorry, there was a problem
-                                                                     creating your
-                                                                     post</div> :
-                                                                 this.props.insertPostSuccess  ?
-                                                                     <div className="alert alert-success">Your post
-                                                                         <strong> {this.props.insertPostSuccess.title}</strong> has been
-                                                                          saved <span>Redirecting..</span></div> : <div className="text-danger">You have some missing fields</div>
-
-                                                 }
-                                             </div>
-
-                                     </div>
-
-                                 </div>
-                             </div>
-
-
-
-                </div>
-
+                                }
 
             </div>
 
@@ -265,4 +262,4 @@ const mapDispatchToProps = {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(addPost);
+export default  connect(mapStateToProps, mapDispatchToProps)(addPost);

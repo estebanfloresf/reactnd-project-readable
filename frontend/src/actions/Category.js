@@ -112,8 +112,7 @@ export function categoryDetailFetchData(url) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'readableApp' +
-                    '',
+                    'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 }
 
