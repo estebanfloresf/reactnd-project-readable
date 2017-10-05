@@ -113,7 +113,7 @@ export function postsFetchData(url) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'addPost',
+                    'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 }
             }
@@ -148,7 +148,7 @@ export function postDetailFetchData(postID) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'postdetail',
+                    'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 }
 
@@ -199,11 +199,11 @@ export function insertPostData(post, param) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'addPost',
+                    'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 },
                 method: param,
-                body: JSON.stringify({post})
+                body: JSON.stringify({...post})
 
             }
         )

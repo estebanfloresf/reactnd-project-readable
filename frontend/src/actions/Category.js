@@ -74,7 +74,7 @@ export function categoriesFetchData() {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'categories',
+                    'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 }
 
@@ -112,7 +112,8 @@ export function categoryDetailFetchData(url) {
             {
                 headers: {
                     'Accept': 'application/json',
-                    'Authorization': 'categorydetail',
+                    'Authorization': 'readableApp' +
+                    '',
                     'Content-Type': 'application/json'
                 }
 

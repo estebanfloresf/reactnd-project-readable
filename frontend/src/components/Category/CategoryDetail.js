@@ -22,6 +22,7 @@ class CategoryDetail extends Component {
         const {categories} = this.props;
 
 
+
         return (
             <div className="row flex flex-wrap ">
                 <div className="col-md-12">
