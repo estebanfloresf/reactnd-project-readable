@@ -78,11 +78,12 @@ class Home extends Component {
                         <p className="title display-3">Posts</p>
 
                         <PostList posts={posts}/>
+
                     </div>
 
                 </div>
-                <DeletePost/>
-
+                {/*Modal Form*/}
+                <DeletePost />
             </div>
 
         )

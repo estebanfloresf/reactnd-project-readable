@@ -13,6 +13,7 @@ export const UPDATE_POSTDETAIL_FIELD = 'UPDATE_POSTDETAIL_FIELD';
 export const INSERT_POST_LOADING = 'INSERT_POST_LOADING';
 export const INSERT_POST_ERRORED = 'INSERT_POST_ERRORED';
 export const INSERT_POST = 'INSERT_POST';
+export const POST_TO_DELETE = 'POST_TO_DELETE';
 
 
 //ALL POSTS
@@ -52,7 +53,6 @@ export function postDetailLoading(bool) {
         isLoading: bool
     };
 }
-
 
 export function postDetailFetch(post) {
     return {
@@ -100,6 +100,14 @@ export const updatePostDetailField = (field, value) => ({
     payload: {
         field,
         value
+    }
+});
+
+
+export const postToDelete = (post) =>({
+    type: POST_TO_DELETE,
+    payload:{
+        post
     }
 });
 

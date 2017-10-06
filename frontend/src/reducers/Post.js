@@ -9,8 +9,8 @@ import {
     UPDATE_POSTDETAIL_FIELD,
     INSERT_POST,
     INSERT_POST_ERRORED,
-    INSERT_POST_LOADING
-
+    INSERT_POST_LOADING,
+    POST_TO_DELETE
 } from '../actions/Post';
 
 
@@ -76,9 +76,13 @@ export function postDetailLoading(state = false, action) {
 }
 
 export function postDetail(state = postInitialState, action) {
+
     switch (action.type) {
         case  POSTDETAIL_FETCH:
-            return action.post;
+            return {
+                ...state,
+                ...action.post
+            };
         case CREATE_POSTDETAIL_FETCH:
             return action.payload;
         case UPDATE_POSTDETAIL_FIELD:
@@ -123,6 +127,20 @@ export function insertPostSuccess(state = false, action) {
             return state;
     }
 }
+
+export function postToDelete(state = postInitialState, action) {
+    switch (action.type) {
+        case  POST_TO_DELETE:
+            return {
+                ...state,
+                ...action.post
+            };
+        default:
+            return state;
+    }
+}
+
+
 
 
 

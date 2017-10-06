@@ -1,9 +1,27 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
+import {connect} from 'react-redux';
+import {postToDelete} from "../../actions/Post";
 
-export default function Post({post}) {
+
+const mapStateToProps = state => {
+    return {
+        postToDelete: state.post,
+    };
+};
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchData: () => dispatch(postToDelete(post))
+    }
+};
+
+const Post = ({post,fetchData}) => {
+
     return (
+
         <div className="card border-primary mb-3">
             <div className="card-body text-primary">
                 {/*title*/}
@@ -20,9 +38,10 @@ export default function Post({post}) {
                     </div>
                     <div className="p-2">
 
-                        <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePost"
+                        <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal" onClick={fetchData(post)}
+                                data-target="#deletePost"
                                 data-deletepost={post.id}><i className="fa fa-trash"
-                                                                aria-hidden="true"/></button>
+                                                             aria-hidden="true"/></button>
 
                     </div>
                 </div>
@@ -68,7 +87,7 @@ export default function Post({post}) {
 
                             <small className="text-muted">
                                 <i className="fa fa-tag fa-fw"
-                                   aria-hidden="true"></i> {post.category}
+                                   aria-hidden="true"/> {post.category}
                             </small>
                         </p>
                     </div>
@@ -79,8 +98,6 @@ export default function Post({post}) {
                             </small>
                         </p>
                     </div>
-
-
                 </div>
             </div>
 
@@ -88,5 +105,7 @@ export default function Post({post}) {
         </div>
     )
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);
 
 

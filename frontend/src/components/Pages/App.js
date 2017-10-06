@@ -12,12 +12,6 @@ import history from '../../history'
 class App extends Component {
 
 
-    state = {
-        posts: {},
-        loadingPosts: false
-    };
-
-
     render() {
         return (
             <div>

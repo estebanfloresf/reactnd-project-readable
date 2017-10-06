@@ -18,7 +18,8 @@ import {
     postDetail,
     insertPostSuccess,
     insertPostErrored,
-    insertPostLoading
+    insertPostLoading,
+    postToDelete
 
 }  from './Post' ;
 
@@ -43,6 +44,6 @@ export default combineReducers({
     insertPostSuccess,
     insertPostErrored,
     insertPostLoading,
-
+    postToDelete
 
 });

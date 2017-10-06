@@ -6,15 +6,11 @@ import {categoriesFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
 
 
-
-
-
 class addPost extends Component {
 
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
-
         this.state = {
             fieldMissingOpen: false,
             missingauthor: false,
@@ -22,9 +18,6 @@ class addPost extends Component {
             missingdesc: false,
             action: '',
         };
-
-
-
     }
 
     componentDidMount() {
@@ -41,19 +34,14 @@ class addPost extends Component {
                 action: 'POST'
             });
         }
-
     }
 
     getCategories() {
-
         this.props.categoriesFetchData();
     }
 
     getPostID(postID) {
-
         this.props.postDetailFetchData(postID);
-
-
     }
 
     onChange(field, e) {
@@ -104,17 +92,19 @@ class addPost extends Component {
     }
 
     render() {
-        const {categories, post,  history} = this.props;
+        const {categories, post, history} = this.props;
         const {missingauthor, missingtitle, missingbody} = this.state;
 
-        console.log(this.props);
-
-
-        if(this.props.insertPostSuccess){
-
-        }
         return (
+
             <div>
+                {
+                    this.props.insertPostLoading ? <div className="text-info">Loading</div> :
+                        this.props.insertPostSuccess ? history.push(`/postdetail/${post.id}`) :
+                            this.props.insertPostErrored &&
+                            <div className="text-danger">There has been an error</div>
+
+                }
                 <form onSubmit={this.handleSubmit.bind(this, post)}>
                     <div className="form-group">
                         <label htmlFor="postAuthor"/>Your Name
@@ -123,8 +113,6 @@ class addPost extends Component {
                         {missingauthor && <div className="text-danger">
                             <small>You must provide an author</small>
                         </div>}
-
-
                     </div>
                     <div className="form-group">
                         <label htmlFor="postTilte">Title</label>
@@ -136,11 +124,10 @@ class addPost extends Component {
                     </div>
                     <div className="form-group">
                         <label htmlFor="postCategory">Category</label>
-
                         {
                             this.props.categorieshasErrored ?
                                 <p className="alert alert-danger" role="alert">Sorry! There was an error
-                                                                               loading the categories</p> :
+                                    loading the categories</p> :
                                 this.props.categoriesisLoading ?
                                     <p className="alert alert-info" role="alert">Loading Categories...</p> :
                                     <select className="form-control text-capitalize" id="postCategory"
@@ -151,11 +138,9 @@ class addPost extends Component {
                                                 <option key={category.name}>{category.name}</option>
                                             )
                                         })
-
                                     }
                                     </select>
                         }
-
 
                     </div>
                     <div className="form-group">
@@ -176,59 +161,6 @@ class addPost extends Component {
                     </div>
 
                 </form>
-
-                {/*<div className="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel"*/}
-                     {/*aria-hidden="false">*/}
-                    {/*<div className="modal-dialog" role="document">*/}
-                        {/*<div className="modal-content">*/}
-                            {/*<div className="modal-header">*/}
-                                {/*<h5 className="modal-title" id="exampleModalLabel">{this.props.insertPostSuccess ?*/}
-                                    {/*<div className="text-success text-bold">Success</div> : <div className="text-danger text-bold">Whoops something went wrong</div>} </h5>*/}
-                                {/*<button type="button" className="close" data-dismiss="modal" aria-label="Close">*/}
-                                    {/*<span aria-hidden="true">&times;</span>*/}
-                                {/*</button>*/}
-                            {/*</div>*/}
-                            {/*<div className="modal-body">*/}
-
-                                {/*<div className="form-group">*/}
-                                    {/*{*/}
-
-                                        {/*this.props.insertPostLoading ?*/}
-                                            {/*<div className="alert alert-light">Loading</div> :*/}
-
-                                            {/*this.props.insertPostErrored ?*/}
-                                                {/*<div className="alert alert-danger">Sorry, there was a problem*/}
-                                                    {/*creating your*/}
-                                                    {/*post</div> :*/}
-                                                {/*this.props.insertPostSuccess  ?*/}
-                                                    {/*<div className="alert alert-success">Your post*/}
-                                                        {/*<strong> {this.props.insertPostSuccess.title}</strong> has been*/}
-                                                        {/*saved <span>Redirecting..</span>*/}
-                                                        {/*/!*{ history.push(`/postdetail/${post.id}`)}*!/*/}
-
-                                                    {/*</div>*/}
-
-                                                    {/*: <div className="text-danger">You have some missing fields</div>*/}
-
-                                    {/*}*/}
-                                {/*</div>*/}
-
-                            {/*</div>*/}
-
-                        {/*</div>*/}
-                    {/*</div>*/}
-
-
-
-                {/*</div>*/}
-
-                                {
-                                    this.props.insertPostLoading? <div className="text-info">Loading</div> :
-                                    this.props.insertPostSuccess ?  history.push(`/postdetail/${post.id}`) :
-                                        this.props.insertPostErrored? <div className="text-danger">There has been an error</div>: ''
-
-                                }
-
             </div>
 
         );
@@ -248,8 +180,6 @@ function mapStateToProps(state) {
         insertPostSuccess: state.insertPostSuccess,
         insertPostLoading: state.insertPostLoading,
         insertPostErrored: state.insertPostErrored
-
-
     };
 }
 
@@ -261,5 +191,4 @@ const mapDispatchToProps = {
     insertPostData
 };
 
-
-export default  connect(mapStateToProps, mapDispatchToProps)(addPost);
+export default connect(mapStateToProps, mapDispatchToProps)(addPost);
