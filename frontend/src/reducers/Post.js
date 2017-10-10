@@ -97,6 +97,7 @@ export function postDetail(state = postInitialState, action) {
                 ...state,
                 [action.payload.field]: action.payload.value
             };
+
         default:
             return state;
     }
@@ -115,9 +116,7 @@ export function insertPostErrored(state = false, action) {
 }
 
 export function insertPostLoading(state = false, action) {
-
     switch (action.type) {
-
         case INSERT_POST_LOADING:
             return action.insertPostLoading;
         default:
@@ -126,7 +125,6 @@ export function insertPostLoading(state = false, action) {
 }
 
 export function insertPostSuccess(state = false, action) {
-
     switch (action.type) {
         case  INSERT_POST:
             return action.insertPostSuccess;

@@ -1,15 +1,14 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
-import {addComment} from "../../actions/Comment";
+import {editComment} from "../../actions/Comment";
 import {connect} from 'react-redux';
-
 
 
 const mapDispatchToProps = (dispatch,comment) => {
 
     return {
-        fetchData: () => dispatch(addComment(comment.comment))
+        fetchData: () => dispatch(editComment(comment.comment))
     };
 };
 
@@ -59,9 +58,9 @@ const Comment = ({fetchData,comment}) =>{
                                 aria-hidden="true" data-target="#commentModal" data-toggle="modal" onClick={()=> fetchData(comment)}/></button>
                         </div>
                         <div className="p-2">
-                            <Link to="/" id="delete" className="btn btn-danger btn-sm"><i className="fa fa-trash"
-                                                                                          aria-hidden="true"/>
-                            </Link>
+                            <button id="delete" className="btn btn-danger btn-sm" data-target="#deleteComment" data-toggle="modal">
+                                <i className="fa fa-trash"   aria-hidden="true"/>
+                            </button>
                         </div>
                     </div>
                 </div>

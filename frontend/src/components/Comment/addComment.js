@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {updateComment} from '../../actions/Comment';
+import {updateComment,insertComment} from '../../actions/Comment';
 
 class addComment extends Component {
 
@@ -15,7 +15,6 @@ class addComment extends Component {
     }
 
     handleChange(field, e) {
-
 
         this.props.updateComment(field, e.currentTarget.value);
         if (e.currentTarget.value.trim() === '' && field==='author') {
@@ -40,15 +39,13 @@ class addComment extends Component {
             });
         }
 
-
-
     }
 
     handleSubmit(comment, e) {
         e.preventDefault();
-
+        console.log(this.props.postDetail);
+        this.props.insertComment(this.props.comment,this.props.post);
     }
-
 
     render() {
         const {comment} = this.props;
@@ -87,7 +84,7 @@ class addComment extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            {bodyField || authorField ? <button type="button" className="btn btn-secondary" disabled>Save</button> :
+                            {bodyField || authorField || comment.author==='' || comment.body===''? <button type="button" className="btn btn-secondary" disabled>Save</button> :
                                 <button type="button" className="btn btn-primary" data-dismiss="modal"
                                         onClick={this.handleSubmit.bind(this, comment)}>Save</button>
                             }
@@ -103,14 +100,15 @@ class addComment extends Component {
 
 function mapStateToProps(state) {
     return {
-        comment: state.addComment
+        comment: state.addComment,
+        postDetail: state.postDetail
     }
 
 }
 
 const mapDispatchToProps = {
-
-    updateComment
+    updateComment,
+    insertComment
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(addComment);

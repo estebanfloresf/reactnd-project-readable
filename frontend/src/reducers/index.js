@@ -30,7 +30,11 @@ import {
     commentsErrored,
     commentsLoading,
     commentsSuccess,
-    addComment
+    addComment,
+    insertCommentErrored,
+    insertCommentLoading,
+    insertCommentSuccess
+
 } from "./Comment";
 
 
@@ -59,6 +63,9 @@ export default combineReducers({
     commentsErrored,
     commentsLoading,
     commentsSuccess,
-    addComment
+    addComment,
+    insertCommentErrored,
+    insertCommentLoading,
+    insertCommentSuccess
 
 });

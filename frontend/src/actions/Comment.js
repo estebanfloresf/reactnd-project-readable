@@ -1,4 +1,5 @@
-import {url } from "../utils/helpers";
+import {url, uuid, dateNow} from "../utils/helpers";
+
 
 export const INSERT_COMMENT_LOADING = 'INSERT_COMMENT_LOADING';
 export const INSERT_COMMENT_ERRORED = 'INSERT_COMMENT_ERRORED';
@@ -7,7 +8,8 @@ export const GET_COMMENT_LOADING = 'GET_COMMENT_LOADING';
 export const GET_COMMENT_ERRORED = 'GET_COMMENT_ERRORED';
 export const GET_COMMENT_SUCCESS = 'GET_COMMENT_SUCCESS';
 export const ADD_COMMENT = 'ADD_COMMENT';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const UPDATE_COMMENT_FIELD = 'UPDATE_COMMENT_FIELD';
 
 
 //ALL COMMENTS
@@ -50,22 +52,28 @@ export function insertCommentLoading(bool) {
 }
 
 
-export function insertCommentAction(bool) {
+export function insertCommentSuccess(bool) {
     return {
         type: INSERT_COMMENT_SUCCESS,
         insertCommentSuccess: bool
     };
 }
 
-export const addComment = (comment) => {
+export const addComment = () => {
     return{
         type: ADD_COMMENT,
+    };
+};
+export const  editComment = (comment) => {
+    console.log(comment);
+    return{
+        type: EDIT_COMMENT,
         comment
     };
 };
 
 export const updateComment = (field, value) => ({
-    type: UPDATE_COMMENT,
+    type: UPDATE_COMMENT_FIELD,
     payload: {
         field,
         value
@@ -104,4 +112,65 @@ export function commentsFetchData(postID) {
             });
     };
 }
+
+// INSERT A COMMENT
+export function insertComment(comment, postID) {
+
+    let fetchURL = url('comments');
+    let param = 'POST';
+    //Change the api endpoint in case is a put action
+    if (comment.id!=='') {
+        fetchURL += '/' + comment.id;
+        param = 'PUT'
+    }
+   else {
+        comment.id = uuid();
+    }
+    //add the timestamp
+    comment.timestamp = dateNow();
+    comment.parentId = postID;
+
+
+    return (dispatch) => {
+
+        dispatch(insertCommentLoading(false));
+
+        fetch(
+            fetchURL,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'readableApp',
+                    'Content-Type': 'application/json'
+                },
+                method: param,
+                body: JSON.stringify({...comment})
+
+            }
+        )
+            .then((response) => {
+
+
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                dispatch(insertCommentLoading(false));
+
+                return response;
+
+            })
+            .then((response) => response.json())
+            .then(() => {
+                dispatch(insertCommentSuccess(true));
+                dispatch(commentsFetchData(postID))
+
+            })
+            .catch(function (error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                    dispatch(insertCommentErrored(true));
+                }
+            );
+    };
+}
+
 
