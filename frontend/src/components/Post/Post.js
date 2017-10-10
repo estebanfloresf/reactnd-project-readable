@@ -7,15 +7,16 @@ import {postToDelete} from "../../actions/Post";
 
 const mapStateToProps = state => {
     return {
-        postToDelete: state.post,
+        postToDelete: state.postToDelete,
     };
 };
 
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch,post) => {
+
     return {
-        fetchData: () => dispatch(postToDelete(post))
-    }
+        fetchData: () => dispatch(postToDelete(post.post))
+    };
 };
 
 const Post = ({post,fetchData}) => {
@@ -38,7 +39,7 @@ const Post = ({post,fetchData}) => {
                     </div>
                     <div className="p-2">
 
-                        <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal" onClick={fetchData(post)}
+                        <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal" onClick={()=>fetchData(post)}
                                 data-target="#deletePost"
                                 data-deletepost={post.id}><i className="fa fa-trash"
                                                              aria-hidden="true"/></button>
@@ -104,7 +105,7 @@ const Post = ({post,fetchData}) => {
 
         </div>
     )
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
 

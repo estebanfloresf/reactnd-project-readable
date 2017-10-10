@@ -10,8 +10,12 @@ import {
     INSERT_POST,
     INSERT_POST_ERRORED,
     INSERT_POST_LOADING,
-    POST_TO_DELETE
+    POST_TO_DELETE,
+    DELETE_POST,
+    DELETE_POST_ERRORED,
+    DELETE_POST_LOADING
 } from '../actions/Post';
+
 
 
 const postInitialState = {
@@ -20,7 +24,9 @@ const postInitialState = {
     body: '',
     title: '',
     category: 'react',
-    timestamp: null
+    timestamp: null,
+    deleted: false,
+    voteScore: 0
 };
 
 //All Posts
@@ -45,9 +51,10 @@ export function postsLoading(state = false, action) {
 export function posts(state = [], action) {
     switch (action.type) {
         case  POSTS_FETCH:
-            // I just ordered from highest to lowest when returning the array
+            action.posts.filter((post)=> post.deleted !== false);
+            // Sort from highest to lowest votes when returning the array
             action.posts.sort(function (a, b) {
-                return (a.voteScore > b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0)
+                return (a.voteScore > b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0);
             });
             //returned the posts array ordered
             return  action.posts;
@@ -84,7 +91,7 @@ export function postDetail(state = postInitialState, action) {
                 ...action.post
             };
         case CREATE_POSTDETAIL_FETCH:
-            return action.payload;
+            return postInitialState;
         case UPDATE_POSTDETAIL_FIELD:
             return {
                 ...state,
@@ -128,7 +135,9 @@ export function insertPostSuccess(state = false, action) {
     }
 }
 
+//POST TO BE DELETED
 export function postToDelete(state = postInitialState, action) {
+
     switch (action.type) {
         case  POST_TO_DELETE:
             return {
@@ -140,7 +149,39 @@ export function postToDelete(state = postInitialState, action) {
     }
 }
 
+//DELETES POST
 
+
+export function deletePostErrored(state = false, action) {
+    switch (action.type) {
+        case DELETE_POST_ERRORED:
+            return action.deletedPostErrored;
+        default:
+            return state;
+    }
+}
+
+export function deletePostLoading(state = false, action) {
+
+    switch (action.type) {
+        case DELETE_POST_LOADING:
+            return action.deletedPostLoading;
+        default:
+            return state;
+    }
+}
+
+export function deletePostSuccess(state = false, action) {
+
+
+    switch (action.type) {
+        case  DELETE_POST:
+
+            return action.deletedPost;
+        default:
+            return state;
+    }
+}
 
 
 

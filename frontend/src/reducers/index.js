@@ -19,11 +19,19 @@ import {
     insertPostSuccess,
     insertPostErrored,
     insertPostLoading,
-    postToDelete
+    postToDelete,
+    deletePostSuccess,
+    deletePostLoading,
+    deletePostErrored
 
 }  from './Post' ;
 
-
+import {
+    commentsErrored,
+    commentsLoading,
+    commentsSuccess,
+    addComment
+} from "./Comment";
 
 
 
@@ -44,6 +52,13 @@ export default combineReducers({
     insertPostSuccess,
     insertPostErrored,
     insertPostLoading,
-    postToDelete
+    postToDelete,
+    deletePostSuccess,
+    deletePostLoading,
+    deletePostErrored,
+    commentsErrored,
+    commentsLoading,
+    commentsSuccess,
+    addComment
 
 });

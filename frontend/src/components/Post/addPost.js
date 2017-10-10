@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPostData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
-
 import {connect} from 'react-redux';
 
 
@@ -13,9 +12,9 @@ class addPost extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             fieldMissingOpen: false,
-            missingauthor: false,
-            missingtitle: false,
-            missingdesc: false,
+            authorField: false,
+            titleField: false,
+            bodyField: false,
             action: '',
         };
     }
@@ -49,18 +48,18 @@ class addPost extends Component {
 
         if (field === 'author') {
             this.setState({
-                missingauthor: false
+                authorField: false
             });
         }
         if (field === 'title') {
             this.setState({
-                missingtitle: false
+                titleField: false
             });
         }
         if (field === 'body') {
 
             this.setState({
-                missingbody: false
+                bodyField: false
             });
         }
     }
@@ -75,17 +74,17 @@ class addPost extends Component {
 
             if (post.author.trim() === '') {
                 this.setState({
-                    missingauthor: true
+                    authorField: true
                 });
             }
             if (post.title.trim() === '') {
                 this.setState({
-                    missingtitle: true
+                    titleField: true
                 });
             }
             if (post.body.trim() === '') {
                 this.setState({
-                    missingbody: true
+                    bodyField: true
                 });
             }
         }
@@ -93,7 +92,7 @@ class addPost extends Component {
 
     render() {
         const {categories, post, history} = this.props;
-        const {missingauthor, missingtitle, missingbody} = this.state;
+        const {authorField, titleField, bodyField} = this.state;
 
         return (
 
@@ -110,7 +109,7 @@ class addPost extends Component {
                         <label htmlFor="postAuthor"/>Your Name
                         <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"
                                value={post.author} onChange={this.onChange.bind(this, 'author')}/>
-                        {missingauthor && <div className="text-danger">
+                        {authorField && <div className="text-danger">
                             <small>You must provide an author</small>
                         </div>}
                     </div>
@@ -118,7 +117,7 @@ class addPost extends Component {
                         <label htmlFor="postTilte">Title</label>
                         <input type="text" className="form-control" id="postTitle" placeholder="Post Title"
                                value={post.title} onChange={this.onChange.bind(this, 'title')}/>
-                        {missingtitle && <div className="text-danger">
+                        {titleField && <div className="text-danger">
                             <small>You must provide a title</small>
                         </div>}
                     </div>
@@ -147,7 +146,7 @@ class addPost extends Component {
                         <label htmlFor="postDescription">Description</label>
                         <textarea className="form-control" id="postDescription" rows="3" placeholder="Post Description"
                                   value={post.body} onChange={this.onChange.bind(this, 'body')}/>
-                        {missingbody && <div className="text-danger">
+                        {bodyField && <div className="text-danger">
                             <small>You must provide a description</small>
                         </div>}
                     </div>

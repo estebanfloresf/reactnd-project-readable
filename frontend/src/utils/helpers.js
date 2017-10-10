@@ -3,12 +3,14 @@ import moment from 'moment';
 
 
 export function formatDate(date){
-    return moment.unix(date).format("MM/DD/YY");
-    // return moment(moment.unix(date).format("MM/DD/YY"), "YYYYMMDD").fromNow();
+    return moment.unix(date).format("DD/MM/YYYY");
+
+    // return moment(moment.unix(date).format("MM/DD/YY")).fromNow();
 }
 
-
-
+export function dateNow() {
+    return moment().unix();
+}
 
 export function url(param) {
 

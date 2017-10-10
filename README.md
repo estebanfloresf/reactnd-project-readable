@@ -1,24 +1,22 @@
-# reactnd-project-readable
-This is the readable project from the Udacity React Nanodegree Program, in this web app you will be able to post content to predefined categories, comment on your posts and other user's posts, and vote on posts and comments. You will also be able to edit and delete posts and comments.
-## Installation
+# Readable API Server
 
-For running/reviewing this project:
+This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
 
-1) Git clone the reactnd-project-readable
-2) Then on the terminal project root folder head to ```  cd api-server ```
-3) Run ```  npm install``` and then ```  node server  ``` 
-4) Head back to the project root folder and then to the folder frontend ```  cd frontend```
-5) Finally run  ```  npm install``` and then ```  npm start ``` 
+This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
 
-## Create React App
+## Start Developing
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). 
+To get started developing right away:
 
-## Licensing
+* Install and start the API server
+    - `cd api-server`
+    - `npm install`
+    - `node server`
+* In another terminal window, use Create React App to scaffold out the front-end
+    - `create-react-app frontend`
+    - `cd frontend`
+    - `npm start`
 
-[License.md](License.md). 
+## API Server
 
-
-## Contributing
-
-For details, check out [Contributing.md](Contributing.md).
+Information about the API server and how to use it can be found in its [README file](api-server/README.md).

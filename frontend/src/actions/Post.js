@@ -1,5 +1,5 @@
-import {url, uuid} from "../utils/helpers";
-
+import {dateNow, url, uuid} from "../utils/helpers";
+import history from '../history';
 
 
 export const POSTS_ERROR = 'POSTS_ERROR';
@@ -14,6 +14,9 @@ export const INSERT_POST_LOADING = 'INSERT_POST_LOADING';
 export const INSERT_POST_ERRORED = 'INSERT_POST_ERRORED';
 export const INSERT_POST = 'INSERT_POST';
 export const POST_TO_DELETE = 'POST_TO_DELETE';
+export const DELETE_POST_LOADING = 'DELETE_POST_LOADING';
+export const DELETE_POST_ERRORED = 'DELETE_POST_ERRORED';
+export const DELETE_POST = 'DELETE_POST';
 
 
 //ALL POSTS
@@ -32,6 +35,7 @@ export function postsLoading(bool) {
 }
 
 export function postsFetch(posts) {
+
     return {
         type: POSTS_FETCH,
         posts
@@ -87,12 +91,7 @@ export function insertPostAction(bool) {
 
 export const createPostDetail = () => ({
     type: CREATE_POSTDETAIL_FETCH,
-    payload: {
-        author: '',
-        title: '',
-        category: 'react',
-        body: '',
-    }
+
 });
 
 export const updatePostDetailField = (field, value) => ({
@@ -104,22 +103,48 @@ export const updatePostDetailField = (field, value) => ({
 });
 
 
-export const postToDelete = (post) =>({
+export const postToDelete = (post) => ({
     type: POST_TO_DELETE,
-    payload:{
-        post
-    }
+    post
 });
+
+
+
+
+//DELETE POST
+export function deletePostErrored(bool) {
+    return {
+        type: DELETE_POST_ERRORED,
+        deletedPostErrored: bool
+    };
+}
+
+export function deletePostLoading(bool) {
+    return {
+        type: DELETE_POST_LOADING,
+        deletedPostLoading: bool
+    };
+}
+
+
+export function deletePostAction(post) {
+    return {
+        type: DELETE_POST,
+        deletedPost: post
+    };
+}
+
 
 
 //Redux Thunk
 
 //GET ALL THE POSTS
-export function postsFetchData(url) {
+export function postsFetchData() {
+    const fetchURL = url('posts');
     return (dispatch) => {
         dispatch(postsLoading(true));
         fetch(
-            url,
+            fetchURL,
             {
                 headers: {
                     'Accept': 'application/json',
@@ -161,7 +186,6 @@ export function postDetailFetchData(postID) {
                     'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 }
-
             }
         )
             .then((response) => {
@@ -169,7 +193,6 @@ export function postDetailFetchData(postID) {
                     throw Error(response.statusText);
                 }
                 dispatch(postDetailLoading(false));
-
 
                 return response;
 
@@ -184,7 +207,7 @@ export function postDetailFetchData(postID) {
     };
 }
 
-// INSERT A POST ID
+// INSERT A POST
 export function insertPostData(post, param) {
     //Use the param option to see if is a POST OR PUT action
     param = param.toUpperCase().trim();
@@ -193,11 +216,11 @@ export function insertPostData(post, param) {
     if (param === 'PUT') {
         fetchURL += '/' + post.id;
     }
-   if(param==='POST'){
-       post.id = uuid();
-   }
+    if (param === 'POST') {
+        post.id = uuid();
+    }
     //add the timestamp
-    post.timestamp = Date.now();
+    post.timestamp = dateNow();
 
 
     return (dispatch) => {
@@ -236,6 +259,53 @@ export function insertPostData(post, param) {
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(insertPostErrored(true));
+                }
+            );
+    };
+}
+
+
+//DELETE A POST
+export function deletePostData(post) {
+
+    const fetchURL = url('posts/' + post);
+
+    return (dispatch) => {
+
+        dispatch(deletePostLoading(true));
+
+        fetch(
+            fetchURL,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'readableApp',
+                    'Content-Type': 'application/json'
+                },
+                method: 'DELETE',
+            }
+        )
+            .then((response) => {
+
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                dispatch(deletePostLoading(false));
+
+                return response;
+
+            })
+            .then((response) => response.json())
+            .then((post) => {
+                dispatch(deletePostAction(post));
+                dispatch(postsFetchData());
+                history.push('/');
+
+
+            })
+            .catch(function (error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                    dispatch(deletePostErrored(true));
                 }
             );
     };

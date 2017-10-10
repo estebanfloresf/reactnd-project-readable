@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {url} from "../../utils/helpers";
 import Link from "react-router-dom/es/Link";
 import CategoryList from '../Category/CategoryList';
-import {withRouter} from "react-router";
 
 
 
@@ -15,7 +14,7 @@ class CategoryDetail extends Component {
         super(props);
         this.state ={
             categoryPosts: []
-        }
+        };
 
     }
 

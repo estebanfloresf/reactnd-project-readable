@@ -4,7 +4,7 @@ import PostList from '../Post/PostList';
 import CategoryList from '../Category/CategoryList';
 import {url} from "../../utils/helpers";
 import {postsFetchData} from "../../actions/Post";
-import {categoriesFetchData} from "../../actions/Category"
+import {categoriesFetchData} from "../../actions/Category";
 import { connect } from 'react-redux';
 import DeletePost from "../Post/deletePost";
 
@@ -17,20 +17,22 @@ class Home extends Component {
         this.getPosts();
     }
 
+    componentDidUpdate(prevProps){
+        console.log(prevProps.posts);
+    }
+
+
     getCategories(){
         const fetchURL = url('categories');
         this.props.categoriesfetchData(fetchURL);
     }
     getPosts(){
-        const fetchURL = url('posts');
-        this.props.postsfetchData(fetchURL);
+
+        this.props.postsfetchData();
     }
 
     render() {
         const {categories,posts} = this.props;
-
-
-
 
         if(this.props.categorieshasErrored){
             return <div><p>Sorry! There was an error loading the categories</p></div>
@@ -82,7 +84,7 @@ class Home extends Component {
                     </div>
 
                 </div>
-                {/*Modal Form*/}
+
                 <DeletePost />
             </div>
 
@@ -97,7 +99,8 @@ function  mapStateToProps  (state)  {
         categoriesisLoading: state.categoriesLoading,
         posts:state.posts.filter((post)=> post.deleted===false),
         postshasErrored: state.postsErrored,
-        postsisLoading: state.postsLoading
+        postsisLoading: state.postsLoading,
+
     };
 }
 

@@ -6,24 +6,18 @@ import Home from './Home';
 import PostDetail from '../Post/PostDetail';
 import CategoryDetail from '../Category/CategoryDetail';
 import addPost from '../Post/addPost';
-import history from '../../history'
-
+import history from '../../history';
 
 class App extends Component {
-
-
     render() {
         return (
             <div>
 
                 <nav className="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-
                     <Link className="navbar-brand" to="/">Readable Project</Link>
                 </nav>
 
                 <div className="container">
-
-
                         <Switch history={history}>
                             <Route exact path="/" component={Home}/>
                             <Route exact path="/addPost" component={addPost}/>
@@ -31,16 +25,11 @@ class App extends Component {
                             <Route exact path="/postdetail/:post" component={PostDetail}/>
                             <Route path="/categorydetail/:category" component={CategoryDetail}/>
                             <Route component={noPage}/>
-
                         </Switch>
-
                 </div>
-
-
             </div>
         );
     }
 }
-
 
 export default App;
