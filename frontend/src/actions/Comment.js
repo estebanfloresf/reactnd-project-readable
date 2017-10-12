@@ -200,7 +200,6 @@ export function deleteCommentAction(commentID, postID) {
 
     let fetchURL = url('comments/' + commentID);
     return (dispatch) => {
-        console.log('entro');
         dispatch(deleteCommentLoading(true));
 
         fetch(

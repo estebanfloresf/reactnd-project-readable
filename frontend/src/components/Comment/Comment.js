@@ -19,7 +19,7 @@ const Comment = ({fetchData, deleteComment, comment}) => {
             <div className="card border-light mb-6">
                 <div className="card-body">
                     <div className="d-flex">
-                        <p className="card-text p-2">
+                        <p className="card-text p-2 text-justify">
                             {comment.body}
                         </p>
 

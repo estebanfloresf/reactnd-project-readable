@@ -49,7 +49,7 @@ const Post = ({post,fetchData,comments}) => {
                 </div>
                 {/*Body*/}
                 <div className="d-flex">
-                    <p className="card-text p-2">{post.body}</p>
+                    <p className="card-text p-2 text-justify">{post.body}</p>
                 </div>
                 {/*Controls*/}
                 <div className="d-flex flex-row justify-content-around">
@@ -86,11 +86,13 @@ const Post = ({post,fetchData,comments}) => {
                     <div className="p-2">
                         <p className="card-text">
 
-
+                            <Link to={`/categorydetail/${post.category}`}>
                             <small className="text-muted">
                                 <i className="fa fa-tag fa-fw"
                                    aria-hidden="true"/> {post.category}
                             </small>
+                            </Link>
+
                         </p>
                     </div>
                     <div className="p-2">
