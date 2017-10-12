@@ -9,7 +9,11 @@ export const GET_COMMENT_ERRORED = 'GET_COMMENT_ERRORED';
 export const GET_COMMENT_SUCCESS = 'GET_COMMENT_SUCCESS';
 export const ADD_COMMENT = 'ADD_COMMENT';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
+export const DELETE_COMMENT_SELECTED = 'DELETE_COMMENT_SELECTED';
 export const UPDATE_COMMENT_FIELD = 'UPDATE_COMMENT_FIELD';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const DELETE_COMMENT_LOADING = 'DELETE_COMMENT_LOADING';
+export const DELETE_COMMENT_ERRORED = 'DELETE_COMMENT_ERRORED';
 
 
 //ALL COMMENTS
@@ -19,14 +23,12 @@ export function commentsErrored(bool) {
         hasErrored: bool
     };
 }
-
 export function commentsLoading(bool) {
     return {
         type: GET_COMMENT_LOADING,
         isLoading: bool
     };
 }
-
 export function commentSuccess(comments) {
 
     return {
@@ -35,23 +37,19 @@ export function commentSuccess(comments) {
     };
 }
 
-
-//INSERT NEW COMMENT OR UPDATE ONE
+//INSERT | UPDATE COMMENT
 export function insertCommentErrored(bool) {
     return {
         type: INSERT_COMMENT_ERRORED,
         insertCommentErrored: bool
     };
 }
-
 export function insertCommentLoading(bool) {
     return {
         type: INSERT_COMMENT_LOADING,
         insertCommentLoading: bool
     };
 }
-
-
 export function insertCommentSuccess(bool) {
     return {
         type: INSERT_COMMENT_SUCCESS,
@@ -59,19 +57,43 @@ export function insertCommentSuccess(bool) {
     };
 }
 
+//DELETE COMMENT
+export function deleteCommentErrored(bool) {
+    return {
+        type: DELETE_COMMENT_ERRORED,
+        deleteCommentErrored: bool
+    };
+}
+export function deleteCommentLoading(bool) {
+    return {
+        type: DELETE_COMMENT_LOADING,
+        deleteCommentLoading: bool
+    };
+}
+export function deleteCommentSuccess(bool) {
+    return {
+        type: DELETE_COMMENT,
+        deleteCommentSuccess: bool
+    };
+}
+
 export const addComment = () => {
-    return{
+    return {
         type: ADD_COMMENT,
     };
 };
-export const  editComment = (comment) => {
-    console.log(comment);
-    return{
+export const editComment = (comment) => {
+    return {
         type: EDIT_COMMENT,
         comment
     };
 };
-
+export const deleteCommentSelected = (comment) => {
+    return {
+        type: DELETE_COMMENT_SELECTED,
+        comment
+    };
+};
 export const updateComment = (field, value) => ({
     type: UPDATE_COMMENT_FIELD,
     payload: {
@@ -82,7 +104,7 @@ export const updateComment = (field, value) => ({
 
 //GET ALL THE COMMENTS
 export function commentsFetchData(postID) {
-    const fetchURL = url('posts/'+postID+'/comments');
+    const fetchURL = url('posts/' + postID + '/comments');
     return (dispatch) => {
         dispatch(commentsLoading(true));
         fetch(
@@ -119,11 +141,11 @@ export function insertComment(comment, postID) {
     let fetchURL = url('comments');
     let param = 'POST';
     //Change the api endpoint in case is a put action
-    if (comment.id!=='') {
+    if (comment.id !== '') {
         fetchURL += '/' + comment.id;
         param = 'PUT'
     }
-   else {
+    else {
         comment.id = uuid();
     }
     //add the timestamp
@@ -162,12 +184,53 @@ export function insertComment(comment, postID) {
             .then((response) => response.json())
             .then(() => {
                 dispatch(insertCommentSuccess(true));
+
                 dispatch(commentsFetchData(postID))
 
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(insertCommentErrored(true));
+                }
+            );
+    };
+}
+// DELETE A COMMENT
+export function deleteCommentAction(commentID, postID) {
+
+    let fetchURL = url('comments/' + commentID);
+    return (dispatch) => {
+        console.log('entro');
+        dispatch(deleteCommentLoading(true));
+
+        fetch(
+            fetchURL,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'readableApp',
+                    'Content-Type': 'application/json'
+                },
+                method: 'DELETE',
+            }
+        )
+            .then((response) => {
+
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                dispatch(deleteCommentLoading(false));
+                return response;
+            })
+            .then((response) => response.json())
+            .then(() => {
+                dispatch(deleteCommentSuccess(true));
+                dispatch(commentsFetchData(postID));
+
+            })
+            .catch(function (error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                    dispatch(deleteCommentErrored(true));
                 }
             );
     };

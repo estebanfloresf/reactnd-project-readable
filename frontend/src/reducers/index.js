@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import {combineReducers} from 'redux';
 
 import {
     categoriesErrored,
@@ -7,7 +7,7 @@ import {
     categoryDetailErrored,
     categoryDetailLoading,
     categoryDetail
-}from './Category';
+} from './Category';
 
 import {
     postsErrored,
@@ -24,20 +24,22 @@ import {
     deletePostLoading,
     deletePostErrored
 
-}  from './Post' ;
+} from './Post' ;
 
 import {
     commentsErrored,
     commentsLoading,
     commentsSuccess,
     addComment,
+    deleteComment,
     insertCommentErrored,
     insertCommentLoading,
-    insertCommentSuccess
+    insertCommentSuccess,
+    deleteCommentErrored,
+    deleteCommentLoading,
+    deleteCommentSuccess
 
 } from "./Comment";
-
-
 
 
 export default combineReducers({
@@ -66,6 +68,11 @@ export default combineReducers({
     addComment,
     insertCommentErrored,
     insertCommentLoading,
-    insertCommentSuccess
+    insertCommentSuccess,
+    deleteComment,
+    deleteCommentErrored,
+    deleteCommentLoading,
+    deleteCommentSuccess
+
 
 });

@@ -8,6 +8,7 @@ import {postToDelete} from "../../actions/Post";
 const mapStateToProps = state => {
     return {
         postToDelete: state.postToDelete,
+        comments: state.commentsSuccess
     };
 };
 
@@ -19,7 +20,7 @@ const mapDispatchToProps = (dispatch,post) => {
     };
 };
 
-const Post = ({post,fetchData}) => {
+const Post = ({post,fetchData,comments}) => {
 
     return (
 
@@ -77,7 +78,7 @@ const Post = ({post,fetchData}) => {
                         <p className="card-text">
 
 
-                            <small className="text-muted"><i className="fa fa-comment fa-fw"/> <strong> 2 </strong>
+                            <small className="text-muted"><i className="fa fa-comment fa-fw"/> <strong> {comments.length} </strong>
                                 comments
                             </small>
                         </p>

@@ -4,6 +4,10 @@ import {
     GET_COMMENT_ERRORED,
     ADD_COMMENT,
     EDIT_COMMENT,
+    DELETE_COMMENT_SELECTED,
+    DELETE_COMMENT_ERRORED,
+    DELETE_COMMENT_LOADING,
+    DELETE_COMMENT,
     UPDATE_COMMENT_FIELD,
     INSERT_COMMENT_ERRORED,
     INSERT_COMMENT_LOADING,
@@ -12,11 +16,11 @@ import {
 
 
 const commentIniState = {
-  id:'',
-  timestamp:'',
-  author:'',
-  body:'',
-  parentId: ''
+    id: '',
+    timestamp: '',
+    author: '',
+    body: '',
+    parentId: ''
 };
 
 //All Posts
@@ -42,13 +46,13 @@ export function commentsSuccess(state = [], action) {
     switch (action.type) {
         case  GET_COMMENT_SUCCESS:
             //Sort if comments not deleted
-            action.comments.filter((comment)=> comment.deleted !== false);
+            action.comments.filter((comment) => comment.deleted !== false);
             // Sort from highest to lowest votes when returning the array
             action.comments.sort(function (a, b) {
-                return (a.voteScore > b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0);
+                return (a.voteScore > b.voteScore) ? -1 : ((b.voteScore > a.voteScore) ? 1 : 0);
             });
             //returned the comments array ordered
-            return  action.comments;
+            return action.comments;
         default:
             return state;
     }
@@ -56,14 +60,14 @@ export function commentsSuccess(state = [], action) {
 
 export function addComment(state = commentIniState, action) {
 
-    switch (action.type){
+    switch (action.type) {
         case EDIT_COMMENT:
             return {
                 ...state,
                 ...action.comment
             };
         case ADD_COMMENT:
-            return  commentIniState;
+            return commentIniState;
         case UPDATE_COMMENT_FIELD:
             return {
                 ...state,
@@ -73,6 +77,26 @@ export function addComment(state = commentIniState, action) {
             return state;
     }
 }
+
+export function deleteComment(state = commentIniState, action) {
+    switch (action.type) {
+        case DELETE_COMMENT_SELECTED:
+            return {
+                ...state,
+                ...action.comment
+            };
+        case ADD_COMMENT:
+            return false;
+        case EDIT_COMMENT:
+            return false;
+        case  DELETE_COMMENT:
+            return false;
+        default:
+            return state;
+    }
+
+}
+
 
 export function insertCommentErrored(state = false, action) {
     switch (action.type) {
@@ -100,6 +124,40 @@ export function insertCommentSuccess(state = false, action) {
             return false;
         case EDIT_COMMENT:
             return false;
+
+        default:
+            return state;
+    }
+}
+
+export function deleteCommentErrored(state = false, action) {
+    switch (action.type) {
+        case DELETE_COMMENT_ERRORED:
+            return action.deleteCommentErrored;
+
+        default:
+            return state;
+    }
+}
+
+export function deleteCommentLoading(state = false, action) {
+    switch (action.type) {
+        case DELETE_COMMENT_LOADING:
+            return action.deleteCommentLoading;
+        default:
+            return state;
+    }
+}
+
+export function deleteCommentSuccess(state = false, action) {
+    switch (action.type) {
+        case  DELETE_COMMENT:
+            return action.deleteCommentSuccess;
+        case ADD_COMMENT:
+            return false;
+        case EDIT_COMMENT:
+            return false;
+
         default:
             return state;
     }

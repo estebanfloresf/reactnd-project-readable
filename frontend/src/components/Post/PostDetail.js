@@ -19,48 +19,67 @@ class PostDetail extends Component {
         this.state = {
             postID: '',
             post: '',
-            success: false
+            success: false,
+            loading: false,
+            error: false
         };
     }
 
     componentWillMount() {
         this.setState({
             postID: this.props.match.params.post,
-
         });
     }
 
     componentDidMount() {
         this.props.postDetailFetchData(this.state.postID);
         this.props.commentsFetchData(this.state.postID);
+
+    }
+    componentWillReceiveProps(nextProps){
+        nextProps.insertCommentSuccess?
+            this.setState({success: true}) :
+            nextProps.insertCommentLoading? this.setState({loading: true}) :
+                nextProps.insertCommentErrored && this.setState({error: true});
+    }
+
+    hideAlert(){
+       this.setState({
+           success: false,
+           loading: false,
+           error: false
+       })
     }
 
     render() {
 
-        const {postDetail, postDeleted, history, commentsSuccess, insertCommentSuccess,insertCommentLoading,insertCommentErrored} = this.props;
+        const {postDetail, postDeleted, history, commentsSuccess} = this.props;
+        const {success,loading,error} = this.state;
 
         return (
 
             <div>
 
                 {
-                    insertCommentErrored?  <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Holy guacamole!</strong>There was a problem while saving your comment.
-                    </div> : insertCommentLoading?  <div className="alert alert-light alert-dismissible fade show" role="alert">
-                        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Loading </strong>
-                    </div>: insertCommentSuccess &&
-                        <div className="alert alert-success alert-dismissible fade show" role="alert">
-                            <button type="button" className="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
+                    error ?
+                        <div className="alert alert-danger" styles="display: none">
+                            <button type="button" className="close" aria-label="Close">
+                                <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                             </button>
-                            <strong>Great!</strong>Your comment has been added
+                            <strong>Holy guacamole! </strong>There was a problem while saving your comment.
                         </div>
+                            : loading ?
+                            <div className="alert alert-light" styles={{display: 'none'}}>
+                                <a className="close"  onClick={this.hideAlert.bind(this)}>×</a>
+                                <strong>Great! </strong>Your comment has been added
+                            </div>
+                                :  success &&
+                                <div className="alert alert-success" styles={{display: 'none'}}>
+                                    <button type="button" className="close" aria-label="Close">
+                                        <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
+                                    </button>
+                                    <strong>Great! </strong>Your comment has been added
+                                </div>
                 }
 
 
@@ -70,11 +89,25 @@ class PostDetail extends Component {
                         postDeleted.length > 0 ? history.push('/') :
 
                             this.props.postsErrored ?
-                                <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that post</p>
-                                </div> :
+                                <div className="p-2">
+                                    <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that post</p></div>
+                                    <Link to="/" className="btn btn-secondary btn-sm"><i
+                                        className="fa fa-arrow-left fa-fw"
+                                        aria-hidden="true"/>
+                                        Back to Home Page</Link>
+                                </div>
 
-                                this.props.postLoading ?
-                                    <div className="alert alert-info" role="alert"><p>Loading…</p></div> :
+                                :  this.props.postLoading ?
+                                <div className="p-2">
+                                    <div className="alert alert-info" role="alert"><p>Loading…</p></div>
+                                    <Link to="/" className="btn btn-secondary btn-sm"><i
+                                        className="fa fa-arrow-left fa-fw"
+                                        aria-hidden="true"/>
+                                        Back to Home Page</Link>
+                                </div>
+
+
+                                    :
 
 
                                     <div>
@@ -92,19 +125,20 @@ class PostDetail extends Component {
                                                 <div className="alert alert-info" role="alert"><p>Loading…</p></div> :
                                                 this.props.commentsErrored ?
                                                     <div className="alert alert-danger" role="alert"><p>Sorry! We did
-                                                                                                        not find any
-                                                                                                        comments</p>
+                                                        not find any
+                                                        comments</p>
                                                     </div> :
                                                     commentsSuccess.length > 0 ? commentsSuccess.map((comment) => <div
-                                                            className="p-2" key={comment.id}><Comment  comment={comment}/>
+                                                            className="p-2" key={comment.id}><Comment comment={comment}/>
                                                         </div>) :
-                                                        <div className="alert alert-light" role="alert"><p> Care to                                                                                                           leave a new
-                                                                                                            comment?
-                                                                                                            Click on the
-                                                                                                            add button
-                                                                                                            at the
-                                                                                                            bottom of
-                                                                                                            the screen
+                                                        <div className="alert alert-light" role="alert"><p> Care to
+                                                            leave a new
+                                                            comment?
+                                                            Click on the
+                                                            add button
+                                                            at the
+                                                            bottom of
+                                                            the screen
                                                             <span role="img" aria-label="">😉</span></p></div>
                                         }
                                     </div>
@@ -119,7 +153,7 @@ class PostDetail extends Component {
                 }
                 <CommentForm/>
                 <DeletePost post={postDetail}/>
-                <DeleteComment />
+                <DeleteComment/>
 
 
             </div>

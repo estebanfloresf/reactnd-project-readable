@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {deletePostData,postDetailFetchData} from "../../actions/Post";
-import {Link} from 'react-router-dom';
+import {deleteCommentAction} from '../../actions/Comment';
 import {withRouter} from 'react-router-dom';
 
 
 class deleteComment extends Component {
 
-    deleteComment(post){
+    handleDelete(comment, e) {
+        e.preventDefault();
 
-
+        this.props.deleteCommentAction(comment.id, this.props.postID.id);
     }
+
     render() {
-        const {postToDelete}  = this.props;
+        const {commentToDelete} = this.props;
         return (
             <div>
 
@@ -27,11 +28,13 @@ class deleteComment extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                <div>Are you sure you want to delete "<strong>{postToDelete.title}</strong>" </div>
+                                <div>Are you sure you want to delete "<strong>{commentToDelete.body}</strong>"</div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-light" data-dismiss="modal">Cancel</button>
-                                <button className="btn btn-danger" data-dismiss="modal" onClick={this.deleteComment.bind(this, postToDelete)} >Delete</button>
+                                <button className="btn btn-danger" data-dismiss="modal"
+                                        onClick={this.handleDelete.bind(this, commentToDelete)}>Delete
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -43,14 +46,14 @@ class deleteComment extends Component {
 
 function mapStateToProps(state) {
     return {
-        postToDelete: state.postToDelete,
-        postDeleted: state.deletePostSuccess,
-        postDeletedLoading: state.deletePostLoading,
-        postDeletedErrored: state.deletePostErrored,
+        commentToDelete: state.deleteComment,
+        postID: state.postDetail
+
     };
 }
-const mapDispatchToProps = {
 
+const mapDispatchToProps = {
+    deleteCommentAction,
 };
 
-export default withRouter( connect(mapStateToProps,mapDispatchToProps)(deleteComment));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(deleteComment));

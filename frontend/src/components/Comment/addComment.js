@@ -41,10 +41,10 @@ class addComment extends Component {
 
     }
 
-    handleSubmit(comment, e) {
+    handleSubmit(e) {
         e.preventDefault();
-        console.log(this.props.postDetail);
-        this.props.insertComment(this.props.comment,this.props.post);
+
+        this.props.insertComment(this.props.comment,this.props.postDetail.id);
     }
 
     render() {
@@ -86,7 +86,7 @@ class addComment extends Component {
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                             {bodyField || authorField || comment.author==='' || comment.body===''? <button type="button" className="btn btn-secondary" disabled>Save</button> :
                                 <button type="button" className="btn btn-primary" data-dismiss="modal"
-                                        onClick={this.handleSubmit.bind(this, comment)}>Save</button>
+                                        onClick={this.handleSubmit.bind(this)}>Save</button>
                             }
 
                         </div>

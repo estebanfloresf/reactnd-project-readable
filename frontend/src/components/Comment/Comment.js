@@ -1,19 +1,20 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
-import {editComment} from "../../actions/Comment";
+import {editComment, deleteCommentSelected} from "../../actions/Comment";
 import {connect} from 'react-redux';
 
 
-const mapDispatchToProps = (dispatch,comment) => {
+const mapDispatchToProps = (dispatch, comment) => {
 
     return {
-        fetchData: () => dispatch(editComment(comment.comment))
+        fetchData: () => dispatch(editComment(comment.comment)),
+        deleteComment: () => dispatch(deleteCommentSelected((comment.comment)))
     };
 };
 
-const Comment = ({fetchData,comment}) =>{
-    return(
+const Comment = ({fetchData, deleteComment, comment}) => {
+    return (
         <div className="col-md-10">
             <div className="card border-light mb-6">
                 <div className="card-body">
@@ -26,7 +27,8 @@ const Comment = ({fetchData,comment}) =>{
                     <div className="d-flex flex-row justify-content-around">
                         <div className="p-2">
                             <p className="card-text" id="card-text-info">
-                                <small className="text-muted text-capitalize"><i className="fa fa-user fa-fw"/>{comment.author}</small>
+                                <small className="text-muted text-capitalize"><i
+                                    className="fa fa-user fa-fw"/>{comment.author}</small>
                             </p>
                         </div>
                         <div className="d-flex flex-row">
@@ -48,18 +50,21 @@ const Comment = ({fetchData,comment}) =>{
                         </div>
                         <div className="p-2">
                             <p className="card-text">
-                                <small className="text-muted"><i className="fa fa-calendar fa-fw"/> {formatDate(comment.timestamp)}
+                                <small className="text-muted"><i
+                                    className="fa fa-calendar fa-fw"/> {formatDate(comment.timestamp)}
                                 </small>
                             </p>
                         </div>
                         <div className="p-2">
-                            <button  id="edit" className="btn btn-info btn-sm"><i
-                                className="fa fa-pencil"
-                                aria-hidden="true" data-target="#commentModal" data-toggle="modal" onClick={()=> fetchData(comment)}/></button>
+                            <button id="edit" className="btn btn-info btn-sm" aria-hidden="true"
+                                    data-target="#commentModal" data-toggle="modal"
+                                    onClick={() => fetchData(comment)}>
+                                <i className="fa fa-pencil" aria-hidden="true"/></button>
                         </div>
                         <div className="p-2">
-                            <button id="delete" className="btn btn-danger btn-sm" data-target="#deleteComment" data-toggle="modal">
-                                <i className="fa fa-trash"   aria-hidden="true"/>
+                            <button id="delete" className="btn btn-danger btn-sm" data-target="#deleteComment"
+                                    data-toggle="modal"  onClick={() => deleteComment(comment)}>
+                                <i className="fa fa-trash" aria-hidden="true"/>
                             </button>
                         </div>
                     </div>
@@ -69,4 +74,4 @@ const Comment = ({fetchData,comment}) =>{
     )
 };
 
-export default connect(null,mapDispatchToProps)(Comment);
+export default connect(null, mapDispatchToProps)(Comment);
