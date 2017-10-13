@@ -19,9 +19,9 @@ class PostDetail extends Component {
         this.state = {
             postID: '',
             post: '',
-            success: false,
-            loading: false,
-            error: false
+            insertSuccess: false,
+            insertLoading: false,
+            insertError: false
         };
     }
 
@@ -36,50 +36,78 @@ class PostDetail extends Component {
         this.props.commentsFetchData(this.state.postID);
 
     }
-    componentWillReceiveProps(nextProps){
-        nextProps.insertCommentSuccess?
-            this.setState({success: true}) :
-            nextProps.insertCommentLoading? this.setState({loading: true}) :
-                nextProps.insertCommentErrored && this.setState({error: true});
+
+    componentWillReceiveProps(nextProps) {
+       nextProps.insertCommentSuccess ? this.setState({insertSuccess: true}) :
+        nextProps.insertCommentLoading ? this.setState({insertLoading: true}) :
+              nextProps.insertCommentErrored && this.setState({insertError: true});
+
+        nextProps.deleteCommentSuccess ? this.setState({deleteSuccess: true}) :
+           nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) :
+                 nextProps.deleteCommentErrored && this.setState({deleteError: true});
+
+        console.log(nextProps);
     }
 
-    hideAlert(){
-       this.setState({
-           success: false,
-           loading: false,
-           error: false
-       })
+    hideAlert() {
+        this.setState({
+            insertSuccess: false,
+            insertLoading: false,
+            insertError: false,
+            deleteSuccess: false,
+            deleteLoading: false,
+            deleteError: false
+        })
     }
 
     render() {
 
         const {postDetail, postDeleted, history, commentsSuccess} = this.props;
-        const {success,loading,error} = this.state;
+        const {insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError} = this.state;
+        console.log(insertSuccess+'  '+deleteSuccess);
 
         return (
-
             <div>
-
                 {
-                    error ?
+                    insertError ?
                         <div className="alert alert-danger" styles="display: none">
                             <button type="button" className="close" aria-label="Close">
                                 <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                             </button>
                             <strong>Holy guacamole! </strong>There was a problem while saving your comment.
                         </div>
-                            : loading ?
-                            <div className="alert alert-light" styles={{display: 'none'}}>
-                                <a className="close"  onClick={this.hideAlert.bind(this)}>×</a>
+                        : insertLoading ?
+                        <div className="alert alert-light" styles={{display: 'none'}}>
+                            <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
+                            <strong>Loading </strong>Your comment is being saved
+                        </div>
+                        : insertSuccess ?
+                            <div className="alert alert-success" styles={{display: 'none'}}>
+                                <button type="button" className="close" aria-label="Close">
+                                    <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
+                                </button>
                                 <strong>Great! </strong>Your comment has been added
-                            </div>
-                                :  success &&
+                            </div> :
+                            deleteError ?
+                                <div className="alert alert-danger" styles="display: none">
+                                    <button type="button" className="close" aria-label="Close">
+                                        <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
+                                    </button>
+                                    <strong>Holy guacamole! </strong>There was a problem while deleting your comment.
+                                </div>
+
+                                : deleteSuccess ?
                                 <div className="alert alert-success" styles={{display: 'none'}}>
                                     <button type="button" className="close" aria-label="Close">
                                         <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                                     </button>
-                                    <strong>Great! </strong>Your comment has been added
+                                    <strong>Great! </strong>Your comment has been deleted
                                 </div>
+                    : deleteLoading &&
+                    <div className="alert alert-light" styles={{display: 'none'}}>
+                    <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
+                    <strong>Loading</strong>Your comment is being deleted
+                    </div>
                 }
 
 
@@ -90,14 +118,15 @@ class PostDetail extends Component {
 
                             this.props.postsErrored ?
                                 <div className="p-2">
-                                    <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that post</p></div>
+                                    <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
+                                        post</p></div>
                                     <Link to="/" className="btn btn-secondary btn-sm"><i
                                         className="fa fa-arrow-left fa-fw"
                                         aria-hidden="true"/>
                                         Back to Home Page</Link>
                                 </div>
 
-                                :  this.props.postLoading ?
+                                : this.props.postLoading ?
                                 <div className="p-2">
                                     <div className="alert alert-info" role="alert"><p>Loading…</p></div>
                                     <Link to="/" className="btn btn-secondary btn-sm"><i
@@ -107,41 +136,41 @@ class PostDetail extends Component {
                                 </div>
 
 
-                                    :
+                                :
 
 
-                                    <div>
-                                        <div className="p-2">
-                                            <Link to="/" className="btn btn-secondary btn-sm"><i
-                                                className="fa fa-arrow-left fa-fw"
-                                                aria-hidden="true"/>
-                                                Back to Home Page</Link>
-                                        </div>
-                                        <div className="p-2">
-                                            <Post key={postDetail.id} post={postDetail}/>
-                                        </div>
-                                        {
-                                            this.props.commentsLoading ?
-                                                <div className="alert alert-info" role="alert"><p>Loading…</p></div> :
-                                                this.props.commentsErrored ?
-                                                    <div className="alert alert-danger" role="alert"><p>Sorry! We did
-                                                        not find any
-                                                        comments</p>
-                                                    </div> :
-                                                    commentsSuccess.length > 0 ? commentsSuccess.map((comment) => <div
-                                                            className="p-2" key={comment.id}><Comment comment={comment}/>
-                                                        </div>) :
-                                                        <div className="alert alert-light" role="alert"><p> Care to
-                                                            leave a new
-                                                            comment?
-                                                            Click on the
-                                                            add button
-                                                            at the
-                                                            bottom of
-                                                            the screen
-                                                            <span role="img" aria-label="">😉</span></p></div>
-                                        }
+                                <div>
+                                    <div className="p-2">
+                                        <Link to="/" className="btn btn-secondary btn-sm"><i
+                                            className="fa fa-arrow-left fa-fw"
+                                            aria-hidden="true"/>
+                                            Back to Home Page</Link>
                                     </div>
+                                    <div className="p-2">
+                                        <Post key={postDetail.id} post={postDetail}/>
+                                    </div>
+                                    {
+                                        this.props.commentsLoading ?
+                                            <div className="alert alert-info" role="alert"><p>Loading…</p></div> :
+                                            this.props.commentsErrored ?
+                                                <div className="alert alert-danger" role="alert"><p>Sorry! We did
+                                                    not find any
+                                                    comments</p>
+                                                </div> :
+                                                commentsSuccess.length > 0 ? commentsSuccess.map((comment) => <div
+                                                        className="p-2" key={comment.id}><Comment comment={comment}/>
+                                                    </div>) :
+                                                    <div className="alert alert-light" role="alert"><p> Care to
+                                                        leave a new
+                                                        comment?
+                                                        Click on the
+                                                        add button
+                                                        at the
+                                                        bottom of
+                                                        the screen
+                                                        <span role="img" aria-label="">😉</span></p></div>
+                                    }
+                                </div>
                     }
                 </div>
 
@@ -176,6 +205,9 @@ function mapStateToProps(state) {
         insertCommentSuccess: state.insertCommentSuccess,
         insertCommentLoading: state.insertCommentLoading,
         insertCommentErrored: state.insertCommentErrored,
+        deleteCommentSuccess: state.deleteCommentSuccess,
+        deleteCommentLoading: state.deleteCommentLoading,
+        deleteCommentErrored: state.deleteCommentErrored,
 
     };
 }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {deleteCommentAction} from '../../actions/Comment';
+import {deleteCommentAction,deleteCommentErrored} from '../../actions/Comment';
 import {withRouter} from 'react-router-dom';
 
 
@@ -8,7 +8,7 @@ class deleteComment extends Component {
 
     handleDelete(comment, e) {
         e.preventDefault();
-
+        this.props.deleteCommentErrored(false);
         this.props.deleteCommentAction(comment.id, this.props.postID.id);
     }
 
@@ -54,6 +54,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     deleteCommentAction,
+    deleteCommentErrored
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(deleteComment));

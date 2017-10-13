@@ -102,6 +102,8 @@ export const updateComment = (field, value) => ({
     }
 });
 
+
+
 //GET ALL THE COMMENTS
 export function commentsFetchData(postID) {
     const fetchURL = url('posts/' + postID + '/comments');
@@ -134,7 +136,6 @@ export function commentsFetchData(postID) {
             });
     };
 }
-
 // INSERT A COMMENT
 export function insertComment(comment, postID) {
 
@@ -151,8 +152,6 @@ export function insertComment(comment, postID) {
     //add the timestamp
     comment.timestamp = dateNow();
     comment.parentId = postID;
-
-
     return (dispatch) => {
 
         dispatch(insertCommentLoading(false));
@@ -171,20 +170,16 @@ export function insertComment(comment, postID) {
             }
         )
             .then((response) => {
-
-
                 if (!response.ok) {
                     throw Error(response.statusText);
                 }
                 dispatch(insertCommentLoading(false));
-
                 return response;
-
             })
             .then((response) => response.json())
             .then(() => {
+                dispatch(deleteCommentSuccess(false));
                 dispatch(insertCommentSuccess(true));
-
                 dispatch(commentsFetchData(postID))
 
             })
@@ -223,6 +218,7 @@ export function deleteCommentAction(commentID, postID) {
             })
             .then((response) => response.json())
             .then(() => {
+
                 dispatch(deleteCommentSuccess(true));
                 dispatch(commentsFetchData(postID));
 

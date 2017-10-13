@@ -23,7 +23,7 @@ const commentIniState = {
     parentId: ''
 };
 
-//All Posts
+//All Comments
 export function commentsErrored(state = false, action) {
     switch (action.type) {
         case GET_COMMENT_ERRORED:
@@ -85,18 +85,10 @@ export function deleteComment(state = commentIniState, action) {
                 ...state,
                 ...action.comment
             };
-        case ADD_COMMENT:
-            return false;
-        case EDIT_COMMENT:
-            return false;
-        case  DELETE_COMMENT:
-            return false;
         default:
             return state;
     }
-
 }
-
 
 export function insertCommentErrored(state = false, action) {
     switch (action.type) {
@@ -120,11 +112,6 @@ export function insertCommentSuccess(state = false, action) {
     switch (action.type) {
         case  INSERT_COMMENT_SUCCESS:
             return action.insertCommentSuccess;
-        case ADD_COMMENT:
-            return false;
-        case EDIT_COMMENT:
-            return false;
-
         default:
             return state;
     }
@@ -134,7 +121,6 @@ export function deleteCommentErrored(state = false, action) {
     switch (action.type) {
         case DELETE_COMMENT_ERRORED:
             return action.deleteCommentErrored;
-
         default:
             return state;
     }
@@ -153,11 +139,6 @@ export function deleteCommentSuccess(state = false, action) {
     switch (action.type) {
         case  DELETE_COMMENT:
             return action.deleteCommentSuccess;
-        case ADD_COMMENT:
-            return false;
-        case EDIT_COMMENT:
-            return false;
-
         default:
             return state;
     }

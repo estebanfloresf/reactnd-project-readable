@@ -1,19 +1,27 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
-import {editComment, deleteCommentSelected} from "../../actions/Comment";
+import {editComment, deleteCommentSelected, deleteCommentSuccess, insertCommentSuccess} from "../../actions/Comment";
 import {connect} from 'react-redux';
 
 
 const mapDispatchToProps = (dispatch, comment) => {
 
     return {
-        fetchData: () => dispatch(editComment(comment.comment)),
-        deleteComment: () => dispatch(deleteCommentSelected((comment.comment)))
+        fetchData: () => {
+            dispatch(insertCommentSuccess(false));
+            dispatch(editComment(comment.comment));
+        },
+        deleteComment: () => {
+            dispatch(deleteCommentSuccess(false));
+            dispatch(insertCommentSuccess(false));
+            dispatch(deleteCommentSelected(comment.comment))
+        }
+
     };
 };
 
-const Comment = ({fetchData, deleteComment, comment}) => {
+const Comment = ({fetchData, deleteComment, deleteCommentError, comment}) => {
     return (
         <div className="col-md-10">
             <div className="card border-light mb-6">
@@ -63,7 +71,7 @@ const Comment = ({fetchData, deleteComment, comment}) => {
                         </div>
                         <div className="p-2">
                             <button id="delete" className="btn btn-danger btn-sm" data-target="#deleteComment"
-                                    data-toggle="modal"  onClick={() => deleteComment(comment)}>
+                                    data-toggle="modal" onClick={() => deleteComment(comment)}>
                                 <i className="fa fa-trash" aria-hidden="true"/>
                             </button>
                         </div>
