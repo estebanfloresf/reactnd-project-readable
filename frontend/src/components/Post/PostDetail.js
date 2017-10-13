@@ -34,19 +34,16 @@ class PostDetail extends Component {
     componentDidMount() {
         this.props.postDetailFetchData(this.state.postID);
         this.props.commentsFetchData(this.state.postID);
-
     }
 
     componentWillReceiveProps(nextProps) {
-       nextProps.insertCommentSuccess ? this.setState({insertSuccess: true}) :
-        nextProps.insertCommentLoading ? this.setState({insertLoading: true}) :
-              nextProps.insertCommentErrored && this.setState({insertError: true});
+        nextProps.insertCommentSuccess ? this.setState({insertSuccess: true}) :
+            nextProps.insertCommentLoading ? this.setState({insertLoading: true}) :
+                nextProps.insertCommentErrored && this.setState({insertError: true});
 
         nextProps.deleteCommentSuccess ? this.setState({deleteSuccess: true}) :
-           nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) :
-                 nextProps.deleteCommentErrored && this.setState({deleteError: true});
-
-        console.log(nextProps);
+            nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) :
+                nextProps.deleteCommentErrored && this.setState({deleteError: true});
     }
 
     hideAlert() {
@@ -64,7 +61,6 @@ class PostDetail extends Component {
 
         const {postDetail, postDeleted, history, commentsSuccess} = this.props;
         const {insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError} = this.state;
-        console.log(insertSuccess+'  '+deleteSuccess);
 
         return (
             <div>
@@ -103,49 +99,45 @@ class PostDetail extends Component {
                                     </button>
                                     <strong>Great! </strong>Your comment has been deleted
                                 </div>
-                    : deleteLoading &&
-                    <div className="alert alert-light" styles={{display: 'none'}}>
-                    <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
-                    <strong>Loading</strong>Your comment is being deleted
-                    </div>
+                                : deleteLoading &&
+                                <div className="alert alert-light" styles={{display: 'none'}}>
+                                    <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
+                                    <strong>Loading</strong>Your comment is being deleted
+                                </div>
                 }
 
-
                 <div className="d-flex flex-column justify-content-between">
-
                     {
                         postDeleted.length > 0 ? history.push('/') :
-
                             this.props.postsErrored ?
                                 <div className="p-2">
+                                    <Link to="/" className="btn btn-secondary btn-sm"><i
+                                        className="fa fa-arrow-left fa-fw"
+                                        aria-hidden="true"/>
+                                        Back to Home Page</Link>
                                     <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
                                         post</p></div>
-                                    <Link to="/" className="btn btn-secondary btn-sm"><i
-                                        className="fa fa-arrow-left fa-fw"
-                                        aria-hidden="true"/>
-                                        Back to Home Page</Link>
                                 </div>
-
                                 : this.props.postLoading ?
                                 <div className="p-2">
-                                    <div className="alert alert-info" role="alert"><p>Loading…</p></div>
                                     <Link to="/" className="btn btn-secondary btn-sm"><i
                                         className="fa fa-arrow-left fa-fw"
                                         aria-hidden="true"/>
                                         Back to Home Page</Link>
+                                    <div className="alert alert-info" role="alert"><p>Loading…</p></div>
                                 </div>
-
-
-                                :
-
+                                : this.props.postDetail.title.length>0 ?
 
                                 <div>
-                                    <div className="p-2">
+
+                                                                        <div className="p-2">
                                         <Link to="/" className="btn btn-secondary btn-sm"><i
                                             className="fa fa-arrow-left fa-fw"
                                             aria-hidden="true"/>
                                             Back to Home Page</Link>
                                     </div>
+
+
                                     <div className="p-2">
                                         <Post key={postDetail.id} post={postDetail}/>
                                     </div>
@@ -157,12 +149,12 @@ class PostDetail extends Component {
                                                     not find any
                                                     comments</p>
                                                 </div> :
-                                                commentsSuccess.length > 0 ? commentsSuccess.map((comment) => <div
-                                                        className="p-2" key={comment.id}><Comment comment={comment}/>
-                                                    </div>) :
-                                                    <div className="alert alert-light" role="alert"><p> Care to
-                                                        leave a new
-                                                        comment?
+                                                commentsSuccess.length > 0 ? commentsSuccess.map((comment) =>
+                                                        <div className="p-2" key={comment.id}><Comment comment={comment}/>
+                                                        </div>)
+                                                    :
+                                                    <div className="alert alert-light" role="alert"><p> Care to leave a
+                                                        new comment?
                                                         Click on the
                                                         add button
                                                         at the
@@ -170,7 +162,14 @@ class PostDetail extends Component {
                                                         the screen
                                                         <span role="img" aria-label="">😉</span></p></div>
                                     }
-                                </div>
+                                </div> :   <div className="p-2">
+                                        <Link to="/" className="btn btn-secondary btn-sm"><i
+                                            className="fa fa-arrow-left fa-fw"
+                                            aria-hidden="true"/>
+                                            Back to Home Page</Link>
+                                        <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
+                                            post</p></div>
+                                    </div>
                     }
                 </div>
 

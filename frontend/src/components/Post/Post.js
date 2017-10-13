@@ -30,7 +30,7 @@ const Post = ({post,fetchData,comments}) => {
                 <div className="d-flex justify-content-end align-items-center">
                     <div className="mr-auto p-2">
                         <h5>
-                            <Link to={`/postdetail/${post.id}`}>{post.title}</Link>
+                            <Link to={`/${post.category}/${post.id}`}>{post.title}</Link>
                         </h5>
                     </div>
                     <div className="p-2">
@@ -86,7 +86,7 @@ const Post = ({post,fetchData,comments}) => {
                     <div className="p-2">
                         <p className="card-text">
 
-                            <Link to={`/categorydetail/${post.category}`}>
+                            <Link to={`/${post.category}`}>
                             <small className="text-muted">
                                 <i className="fa fa-tag fa-fw"
                                    aria-hidden="true"/> {post.category}

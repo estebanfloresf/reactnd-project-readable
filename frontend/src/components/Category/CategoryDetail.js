@@ -13,23 +13,31 @@ class CategoryDetail extends Component {
     constructor(props){
         super(props);
         this.state ={
-            categoryPosts: []
+            categoryPosts: [],
+            validCategory: false
         };
 
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        const fetchURL = url(this.props.match.params.category + '/posts');
-        this.props.categoriesFetch(fetchURL);
         this.getCategories();
+        this.props.categoriesFetch(this.props.match.params.category);
+        // const isValid = this.props.categories.filter((category) =>
+        //     (category.name === this.props.match.params.category)
+        // );
+        // if(isValid.length>0){
+        //     this.setState({
+        //         validCategory: true
+        //     })
+        // }
+        console.log(this.props.categories);
+
     }
 
     componentDidUpdate(prevProps){
         if(prevProps.match.params.category !==this.props.match.params.category){
-
-            const fetchURL = url(this.props.match.params.category + '/posts');
-            this.props.categoriesFetch(fetchURL);
+            this.props.categoriesFetch(this.props.match.params.category );
         }
     }
 
@@ -38,38 +46,36 @@ class CategoryDetail extends Component {
         this.props.categoriesfetchData(fetchURL);
     }
 
-    onClick(category){
-        console.log(category);
-    }
-
     render() {
         const categoryName = this.props.match.params.category;
         const {categories,categoryPosts} = this.props;
-
+        const {validCategory} = this.state;
 
         return (
             <div className="row flex flex-wrap ">
-                <div className="col-md-12">
-                    <h4 className="title display-3 text-capitalize"> {categoryName}</h4>
 
-                    <CategoryList categories={categories}/>
+                  <div className="col-md-12">
+                        <h4 className="title display-3 text-capitalize"> {categoryName}</h4>
 
-                    {categoryPosts.length > 0 ?
+                        <CategoryList categories={categories}/>
 
-                        <PostList posts={categoryPosts}/> :
+                        {categoryPosts.length > 0 ?
 
-                        <div className="d-flex align-items-center">
-                            <div className="p-2">Whoop's sorry no posts available for <span
-                                className="text-capitalize text-bold">{categoryName}</span> category, want to be the
-                                                 first?
+                            <PostList posts={categoryPosts}/> :
+
+                            <div className="d-flex align-items-center">
+                                <div className="p-2">Whoop's sorry no posts available for <span
+                                    className="text-capitalize text-bold">{categoryName}</span> category, want to be the
+                                    first?
+                                </div>
+                                <div className="p-2">
+                                    <Link className="btn btn-primary btn-sm" to="/addPost"> <i
+                                        className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
+                                </div>
                             </div>
-                            <div className="p-2">
-                                <Link className="btn btn-primary btn-sm" to="/addPost"> <i
-                                    className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
-                            </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+
             </div>
         )
     }

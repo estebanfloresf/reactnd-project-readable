@@ -102,8 +102,6 @@ export function postDetail(state = postInitialState, action) {
             return state;
     }
 }
-
-
 //Insert/Edit Post
 
 export function insertPostErrored(state = false, action) {

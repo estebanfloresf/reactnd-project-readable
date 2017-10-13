@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {updateComment,insertComment} from '../../actions/Comment';
+import {updateComment, insertComment, insertCommentSuccess} from '../../actions/Comment';
 
 class addComment extends Component {
 
@@ -11,45 +11,41 @@ class addComment extends Component {
             authorField: false,
             bodyField: false
         };
-
     }
 
-    handleChange(field, e) {
 
+    handleChange(field, e) {
         this.props.updateComment(field, e.currentTarget.value);
-        if (e.currentTarget.value.trim() === '' && field==='author') {
+        if (e.currentTarget.value.trim() === '' && field === 'author') {
             this.setState({
                 authorField: true
             });
         }
-
-        if (e.currentTarget.value.trim() === '' && field==='body') {
+        if (e.currentTarget.value.trim() === '' && field === 'body') {
             this.setState({
                 bodyField: true
             });
         }
-        if (e.currentTarget.value.trim() !== '' && field==='author') {
+        if (e.currentTarget.value.trim() !== '' && field === 'author') {
             this.setState({
                 authorField: false
             });
         }
-        if (e.currentTarget.value.trim() !== '' && field==='body') {
+        if (e.currentTarget.value.trim() !== '' && field === 'body') {
             this.setState({
                 bodyField: false
             });
         }
-
     }
 
     handleSubmit(e) {
         e.preventDefault();
-
-        this.props.insertComment(this.props.comment,this.props.postDetail.id);
+        this.props.insertComment(this.props.comment, this.props.postDetail.id);
     }
 
     render() {
         const {comment} = this.props;
-        const {bodyField,authorField} = this.state;
+        const {bodyField, authorField} = this.state;
         return (
 
             <div className="modal fade" id="commentModal" role="dialog" aria-labelledby="exampleModalLabel"
@@ -66,7 +62,8 @@ class addComment extends Component {
                             <form>
                                 <div className="form-group">
                                     <label htmlFor="recipient-name" className="form-control-label">Author:</label>
-                                    <input type="text" className="form-control" id="recipient-name" value={comment.author}  onChange={this.handleChange.bind(this, 'author')}/>
+                                    <input type="text" className="form-control" id="recipient-name"
+                                           value={comment.author} onChange={this.handleChange.bind(this, 'author')}/>
                                     {authorField && <div className="text-danger">
                                         <small>You must provide an author</small>
                                     </div>}
@@ -84,7 +81,8 @@ class addComment extends Component {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                            {bodyField || authorField || comment.author==='' || comment.body===''? <button type="button" className="btn btn-secondary" disabled>Save</button> :
+                            {bodyField || authorField || comment.author === '' || comment.body === '' ?
+                                <button type="button" className="btn btn-secondary" disabled>Save</button> :
                                 <button type="button" className="btn btn-primary" data-dismiss="modal"
                                         onClick={this.handleSubmit.bind(this)}>Save</button>
                             }
@@ -108,7 +106,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
     updateComment,
-    insertComment
+    insertComment,
+    insertCommentSuccess
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(addComment);

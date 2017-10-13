@@ -58,10 +58,6 @@ export function categoryDetailFetch(categories) {
 }
 
 
-
-
-
-
 // GET ALL THE CATEGORIES
 export function categoriesFetchData() {
     const fetchURL = url('categories');
@@ -77,7 +73,6 @@ export function categoriesFetchData() {
                     'Authorization': 'readableApp',
                     'Content-Type': 'application/json'
                 }
-
             }
         )
             .then((response) => {
@@ -85,11 +80,7 @@ export function categoriesFetchData() {
                     throw Error(response.statusText);
                 }
                 dispatch(categoriesLoading(false));
-
-
-
                 return response;
-
             })
             .then((response) => response.json())
             .then((categories) => dispatch(categoriesFetch(categories)))
@@ -101,14 +92,13 @@ export function categoriesFetchData() {
     };
 }
 
-
-
 // GET A CATEGORY ID
-export function categoryDetailFetchData(url) {
+export function categoryDetailFetchData(category) {
+    const fetchURL = url(category+ '/posts');
     return (dispatch) => {
         dispatch(categoryDetailLoading(true));
         fetch(
-            url,
+            fetchURL,
             {
                 headers: {
                     'Accept': 'application/json',

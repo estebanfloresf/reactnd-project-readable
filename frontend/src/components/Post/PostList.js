@@ -20,18 +20,12 @@ export default function PostList ({posts}) {
 
                             </div>
                         </div>
-
-
-
                     </div>
-
                     <div className="p-2">
                         <Link className="btn btn-primary btn-sm" to="/addPost"> <i
                             className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
                     </div>
-
                 </div>
-
 
                 {posts  && posts.map((post) => {
                     return <Post key={post.id}  post={post}/>

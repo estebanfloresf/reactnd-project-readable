@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPostData} from "../../actions/Post";
+import {insertCommentSuccess,deleteCommentSuccess} from "../../actions/Comment";
 import {categoriesFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
 
@@ -20,8 +21,10 @@ class addPost extends Component {
     }
 
     componentDidMount() {
-        this.getCategories();
 
+        this.props.insertCommentSuccess(false);
+        this.props.deleteCommentSuccess(false);
+        this.getCategories();
         if (this.props.match.params.post) {
             this.getPostID(this.props.match.params.post);
             this.setState({
@@ -71,7 +74,6 @@ class addPost extends Component {
             this.props.insertPostData(post, this.state.action);
         }
         else {
-
             if (post.author.trim() === '') {
                 this.setState({
                     authorField: true
@@ -99,7 +101,7 @@ class addPost extends Component {
             <div>
                 {
                     this.props.insertPostLoading ? <div className="text-info">Loading</div> :
-                        this.props.insertPostSuccess ? history.push(`/postdetail/${post.id}`) :
+                        this.props.insertPostSuccess ? history.push(`/${post.category}/${post.id}`) :
                             this.props.insertPostErrored &&
                             <div className="text-danger">There has been an error</div>
 
@@ -155,7 +157,7 @@ class addPost extends Component {
                         {/*<button type="submit" className="btn btn-primary">Submit</button>*/}
                         <Link to="/" className="btn btn-light">Cancel</Link>
                         <button type="submit" className="btn btn-primary" data-toggle="modal"
-                                data-target="#exampleModal" data-submit="submit">Submit
+                               data-submit="submit">Submit
                         </button>
                     </div>
 
@@ -187,7 +189,9 @@ const mapDispatchToProps = {
     postDetailFetchData,
     createPostDetail,
     updatePostDetailField,
-    insertPostData
+    insertPostData,
+    insertCommentSuccess,
+    deleteCommentSuccess
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(addPost);

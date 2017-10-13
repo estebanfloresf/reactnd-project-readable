@@ -175,6 +175,7 @@ export function postsFetchData() {
 // GET A POST ID
 export function postDetailFetchData(postID) {
     const fetchURL = url('posts/' + postID);
+    console.log(fetchURL);
     return (dispatch) => {
         dispatch(postDetailLoading(true));
         dispatch(insertPostAction(false));
@@ -222,7 +223,6 @@ export function insertPostData(post, param) {
     //add the timestamp
     post.timestamp = dateNow();
 
-
     return (dispatch) => {
 
         dispatch(insertPostLoading(true));
@@ -241,8 +241,6 @@ export function insertPostData(post, param) {
             }
         )
             .then((response) => {
-
-
                 if (!response.ok) {
                     throw Error(response.statusText);
                 }
@@ -254,7 +252,6 @@ export function insertPostData(post, param) {
             .then((response) => response.json())
             .then((post) => {
                 dispatch(insertPostAction(true));
-
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -263,7 +260,6 @@ export function insertPostData(post, param) {
             );
     };
 }
-
 
 //DELETE A POST
 export function deletePostData(post) {
