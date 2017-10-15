@@ -13,26 +13,14 @@ class CategoryDetail extends Component {
     constructor(props){
         super(props);
         this.state ={
-            categoryPosts: [],
-            validCategory: false
+            categoryPosts: []
         };
-
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
         this.getCategories();
         this.props.categoriesFetch(this.props.match.params.category);
-        // const isValid = this.props.categories.filter((category) =>
-        //     (category.name === this.props.match.params.category)
-        // );
-        // if(isValid.length>0){
-        //     this.setState({
-        //         validCategory: true
-        //     })
-        // }
-        console.log(this.props.categories);
-
     }
 
     componentDidUpdate(prevProps){
@@ -49,7 +37,6 @@ class CategoryDetail extends Component {
     render() {
         const categoryName = this.props.match.params.category;
         const {categories,categoryPosts} = this.props;
-        const {validCategory} = this.state;
 
         return (
             <div className="row flex flex-wrap ">

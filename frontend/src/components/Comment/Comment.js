@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch, comment) => {
         deleteComment: () => {
             dispatch(deleteCommentSuccess(false));
             dispatch(insertCommentSuccess(false));
-            dispatch(deleteCommentSelected(comment.comment))
+            dispatch(deleteCommentSelected(comment.comment));
         }
 
     };

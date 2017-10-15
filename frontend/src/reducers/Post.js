@@ -13,7 +13,8 @@ import {
     POST_TO_DELETE,
     DELETE_POST,
     DELETE_POST_ERRORED,
-    DELETE_POST_LOADING
+    DELETE_POST_LOADING,
+    UPVOTE,DOWNVOTE
 } from '../actions/Post';
 
 
@@ -179,5 +180,16 @@ export function deletePostSuccess(state = false, action) {
     }
 }
 
+
+export function votePost(state=false, action) {
+    switch (action.type){
+        case UPVOTE:
+            return action.upVoteSuccess;
+        case DOWNVOTE:
+            return action.downVoteSuccess;
+        default:
+            return state;
+    }
+}
 
 

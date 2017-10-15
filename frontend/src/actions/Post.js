@@ -17,6 +17,8 @@ export const POST_TO_DELETE = 'POST_TO_DELETE';
 export const DELETE_POST_LOADING = 'DELETE_POST_LOADING';
 export const DELETE_POST_ERRORED = 'DELETE_POST_ERRORED';
 export const DELETE_POST = 'DELETE_POST';
+export const UPVOTE = 'UPVOTE';
+export const DOWNVOTE = 'DOWNVOTE';
 
 
 //ALL POSTS
@@ -108,7 +110,18 @@ export const postToDelete = (post) => ({
     post
 });
 
-
+export function upVotePost(bool){
+    return{
+        type: UPVOTE,
+        upVoteSuccess: bool
+    };
+}
+export function downVotePost(bool){
+    return{
+        type: DOWNVOTE,
+        downVoteSuccess: bool
+    };
+}
 
 
 //DELETE POST
@@ -301,6 +314,51 @@ export function deletePostData(post) {
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(deletePostErrored(true));
+                }
+            );
+    };
+}
+
+//VOTE ON A POST
+export function votePost(post,param) {
+
+    const fetchURL = url('posts/' + post);
+
+    return (dispatch) => {
+
+        fetch(
+            fetchURL,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'readableApp',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({"option":param})
+            }
+        )
+            .then((response) => {
+
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response;
+            })
+            .then((response) => response.json())
+            .then(() => {
+            if(param==='upVote'){
+                dispatch(upVotePost(true));
+
+            }
+            if(param==='downVote'){
+
+                dispatch(downVotePost(true));
+            }
+            })
+            .catch(function (error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+
                 }
             );
     };

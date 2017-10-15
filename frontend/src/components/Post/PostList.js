@@ -25,6 +25,7 @@ export default function PostList ({posts}) {
                         <Link className="btn btn-primary btn-sm" to="/addPost"> <i
                             className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
                     </div>
+
                 </div>
 
                 {posts  && posts.map((post) => {

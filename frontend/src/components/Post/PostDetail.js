@@ -139,7 +139,7 @@ class PostDetail extends Component {
 
 
                                     <div className="p-2">
-                                        <Post key={postDetail.id} post={postDetail}/>
+                                        <Post key={postDetail.id} post={postDetail} />
                                     </div>
                                     {
                                         this.props.commentsLoading ?

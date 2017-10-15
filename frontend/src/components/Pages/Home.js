@@ -2,46 +2,32 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import PostList from '../Post/PostList';
 import CategoryList from '../Category/CategoryList';
-import {url} from "../../utils/helpers";
 import {postsFetchData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import DeletePost from "../Post/deletePost";
-
+import Post from "../Post/Post";
 
 
 class Home extends Component {
 
-    componentDidMount(){
-        this.getCategories();
-        this.getPosts();
+    componentDidMount() {
+        this.props.categoriesFetchData();
+        this.props.postsFetchData();
     }
 
-    componentDidUpdate(prevProps){
-        console.log(prevProps.posts);
-    }
-
-
-    getCategories(){
-        const fetchURL = url('categories');
-        this.props.categoriesfetchData(fetchURL);
-    }
-    getPosts(){
-
-        this.props.postsfetchData();
-    }
 
     render() {
-        const {categories,posts} = this.props;
+        const {categories, posts} = this.props;
 
-        if(this.props.categorieshasErrored){
+        if (this.props.categorieshasErrored) {
             return <div><p>Sorry! There was an error loading the categories</p></div>
         }
 
         if (this.props.categoriesisLoading) {
             return <p>Loading…</p>;
         }
-        if(this.props.postshasErrored){
+        if (this.props.postshasErrored) {
             return <div><p>Sorry! There was an error loading the items</p></div>
         }
 
@@ -57,11 +43,12 @@ class Home extends Component {
                     <div className="container">
                         <h1 className="display-3">Readable Project</h1>
                         <p>This is the readable project from the Udacity React Nanodegree Program, in this web app you
-                            will be able
-                            to post content to predefined categories, comment on your posts and other user's posts, and
-                            vote on posts and comments. You will also be able to edit and delete posts and comments.
+                           will be able
+                           to post content to predefined categories, comment on your posts and other user's posts, and
+                           vote on posts and comments. You will also be able to edit and delete posts and comments.
                         </p>
-                        <p><Link className="btn btn-primary btn-lg" to="/addPost"> <i className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link></p>
+                        <p><Link className="btn btn-primary btn-lg" to="/addPost"> <i
+                            className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link></p>
                     </div>
                 </div>
 
@@ -79,38 +66,65 @@ class Home extends Component {
                     <div className="col-md-12">
                         <p className="title display-3">Posts</p>
 
-                        <PostList posts={posts}/>
+                        <div className="col-md-12 d-flex flex-row align-content-end" id="order">
+                            <div className="p-2">
+                                <div className="btn-group" role="group">
+                                    <button id="btnGroupDrop1" type="button"
+                                            className="btn btn-outline-info btn-sm dropdown-toggle"     data-toggle="dropdown"            aria-haspopup="true" aria-expanded="false">
+                                        Order By
+                                    </button>
+                                    <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                        <Link className="dropdown-item" to="/">Date</Link>
+                                        <Link className="dropdown-item" to="/">Scores</Link>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="p-2">
+                                <Link className="btn btn-primary btn-sm" to="/addPost"> <i
+                                    className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
+                            </div>
+
+                        </div>
+
+                        {posts.length>0 ? posts.map((post) => {
+                            return <Post key={post.id}  post={post}/>
+                        }) :
+                            <div className="p-2">Whoop's sorry no posts available, want to be the
+                                                 first?
+                            </div>
+
+                        }
+
+
 
                     </div>
 
                 </div>
 
-                <DeletePost />
+                <DeletePost/>
             </div>
 
         )
     }
 }
 
-function  mapStateToProps  (state)  {
+function mapStateToProps(state) {
     return {
-        categories:state.categories,
+        categories: state.categories,
         categorieshasErrored: state.categoriesErrored,
         categoriesisLoading: state.categoriesLoading,
-        posts:state.posts.filter((post)=> post.deleted===false),
+        posts: state.posts.filter((post) => post.deleted === false),
         postshasErrored: state.postsErrored,
         postsisLoading: state.postsLoading,
 
     };
 }
 
-function mapDispatchToProps(dispatch){
-    return{
-        categoriesfetchData: (url) => dispatch(categoriesFetchData(url)),
-        postsfetchData: (url) => dispatch(postsFetchData(url))
-    }
-}
+const mapDispatchToProps = {
+    categoriesFetchData,
+    postsFetchData
+};
 
 
-
-export default connect (mapStateToProps,mapDispatchToProps) (Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

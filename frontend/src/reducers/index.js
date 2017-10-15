@@ -22,7 +22,8 @@ import {
     postToDelete,
     deletePostSuccess,
     deletePostLoading,
-    deletePostErrored
+    deletePostErrored,
+    votePost
 
 } from './Post' ;
 
@@ -72,7 +73,8 @@ export default combineReducers({
     deleteComment,
     deleteCommentErrored,
     deleteCommentLoading,
-    deleteCommentSuccess
+    deleteCommentSuccess,
+    votePost
 
 
 });
