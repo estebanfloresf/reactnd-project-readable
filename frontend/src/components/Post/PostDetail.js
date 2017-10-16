@@ -54,7 +54,7 @@ class PostDetail extends Component {
             deleteSuccess: false,
             deleteLoading: false,
             deleteError: false
-        })
+        });
     }
 
     render() {

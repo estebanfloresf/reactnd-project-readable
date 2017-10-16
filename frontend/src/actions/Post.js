@@ -188,7 +188,6 @@ export function postsFetchData() {
 // GET A POST ID
 export function postDetailFetchData(postID) {
     const fetchURL = url('posts/' + postID);
-    console.log(fetchURL);
     return (dispatch) => {
         dispatch(postDetailLoading(true));
         dispatch(insertPostAction(false));
@@ -349,11 +348,11 @@ export function votePost(post,param) {
             .then(() => {
             if(param==='upVote'){
                 dispatch(upVotePost(true));
-
             }
             if(param==='downVote'){
 
                 dispatch(downVotePost(true));
+
             }
             })
             .catch(function (error) {

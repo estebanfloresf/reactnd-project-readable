@@ -12,6 +12,9 @@ class Post extends Component {
         this.props.commentsFetchData(this.props.post.id);
     }
 
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps);
+    }
 
     deletePost(post, e) {
         e.preventDefault();
@@ -21,8 +24,7 @@ class Post extends Component {
     votePost(post, param, e) {
         e.preventDefault();
         this.props.votePost(post.id,param);
-        this.props.postDetailFetchData(post.id);
-
+        this.props.postDetailFetchData(this.props.post.id);
     }
 
     render() {
