@@ -7,14 +7,11 @@ import {commentsFetchData} from '../../actions/Comment';
 
 class Post extends Component {
 
-    componentDidMount() {
+    componentWillMount() {
 
         this.props.commentsFetchData(this.props.post.id);
     }
 
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
 
     deletePost(post, e) {
         e.preventDefault();

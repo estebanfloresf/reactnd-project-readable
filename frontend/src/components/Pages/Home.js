@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import PostList from '../Post/PostList';
+import {commentsFetchData} from '../../actions/Comment';
+
 import CategoryList from '../Category/CategoryList';
 import {postsFetchData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
@@ -18,7 +19,8 @@ class Home extends Component {
 
 
     render() {
-        const {categories, posts} = this.props;
+        const {categories, posts, comments} = this.props;
+        console.log(comments);
 
         if (this.props.categorieshasErrored) {
             return <div><p>Sorry! There was an error loading the categories</p></div>
@@ -70,7 +72,8 @@ class Home extends Component {
                             <div className="p-2">
                                 <div className="btn-group" role="group">
                                     <button id="btnGroupDrop1" type="button"
-                                            className="btn btn-outline-info btn-sm dropdown-toggle"     data-toggle="dropdown"            aria-haspopup="true" aria-expanded="false">
+                                            className="btn btn-outline-info btn-sm dropdown-toggle"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Order By
                                     </button>
                                     <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -87,15 +90,15 @@ class Home extends Component {
 
                         </div>
 
-                        {posts.length>0 ? posts.map((post) => {
-                            return <Post key={post.id}  post={post}/>
-                        }) :
+                        {posts.length > 0 ? posts.map((post) => {
+
+                                return <Post key={post.id} post={post} comments={comments}/>
+                            }) :
                             <div className="p-2">Whoop's sorry no posts available, want to be the
                                                  first?
                             </div>
 
                         }
-
 
 
                     </div>
@@ -117,13 +120,15 @@ function mapStateToProps(state) {
         posts: state.posts.filter((post) => post.deleted === false),
         postshasErrored: state.postsErrored,
         postsisLoading: state.postsLoading,
+        comments: state.commentsSuccess
 
     };
 }
 
 const mapDispatchToProps = {
     categoriesFetchData,
-    postsFetchData
+    postsFetchData,
+    commentsFetchData
 };
 
 
