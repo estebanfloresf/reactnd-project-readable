@@ -4,7 +4,7 @@ import Post from './Post';
 import Comment from '../Comment/Comment';
 import {connect} from 'react-redux';
 import {postDetailFetchData} from "../../actions/Post";
-import {commentsFetchData, addComment} from "../../actions/Comment";
+import {commentsFetchData, addComment, insertCommentSuccess} from "../../actions/Comment";
 import CommentForm from '../Comment/addComment';
 import DeletePost from "./deletePost";
 import DeleteComment from '../Comment/deleteComment';
@@ -34,6 +34,7 @@ class PostDetail extends Component {
     componentDidMount() {
         this.props.postDetailFetchData(this.state.postID);
         this.props.commentsFetchData(this.state.postID);
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -44,6 +45,12 @@ class PostDetail extends Component {
         nextProps.deleteCommentSuccess ? this.setState({deleteSuccess: true}) :
             nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) :
                 nextProps.deleteCommentErrored && this.setState({deleteError: true});
+    }
+
+    addComment(e){
+        e.preventDefault();
+        this.props.insertCommentSuccess(false);
+        this.props.addComment();
     }
 
     hideAlert() {
@@ -175,7 +182,7 @@ class PostDetail extends Component {
 
                 {!this.props.postsErrored &&
                 <button id="addcomment" value="addComment" className="btn btn-primary" data-toggle="modal"
-                        data-target="#commentModal" data-comment="addComment" onClick={() => this.props.addComment()}>
+                        data-target="#commentModal" data-comment="addComment" onClick={this.addComment.bind(this)}>
                     <i className="fa fa-plus" aria-hidden="true"/>
                 </button>
                 }
@@ -214,6 +221,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     postDetailFetchData,
     commentsFetchData,
+    insertCommentSuccess,
     addComment
 };
 

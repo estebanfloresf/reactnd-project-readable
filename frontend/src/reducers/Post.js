@@ -16,7 +16,7 @@ import {
     DELETE_POST_LOADING,
     UPVOTE,DOWNVOTE
 } from '../actions/Post';
-
+import {GET_COMMENT_SUCCESS} from "../actions/Comment";
 
 
 const postInitialState = {
@@ -27,7 +27,8 @@ const postInitialState = {
     category: 'react',
     timestamp: null,
     deleted: false,
-    voteScore: 0
+    voteScore: 0,
+    comments:[]
 };
 
 //All Posts
@@ -50,15 +51,18 @@ export function postsLoading(state = false, action) {
 }
 
 export function posts(state = [], action) {
+    const {comments,posts} = action;
+
     switch (action.type) {
         case  POSTS_FETCH:
+            //if deleted dont show
             action.posts.filter((post)=> post.deleted !== false);
             // Sort from highest to lowest votes when returning the array
             action.posts.sort(function (a, b) {
                 return (a.voteScore > b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0);
             });
-            //returned the posts array ordered
-            return  action.posts;
+           return  action.posts;
+
         default:
             return state;
     }
@@ -91,6 +95,8 @@ export function postDetail(state = postInitialState, action) {
                 ...state,
                 ...action.post
             };
+
+
         case CREATE_POSTDETAIL_FETCH:
             return postInitialState;
         case UPDATE_POSTDETAIL_FIELD:

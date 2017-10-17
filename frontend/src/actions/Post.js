@@ -1,5 +1,7 @@
 import {dateNow, url, uuid} from "../utils/helpers";
 import history from '../history';
+import {commentsFetchData, getPostComments} from "./Comment";
+import {commentsSuccess} from "../reducers/Comment";
 
 
 export const POSTS_ERROR = 'POSTS_ERROR';
@@ -110,14 +112,15 @@ export const postToDelete = (post) => ({
     post
 });
 
-export function upVotePost(bool){
-    return{
+export function upVotePost(bool) {
+    return {
         type: UPVOTE,
         upVoteSuccess: bool
     };
 }
-export function downVotePost(bool){
-    return{
+
+export function downVotePost(bool) {
+    return {
         type: DOWNVOTE,
         downVoteSuccess: bool
     };
@@ -148,7 +151,6 @@ export function deletePostAction(post) {
 }
 
 
-
 //Redux Thunk
 
 //GET ALL THE POSTS
@@ -177,6 +179,21 @@ export function postsFetchData() {
 
             })
             .then((response) => response.json())
+            .then((posts) =>
+                Promise.all(
+                    posts.map(post =>
+                        getPostComments(post.id)
+                            .then((comments) => {
+                                    post.comments = comments;
+                                }
+                            )
+                            .then(() => post)
+                            .catch(function (error) {
+                                console.log('There has been a problem with your fetch operation: ' + error.message);
+                            })
+                    )
+                )
+            )
             .then((posts) => dispatch(postsFetch(posts)))
             .catch(function (error) {
                 console.log('There has been a problem with your fetch operation: ' + error.message);
@@ -211,7 +228,20 @@ export function postDetailFetchData(postID) {
 
             })
             .then((response) => response.json())
-            .then((post) => dispatch(postDetailFetch(post)))
+            .then(post =>
+
+                    getPostComments(post.id)
+                        .then((comments) => {
+                console.log(comments);
+                            post.comments = comments
+                        })
+                        .then(() => post)
+                        .catch(function (error) {
+                            console.log('There has been a problem with your fetch operation: ' + error.message);
+                        })
+
+            )
+            .then((post) => {dispatch(postDetailFetch(post))})
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message + ' ' + fetchURL);
                     dispatch(postDetailErrored(true));
@@ -319,7 +349,7 @@ export function deletePostData(post) {
 }
 
 //VOTE ON A POST
-export function votePost(post,param) {
+export function votePost(post, param) {
 
     const fetchURL = url('posts/' + post);
 
@@ -334,7 +364,7 @@ export function votePost(post,param) {
                     'Content-Type': 'application/json'
                 },
                 method: 'POST',
-                body: JSON.stringify({"option":param})
+                body: JSON.stringify({"option": param})
             }
         )
             .then((response) => {
@@ -346,14 +376,14 @@ export function votePost(post,param) {
             })
             .then((response) => response.json())
             .then(() => {
-            if(param==='upVote'){
-                dispatch(upVotePost(true));
-            }
-            if(param==='downVote'){
+                if (param === 'upVote') {
+                    dispatch(upVotePost(true));
+                }
+                if (param === 'downVote') {
 
-                dispatch(downVotePost(true));
+                    dispatch(downVotePost(true));
 
-            }
+                }
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);

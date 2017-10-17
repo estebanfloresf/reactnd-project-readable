@@ -23,12 +23,14 @@ export function commentsErrored(bool) {
         hasErrored: bool
     };
 }
+
 export function commentsLoading(bool) {
     return {
         type: GET_COMMENT_LOADING,
         isLoading: bool
     };
 }
+
 export function commentSuccess(comments) {
 
     return {
@@ -44,12 +46,14 @@ export function insertCommentErrored(bool) {
         insertCommentErrored: bool
     };
 }
+
 export function insertCommentLoading(bool) {
     return {
         type: INSERT_COMMENT_LOADING,
         insertCommentLoading: bool
     };
 }
+
 export function insertCommentSuccess(bool) {
     return {
         type: INSERT_COMMENT_SUCCESS,
@@ -64,12 +68,14 @@ export function deleteCommentErrored(bool) {
         deleteCommentErrored: bool
     };
 }
+
 export function deleteCommentLoading(bool) {
     return {
         type: DELETE_COMMENT_LOADING,
         deleteCommentLoading: bool
     };
 }
+
 export function deleteCommentSuccess(bool) {
     return {
         type: DELETE_COMMENT,
@@ -101,7 +107,6 @@ export const updateComment = (field, value) => ({
         value
     }
 });
-
 
 
 //GET ALL THE COMMENTS
@@ -136,6 +141,38 @@ export function commentsFetchData(postID) {
             });
     };
 }
+
+export function getPostComments(postID) {
+    const fetchURL = url('posts/' + postID + '/comments');
+    return fetch(
+        fetchURL,
+        {
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': 'readableApp',
+                'Content-Type': 'application/json'
+            }
+        }
+    )
+        .then((response) => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+
+            return response;
+
+        })
+        .then((response) => response.json())
+        .then((comments) => {
+            return comments
+        })
+        .catch(function (error) {
+            console.log('There has been a problem with your fetch operation: ' + error.message);
+
+        });
+
+}
+
 // INSERT A COMMENT
 export function insertComment(comment, postID) {
 
@@ -180,16 +217,18 @@ export function insertComment(comment, postID) {
             .then(() => {
                 dispatch(deleteCommentSuccess(false));
                 dispatch(insertCommentSuccess(true));
-                dispatch(commentsFetchData(postID))
+                dispatch(getPostComments(postID));
+                dispatch(commentsFetchData(postID));
 
             })
             .catch(function (error) {
-                    console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(insertCommentErrored(true));
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
                 }
             );
     };
 }
+
 // DELETE A COMMENT
 export function deleteCommentAction(commentID, postID) {
 
@@ -221,6 +260,7 @@ export function deleteCommentAction(commentID, postID) {
 
                 dispatch(deleteCommentSuccess(true));
                 dispatch(commentsFetchData(postID));
+                dispatch(getPostComments(postID))
 
             })
             .catch(function (error) {
