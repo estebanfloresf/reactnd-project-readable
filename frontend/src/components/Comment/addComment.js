@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-
+import {postDetailFetchData} from '../../actions/Post'
 import {updateComment, insertComment, insertCommentSuccess} from '../../actions/Comment';
 
 class addComment extends Component {
@@ -40,6 +40,7 @@ class addComment extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        this.props.postDetailFetchData(this.props.postDetail.id);
         this.props.insertComment(this.props.comment, this.props.postDetail.id);
     }
 
@@ -107,7 +108,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     updateComment,
     insertComment,
-    insertCommentSuccess
+    insertCommentSuccess,
+    postDetailFetchData
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(addComment);

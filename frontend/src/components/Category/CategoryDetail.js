@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import {categoriesFetchData, categoryDetailFetchData} from "../../actions/Category";
-import PostList from '../Post/PostList';
+// import PostList from '../Post/PostList';
 import {connect} from 'react-redux';
 import {url} from "../../utils/helpers";
 import Link from "react-router-dom/es/Link";
 import CategoryList from '../Category/CategoryList';
+import Post from "../Post/Post";
 
 
 
@@ -48,7 +49,7 @@ class CategoryDetail extends Component {
 
                         {categoryPosts.length > 0 ?
 
-                            <PostList posts={categoryPosts}/> :
+                            categoryPosts.map((post) => <Post key={post.id} post={post}/>) :
 
                             <div className="d-flex align-items-center">
                                 <div className="p-2">Whoop's sorry no posts available for <span

@@ -3,21 +3,14 @@ import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
 import {connect} from 'react-redux';
 import {postToDelete,votePost, postDetailFetchData} from "../../actions/Post";
-import {commentsFetchData} from '../../actions/Comment';
+import {commentsFetchData,insertCommentSuccess} from '../../actions/Comment';
 
 class Post extends Component {
 
-    componentDidMount() {
-
-        this.props.commentsFetchData(this.props.post.id);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        console.log(nextProps);
-    }
 
     deletePost(post, e) {
         e.preventDefault();
+        this.props.inserCommentSuccess(false);
         this.props.postToDelete(post);
     }
 
@@ -28,8 +21,7 @@ class Post extends Component {
     }
 
     render() {
-        const {post, comments} = this.props;
-
+        const {post} = this.props;
 
         return (
             <div className="card border-primary mb-3">
@@ -95,7 +87,7 @@ class Post extends Component {
                         <div className="p-2">
                             <p className="card-text">
                                 <small className="text-muted"><i className="fa fa-comment fa-fw"/>
-                                    <strong> {comments.length} </strong>
+                                    <strong> {post.comments.length?post.comments.length:0} </strong>
                                     comments
                                 </small>
                             </p>
@@ -142,6 +134,7 @@ const mapDispatchToProps = {
     postToDelete,
     postDetailFetchData,
     commentsFetchData,
+    insertCommentSuccess,
     votePost
 };
 

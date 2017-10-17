@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import PostList from '../Post/PostList';
+// import PostList from '../Post/PostList';
 import CategoryList from '../Category/CategoryList';
 import {postsFetchData} from "../../actions/Post";
 import {categoriesFetchData} from "../../actions/Category";
@@ -16,9 +16,9 @@ class Home extends Component {
         this.props.postsFetchData();
     }
 
-
     render() {
         const {categories, posts} = this.props;
+
 
         if (this.props.categorieshasErrored) {
             return <div><p>Sorry! There was an error loading the categories</p></div>
@@ -36,9 +36,7 @@ class Home extends Component {
         }
 
         return (
-
             <div className="container">
-
                 <div className="jumbotron">
                     <div className="container">
                         <h1 className="display-3">Readable Project</h1>
@@ -51,21 +49,15 @@ class Home extends Component {
                             className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link></p>
                     </div>
                 </div>
-
-
                 <div className="row ">
                     <div className="col-md-12">
-
                         <p className="title display-3">Categories</p>
-
                         <CategoryList categories={categories}/>
                     </div>
                 </div>
-
                 <div className="row flex flex-wrap">
                     <div className="col-md-12">
                         <p className="title display-3">Posts</p>
-
                         <div className="col-md-12 d-flex flex-row align-content-end" id="order">
                             <div className="p-2">
                                 <div className="btn-group" role="group">
@@ -76,7 +68,6 @@ class Home extends Component {
                                     <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                         <Link className="dropdown-item" to="/">Date</Link>
                                         <Link className="dropdown-item" to="/">Scores</Link>
-
                                     </div>
                                 </div>
                             </div>
@@ -84,24 +75,16 @@ class Home extends Component {
                                 <Link className="btn btn-primary btn-sm" to="/addPost"> <i
                                     className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
                             </div>
-
                         </div>
-
                         {posts.length>0 ? posts.map((post) => {
                             return <Post key={post.id}  post={post}/>
                         }) :
                             <div className="p-2">Whoop's sorry no posts available, want to be the
                                                  first?
                             </div>
-
                         }
-
-
-
                     </div>
-
                 </div>
-
                 <DeletePost/>
             </div>
 
@@ -114,7 +97,7 @@ function mapStateToProps(state) {
         categories: state.categories,
         categorieshasErrored: state.categoriesErrored,
         categoriesisLoading: state.categoriesLoading,
-        posts: state.posts.filter((post) => post.deleted === false),
+        posts: state.posts,
         postshasErrored: state.postsErrored,
         postsisLoading: state.postsLoading,
 
