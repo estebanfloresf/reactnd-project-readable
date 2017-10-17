@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
-import {editComment, deleteCommentSelected, deleteCommentSuccess, insertCommentSuccess} from "../../actions/Comment";
+import {editComment, deleteCommentSelected, deleteCommentSuccess, insertCommentSuccessAction} from "../../actions/Comment";
 import {connect} from 'react-redux';
 
 
@@ -9,30 +9,30 @@ const mapDispatchToProps = (dispatch, comment) => {
 
     return {
         fetchData: () => {
-            dispatch(insertCommentSuccess(false));
+            dispatch(insertCommentSuccessAction(false));
             dispatch(editComment(comment.comment));
         },
         deleteComment: () => {
-            dispatch(deleteCommentSuccess(false));
-            dispatch(insertCommentSuccess(false));
+            dispatch(insertCommentSuccessAction(false));
+            // dispatch(deleteCommentSuccess(false));
             dispatch(deleteCommentSelected(comment.comment));
         }
 
     };
 };
 
-const Comment = ({fetchData, deleteComment, deleteCommentError, comment}) => {
+const Comment = ({fetchData, deleteComment, comment}) => {
     return (
         <div className="col-md-10">
             <div className="card border-light mb-6">
                 <div className="card-body">
-                    <div className="d-flex">
+                    <div className="d-flex ">
                         <p className="card-text p-2 text-justify">
                             {comment.body}
                         </p>
 
                     </div>
-                    <div className="d-flex flex-row justify-content-around">
+                    <div className="d-flex flex-row justify-content-around align-items-center">
                         <div className="p-2">
                             <p className="card-text" id="card-text-info">
                                 <small className="text-muted text-capitalize"><i
@@ -64,13 +64,13 @@ const Comment = ({fetchData, deleteComment, deleteCommentError, comment}) => {
                             </p>
                         </div>
                         <div className="p-2">
-                            <button id="edit" className="btn btn-info btn-sm" aria-hidden="true"
+                            <button id="edit" className="btn btn-link btn-sm" aria-hidden="true"
                                     data-target="#commentModal" data-toggle="modal"
                                     onClick={() => fetchData(comment)}>
                                 <i className="fa fa-pencil" aria-hidden="true"/></button>
                         </div>
                         <div className="p-2">
-                            <button id="delete" className="btn btn-danger btn-sm" data-target="#deleteComment"
+                            <button id="delete" className="btn btn-link btn-sm" data-target="#deleteComment"
                                     data-toggle="modal" onClick={() => deleteComment(comment)}>
                                 <i className="fa fa-trash" aria-hidden="true"/>
                             </button>

@@ -93,7 +93,7 @@ export function deleteComment(state = commentIniState, action) {
 export function insertCommentErrored(state = false, action) {
     switch (action.type) {
         case INSERT_COMMENT_ERRORED:
-            return action.insertCommentErrored;
+            return action.addCommentErrored;
         default:
             return state;
     }
@@ -102,7 +102,7 @@ export function insertCommentErrored(state = false, action) {
 export function insertCommentLoading(state = false, action) {
     switch (action.type) {
         case INSERT_COMMENT_LOADING:
-            return action.insertCommentLoading;
+            return action.addCommentLoading;
         default:
             return state;
     }
@@ -111,7 +111,7 @@ export function insertCommentLoading(state = false, action) {
 export function insertCommentSuccess(state = false, action) {
     switch (action.type) {
         case  INSERT_COMMENT_SUCCESS:
-            return action.insertCommentSuccess;
+            return action.addCommentSuccess;
         default:
             return state;
     }

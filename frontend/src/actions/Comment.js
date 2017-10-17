@@ -44,21 +44,21 @@ export function commentSuccess(comments) {
 export function insertCommentErrored(bool) {
     return {
         type: INSERT_COMMENT_ERRORED,
-        insertCommentErrored: bool
+        addCommentErrored: bool
     };
 }
 
 export function insertCommentLoading(bool) {
     return {
         type: INSERT_COMMENT_LOADING,
-        insertCommentLoading: bool
+        addCommentLoading: bool
     };
 }
 
-export function insertCommentSuccess(bool) {
+export function insertCommentSuccessAction(bool) {
     return {
         type: INSERT_COMMENT_SUCCESS,
-        insertCommentSuccess: bool
+        addCommentSuccess: bool
     };
 }
 
@@ -217,7 +217,7 @@ export function insertComment(comment, postID) {
             .then((response) => response.json())
             .then(() => {
                 dispatch(deleteCommentSuccess(false));
-                dispatch(insertCommentSuccess(true));
+                dispatch(insertCommentSuccessAction(true));
                 dispatch(commentsFetchData(postID));
                 dispatch(postDetailFetchData(postID));
 

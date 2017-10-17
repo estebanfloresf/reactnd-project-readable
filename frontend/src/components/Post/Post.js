@@ -3,21 +3,18 @@ import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
 import {connect} from 'react-redux';
 import {postToDelete,votePost, postDetailFetchData} from "../../actions/Post";
-import {commentsFetchData} from '../../actions/Comment';
+import {commentsFetchData,insertCommentSuccessAction} from '../../actions/Comment';
 
 class Post extends Component {
 
     componentWillMount() {
-
         this.props.commentsFetchData(this.props.post.id);
     }
-
-
     deletePost(post, e) {
         e.preventDefault();
+        this.props.insertCommentSuccessAction(false);
         this.props.postToDelete(post);
     }
-
     votePost(post, param, e) {
         e.preventDefault();
         this.props.votePost(post.id,param);
@@ -26,8 +23,6 @@ class Post extends Component {
 
     render() {
         const {post} = this.props;
-
-
         return (
             <div className="card border-primary mb-3">
                 <div className="card-body text-primary">
@@ -39,13 +34,13 @@ class Post extends Component {
                             </h5>
                         </div>
                         <div className="p-2">
-                            <Link to={`/addPost/${post.id}`} id="edit" className="btn btn-info btn-sm"><i
+                            <Link to={`/addPost/${post.id}`} id="edit" className="btn btn-link btn-info btn-sm"><i
                                 className="fa fa-pencil"
                                 aria-hidden="true"/></Link>
                         </div>
                         <div className="p-2">
 
-                            <button type="button" id="delete" className="btn btn-danger btn-sm" data-toggle="modal"
+                            <button type="button" id="delete" className="btn btn-link  btn-danger btn-sm" data-toggle="modal"
                                     onClick={this.deletePost.bind(this, post)}
                                     data-target="#deletePost"
                             ><i className="fa fa-trash"
@@ -61,7 +56,7 @@ class Post extends Component {
                     <div className="d-flex flex-row justify-content-around align-items-center">
                         <div className="p-2">
                             <p className="card-text" id="card-text-info">
-                                <small className="text-capitalize"><i className="fa fa-user fa-fw"/> {post.author}
+                                <small className="text-capitalize"><i className="text-primary fa fa-user fa-fw"/> {post.author}
                                 </small>
                             </p>
                         </div>
@@ -69,29 +64,27 @@ class Post extends Component {
                         <div className="d-flex flex-row align-items-center">
 
                             <div className="p-2">
-                                <small className="text-muted">
-                                    <button className="btn btn-link btn-sm"
-                                            onClick={this.votePost.bind(this, post, "upVote")}>
-                                        <span><i
-                                            className="fa fa-thumbs-up fa-fw"/></span></button>
+                                <small className="">
+                                    <button className="btn btn-link btn-sm"     onClick={this.votePost.bind(this, post, "upVote")}>
+                                        <span><i  className="text-primary fa fa-thumbs-up fa-fw"/></span>
+                                    </button>
                                 </small>
                             </div>
                             <div className="p-2">
-                                <small>{post.voteScore} votes</small>
+                                <small className="card-text">{post.voteScore} votes</small>
                             </div>
                             <div className="p-2">
-                                <small className="text-muted">
+                                <small className="">
                                     <button className="btn btn-link btn-sm"
                                             onClick={this.votePost.bind(this, post, "downVote")}>
-                                        <span><i
-                                            className="fa fa-thumbs-down fa-fw"/></span></button>
+                                        <span><i  className="text-primary fa fa-thumbs-down fa-fw"/></span></button>
                                 </small>
                             </div>
                         </div>
 
                         <div className="p-2">
                             <p className="card-text">
-                                <small className="text-muted"><i className="fa fa-comment fa-fw"/>
+                                <small className=""><i className=" text-primary fa fa-comment fa-fw"/>
                                     <strong> {post.comments.length} </strong>
                                     comments
                                 </small>
@@ -99,10 +92,10 @@ class Post extends Component {
                         </div>
                         <div className="p-2">
                             <p className="card-text text-upper">
-                                <small className="text-muted">
+                                <small className="text-uppercase">
                                     <Link to={`/${post.category}`}>
 
-                                        <i className="fa fa-tag fa-fw"
+                                        <i className=" fa fa-tag fa-fw"
                                            aria-hidden="true"/>
                                         {post.category}
                                     </Link>
@@ -111,34 +104,29 @@ class Post extends Component {
                         </div>
                         <div className="p-2">
                             <p className="card-text">
-                                <small className="text-muted"><i
-                                    className="fa fa-calendar fa-fw"/> {formatDate(post.timestamp)}
+                                <small className=""><i
+                                    className=" text-primary fa fa-calendar fa-fw"/> {formatDate(post.timestamp)}
                                 </small>
                             </p>
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
         );
     }
-
 }
-
 const mapStateToProps = state => {
     return {
         postToDelete: state.postToDelete,
         comments: state.commentsSuccess
     };
 };
-
-
 const mapDispatchToProps = {
     postToDelete,
     postDetailFetchData,
     commentsFetchData,
+    insertCommentSuccessAction,
     votePost
 };
 

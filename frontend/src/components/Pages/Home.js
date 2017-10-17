@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {commentsFetchData} from '../../actions/Comment';
-
 import CategoryList from '../Category/CategoryList';
+import {commentsFetchData,insertCommentSuccessAction,deleteCommentSuccess} from '../../actions/Comment';
 import {postsFetchData} from "../../actions/Post";
-import {categoriesFetchData} from "../../actions/Category";
-import {connect} from 'react-redux';
 import DeletePost from "../Post/deletePost";
 import Post from "../Post/Post";
+import {categoriesFetchData} from "../../actions/Category";
+import {connect} from 'react-redux';
 
 
 class Home extends Component {
@@ -15,31 +14,27 @@ class Home extends Component {
     componentDidMount() {
         this.props.categoriesFetchData();
         this.props.postsFetchData();
+        this.props.insertCommentSuccessAction(false);
+        this.props.deleteCommentSuccess(false);
     }
 
-    componentWillReceiveProps(nextProps){
-        console.log(nextProps.posts);
-        console.log(this.props.posts);
-    }
-
-
-        render() {
+    render() {
         const {categories, posts, comments} = this.props;
-
-        if (this.props.categorieshasErrored) {
-            return <div><p>Sorry! There was an error loading the categories</p></div>
-        }
-
-        if (this.props.categoriesisLoading) {
-            return <p>Loading…</p>;
-        }
-        if (this.props.postshasErrored) {
-            return <div><p>Sorry! There was an error loading the items</p></div>
-        }
-
-        if (this.props.postsisLoading) {
-            return <p>Loading…</p>;
-        }
+        //
+        // if (this.props.categorieshasErrored) {
+        //     return <div><p>Sorry! There was an error loading the categories</p></div>
+        // }
+        //
+        // if (this.props.categoriesisLoading) {
+        //     return <p>Loading…</p>;
+        // }
+        // if (this.props.postshasErrored) {
+        //     return <div><p>Sorry! There was an error loading the items</p></div>
+        // }
+        //
+        // if (this.props.postsisLoading) {
+        //     return <p>Loading…</p>;
+        // }
 
         return (
 
@@ -49,9 +44,9 @@ class Home extends Component {
                     <div className="container">
                         <h1 className="display-3">Readable Project</h1>
                         <p>This is the readable project from the Udacity React Nanodegree Program, in this web app you
-                           will be able
-                           to post content to predefined categories, comment on your posts and other user's posts, and
-                           vote on posts and comments. You will also be able to edit and delete posts and comments.
+                            will be able
+                            to post content to predefined categories, comment on your posts and other user's posts, and
+                            vote on posts and comments. You will also be able to edit and delete posts and comments.
                         </p>
                         <p><Link className="btn btn-primary btn-lg" to="/addPost"> <i
                             className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link></p>
@@ -94,13 +89,23 @@ class Home extends Component {
 
                         </div>
 
-                        {posts.length > 0 ? posts.map((post) => {
+                        {posts.length > 0 ?
+                            posts.map((post) => {
 
                                 return <Post key={post.id} post={post} comments={comments}/>
-                            }) :
-                            <div className="p-2">Whoop's sorry no posts available, want to be the
-                                                 first?
-                            </div>
+                            })
+                            :
+                            this.props.postsisLoading?
+                               <div className="p-2">
+                                   Loading
+                               </div>
+                                :
+                            this.props.postshasErrored?
+                            <div><p>Sorry! There was an error loading the items</p></div>
+
+
+                                :
+                                <div className="p-2">Whoop's sorry no posts available, want to be the first?</div>
 
                         }
 
@@ -132,7 +137,9 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     categoriesFetchData,
     postsFetchData,
-    commentsFetchData
+    commentsFetchData,
+    insertCommentSuccessAction,
+    deleteCommentSuccess
 };
 
 

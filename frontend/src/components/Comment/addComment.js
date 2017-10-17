@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {postDetailFetchData} from '../../actions/Post'
-import {updateComment, insertComment, insertCommentSuccess} from '../../actions/Comment';
+import {updateComment, insertComment, insertCommentSuccessAction} from '../../actions/Comment';
 
 class addComment extends Component {
 
@@ -108,7 +108,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     updateComment,
     insertComment,
-    insertCommentSuccess,
+    insertCommentSuccessAction,
     postDetailFetchData
 };
 

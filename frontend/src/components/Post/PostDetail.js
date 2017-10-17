@@ -4,7 +4,7 @@ import Post from './Post';
 import Comment from '../Comment/Comment';
 import {connect} from 'react-redux';
 import {postDetailFetchData} from "../../actions/Post";
-import {commentsFetchData, addComment, insertCommentSuccess} from "../../actions/Comment";
+import {commentsFetchData, addComment, insertCommentSuccessAction} from "../../actions/Comment";
 import CommentForm from '../Comment/addComment';
 import DeletePost from "./deletePost";
 import DeleteComment from '../Comment/deleteComment';
@@ -21,7 +21,10 @@ class PostDetail extends Component {
             post: '',
             insertSuccess: false,
             insertLoading: false,
-            insertError: false
+            insertError: false,
+            deleteSuccess: false,
+            deleteLoading: false,
+            deleteError: false
         };
     }
 
@@ -34,22 +37,23 @@ class PostDetail extends Component {
     componentDidMount() {
         this.props.postDetailFetchData(this.state.postID);
         this.props.commentsFetchData(this.state.postID);
+        this.props.insertCommentSuccessAction(false);
 
     }
 
     componentWillReceiveProps(nextProps) {
         nextProps.insertCommentSuccess ? this.setState({insertSuccess: true}) :
             nextProps.insertCommentLoading ? this.setState({insertLoading: true}) :
-                nextProps.insertCommentErrored && this.setState({insertError: true});
-
-        nextProps.deleteCommentSuccess ? this.setState({deleteSuccess: true}) :
-            nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) :
-                nextProps.deleteCommentErrored && this.setState({deleteError: true});
+                nextProps.insertCommentErrored ? this.setState({insertError: true}) :
+                    nextProps.deleteCommentSuccess ? this.setState({deleteSuccess: true}) :
+                        nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) :
+                            nextProps.deleteCommentErrored && this.setState({deleteError: true});
     }
 
-    addComment(e){
+    addComment(e) {
         e.preventDefault();
-        this.props.insertCommentSuccess(false);
+        this.hideAlert();
+        this.props.insertCommentSuccessAction(false);
         this.props.addComment();
     }
 
@@ -69,76 +73,65 @@ class PostDetail extends Component {
         const {postDetail, postDeleted, history, commentsSuccess} = this.props;
         const {insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError} = this.state;
 
-
         return (
             <div>
                 {
-                    insertError ?
-                        <div className="alert alert-danger" style={{display: insertError ? 'block' : 'none' }}>
+                    insertSuccess ?
+                        <div className="alert alert-success" style={{display: insertSuccess? 'block':'none'}}>
                             <button type="button" className="close" aria-label="Close">
                                 <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                             </button>
-                            <strong>Holy guacamole! </strong>There was a problem while saving your comment.
+                            <strong>Great! </strong>Your comment has been added
                         </div>
                         : insertLoading ?
-                        <div className="alert alert-light" style={{display: insertSuccess ? 'block' : 'none' }}>
+                        <div className="alert alert-light">
                             <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
                             <strong>Loading </strong>Your comment is being saved
                         </div>
-                        : insertSuccess ?
-                            <div className="alert alert-success" style={{display: insertSuccess ? 'block' : 'none' }}>
+                        : insertError ?
+                            <div className="alert alert-danger">
                                 <button type="button" className="close" aria-label="Close">
                                     <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                                 </button>
-                                <strong>Great! </strong>Your comment has been added
-                            </div> :
-                            deleteError ?
-                                <div className="alert alert-danger" style={{display: insertSuccess ? 'block' : 'none' }}>
-                                    <button type="button" className="close" aria-label="Close">
-                                        <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
-                                    </button>
-                                    <strong>Holy guacamole! </strong>There was a problem while deleting your comment.
-                                </div>
+                                <strong>Holy guacamole! </strong>There was a problem while saving your comment.
+                            </div>
 
-                                : deleteSuccess ?
-                                <div className="alert alert-success" style={{display: insertSuccess ? 'block' : 'none' }}>
+                            : deleteSuccess ?
+                                <div className="alert alert-success" style={{display: deleteSuccess? 'block':'none'}}>
                                     <button type="button" className="close" aria-label="Close">
                                         <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                                     </button>
                                     <strong>Great! </strong>Your comment has been deleted
                                 </div>
-                                : deleteLoading &&
-                                <div className="alert alert-light" style={{display: insertSuccess ? 'block' : 'none' }}>
-                                    <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
-                                    <strong>Loading</strong>Your comment is being deleted
-                                </div>
+                                : deleteError ?
+                                    <div className="alert alert-danger">
+                                        <button type="button" className="close" aria-label="Close">
+                                            <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
+                                        </button>
+                                        <strong>Holy guacamole! </strong>There was a problem while deleting your
+                                        comment.
+                                    </div>
+                                    : deleteLoading &&
+                                    <div className="alert alert-light">
+                                        <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
+                                        <strong>Loading</strong>Your comment is being deleted
+                                    </div>
                 }
 
                 <div className="d-flex flex-column justify-content-between">
                     {
-                        postDeleted.length > 0 ? history.push('/') :
-                            this.props.postsErrored ?
-                                <div className="p-2">
-                                    <Link to="/" className="btn btn-secondary btn-sm"><i
-                                        className="fa fa-arrow-left fa-fw"
-                                        aria-hidden="true"/>
-                                        Back to Home Page</Link>
-                                    <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
-                                        post</p></div>
-                                </div>
-                                : this.props.postLoading ?
-                                <div className="p-2">
-                                    <Link to="/" className="btn btn-secondary btn-sm"><i
-                                        className="fa fa-arrow-left fa-fw"
-                                        aria-hidden="true"/>
-                                        Back to Home Page</Link>
-                                    <div className="alert alert-info" role="alert"><p>Loading…</p></div>
-                                </div>
-                                : this.props.postDetail.title.length>0 ?
+                        postDeleted.length > 0 ? history.push('/')
+                            : this.props.postsErrored ? <div className="p-2">
+                                <Link to="/" className="btn btn-secondary btn-sm"><i
+                                    className="fa fa-arrow-left fa-fw"
+                                    aria-hidden="true"/>
+                                    Back to Home Page</Link>
+                                <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
+                                    post</p></div>
+                            </div>
+                            : this.props.postDetail.title.length > 0 ? <div>
 
-                                <div>
-
-                                                                        <div className="p-2">
+                                    <div className="p-2">
                                         <Link to="/" className="btn btn-secondary btn-sm"><i
                                             className="fa fa-arrow-left fa-fw"
                                             aria-hidden="true"/>
@@ -147,7 +140,7 @@ class PostDetail extends Component {
 
 
                                     <div className="p-2">
-                                        <Post key={postDetail.id} post={postDetail} />
+                                        <Post key={postDetail.id} post={postDetail}/>
                                     </div>
                                     {
                                         this.props.commentsLoading ?
@@ -170,7 +163,15 @@ class PostDetail extends Component {
                                                         the screen
                                                         <span role="img" aria-label="">😉</span></p></div>
                                     }
-                                </div> :   <div className="p-2">
+                                </div>
+                                : this.props.postLoading ? <div className="p-2">
+                                        <Link to="/" className="btn btn-secondary btn-sm"><i
+                                            className="fa fa-arrow-left fa-fw"
+                                            aria-hidden="true"/>
+                                            Back to Home Page</Link>
+                                        <div className="alert alert-info" role="alert"><p>Loading…</p></div>
+                                    </div>
+                                    : <div className="p-2">
                                         <Link to="/" className="btn btn-secondary btn-sm"><i
                                             className="fa fa-arrow-left fa-fw"
                                             aria-hidden="true"/>
@@ -222,7 +223,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
     postDetailFetchData,
     commentsFetchData,
-    insertCommentSuccess,
+    insertCommentSuccessAction,
     addComment
 };
 

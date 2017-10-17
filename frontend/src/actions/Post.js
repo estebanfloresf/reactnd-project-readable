@@ -351,11 +351,8 @@ export function deletePostData(post) {
 
 //VOTE ON A POST
 export function votePost(post, param) {
-
     const fetchURL = url('posts/' + post);
-
     return (dispatch) => {
-
         fetch(
             fetchURL,
             {
@@ -369,7 +366,6 @@ export function votePost(post, param) {
             }
         )
             .then((response) => {
-
                 if (!response.ok) {
                     throw Error(response.statusText);
                 }
@@ -380,12 +376,14 @@ export function votePost(post, param) {
                 if (param === 'upVote') {
                     dispatch(upVotePost(true));
                     dispatch(postDetailFetchData(post));
+                    dispatch(postsFetchData());
 
                 }
                 if (param === 'downVote') {
 
                     dispatch(downVotePost(true));
                     dispatch(postDetailFetchData(post));
+                    dispatch(postsFetchData());
 
                 }
             })

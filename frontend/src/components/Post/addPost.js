@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPostData} from "../../actions/Post";
-import {insertCommentSuccess,deleteCommentSuccess} from "../../actions/Comment";
+import {insertCommentSuccessAction,deleteCommentSuccess} from "../../actions/Comment";
 import {categoriesFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
 
@@ -145,13 +145,13 @@ class addPost extends Component {
                             <small>You must provide a description</small>
                         </div>}
                     </div>
-                    <div className=" pull-right col-md-3 d-flex flex-row justify-content-around">
+                    <div >
 
-                        {/*<button type="submit" className="btn btn-primary">Submit</button>*/}
-                        <Link to="/" className="btn btn-light">Cancel</Link>
-                        <button type="submit" className="btn btn-primary" data-toggle="modal"
+
+                        <button type="submit" className="btn btn-primary btn-lg btn-block" data-toggle="modal"
                                data-submit="submit">Submit
                         </button>
+                        <Link to="/" className="btn btn-light btn-lg btn-block">Cancel</Link>
                     </div>
 
                 </form>
@@ -183,7 +183,7 @@ const mapDispatchToProps = {
     createPostDetail,
     updatePostDetailField,
     insertPostData,
-    insertCommentSuccess,
+    insertCommentSuccessAction,
     deleteCommentSuccess
 };
 
