@@ -1,13 +1,14 @@
 
 import {url} from "../utils/helpers";
+import {getPostComments} from "./Comment";
 
 export const CATEGORIES_ERROR= 'CATEGORIES_ERROR';
 export const CATEGORIES_LOADING= 'CATEGORIES_LOADING';
 export const CATEGORIES_FETCH= 'CATEGORIES_FETCH';
 
-export const CATEGORYDETAIL_ERROR= 'CATEGORYDETAIL_ERROR';
-export const CATEGORYDETAIL_LOADING= 'CATEGORYDETAIL_LOADING';
-export const CATEGORYDETAIL_FETCH= 'CATEGORYDETAIL_FETCH';
+export const CATEGORY_DETAIL_ERROR= 'CATEGORY_DETAIL_ERROR';
+export const CATEGORY_DETAIL_LOADING= 'CATEGORY_DETAIL_LOADING';
+export const CATEGORY_DETAIL_FETCH= 'CATEGORY_DETAIL_FETCH';
 
 
 //ALL CATEGORIES
@@ -38,7 +39,7 @@ export function categoriesFetch(categories) {
 //SINGLE CATEGORY
 export function categoryDetailErrored(bool) {
     return {
-        type: CATEGORYDETAIL_ERROR,
+        type: CATEGORY_DETAIL_ERROR,
         hasErrored: bool
     };
 }
@@ -50,10 +51,10 @@ export function categoryDetailLoading(bool) {
     };
 }
 
-export function categoryDetailFetch(categories) {
+export function categoryDetailFetch(categoryPosts) {
     return {
-        type: CATEGORYDETAIL_FETCH,
-        categories
+        type: CATEGORY_DETAIL_FETCH,
+        categoryPosts
     };
 }
 
@@ -92,9 +93,11 @@ export function categoriesFetchData() {
     };
 }
 
-// GET A CATEGORY ID
+// GET  POSTS FROM SPECIFIC CATEGORY
 export function categoryDetailFetchData(category) {
+
     const fetchURL = url(category+ '/posts');
+
     return (dispatch) => {
         dispatch(categoryDetailLoading(true));
         fetch(
@@ -114,13 +117,28 @@ export function categoryDetailFetchData(category) {
                 }
                 dispatch(categoryDetailLoading(false));
 
-
-
                 return response;
 
             })
             .then((response) => response.json())
-            .then((categories) => dispatch(categoryDetailFetch(categories)))
+            .then((postsCategories) =>
+                Promise.all(
+                    postsCategories.map(post =>
+                        getPostComments(post.id)
+                            .then((comments) => {
+                                    post.comments = comments;
+                                }
+                            )
+                            .then(() => post)
+                            .catch(function (error) {
+                                console.log('There has been a problem with your fetch operation: ' + error.message);
+                            })
+                    )
+                )
+            )
+            .then((postsCategories)=>
+
+                dispatch(categoryDetailFetch(postsCategories)))
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(categoryDetailErrored(true));

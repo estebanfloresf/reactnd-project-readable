@@ -16,7 +16,7 @@ import {
     DELETE_POST_LOADING,
     UPVOTE,DOWNVOTE
 } from '../actions/Post';
-import {GET_COMMENT_SUCCESS} from "../actions/Comment";
+
 
 
 const postInitialState = {
@@ -51,7 +51,6 @@ export function postsLoading(state = false, action) {
 }
 
 export function posts(state = [], action) {
-    const {comments,posts} = action;
 
     switch (action.type) {
         case  POSTS_FETCH:
@@ -175,18 +174,13 @@ export function deletePostLoading(state = false, action) {
 }
 
 export function deletePostSuccess(state = false, action) {
-
-
     switch (action.type) {
         case  DELETE_POST:
-
             return action.deletedPost;
         default:
             return state;
     }
 }
-
-
 export function votePost(state=false, action) {
     switch (action.type){
         case UPVOTE:
@@ -197,5 +191,3 @@ export function votePost(state=false, action) {
             return state;
     }
 }
-
-

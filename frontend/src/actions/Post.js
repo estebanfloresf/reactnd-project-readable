@@ -1,7 +1,7 @@
 import {dateNow, url, uuid} from "../utils/helpers";
 import history from '../history';
-import {commentsFetchData, getPostComments} from "./Comment";
-import {commentsSuccess} from "../reducers/Comment";
+import { getPostComments} from "./Comment";
+
 
 
 export const POSTS_ERROR = 'POSTS_ERROR';
@@ -230,18 +230,19 @@ export function postDetailFetchData(postID) {
             .then((response) => response.json())
             .then(post =>
 
-                    getPostComments(post.id)
-                        .then((comments) => {
-                console.log(comments);
-                            post.comments = comments
-                        })
-                        .then(() => post)
-                        .catch(function (error) {
-                            console.log('There has been a problem with your fetch operation: ' + error.message);
-                        })
+                getPostComments(post.id)
+                    .then((comments) => {
 
+                        post.comments = comments;
+                    })
+                    .then(() => post)
+                    .catch(function (error) {
+                        console.log('There has been a problem with your fetch operation: ' + error.message);
+                    })
             )
-            .then((post) => {dispatch(postDetailFetch(post))})
+            .then((post) => {
+                dispatch(postDetailFetch(post))
+            })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message + ' ' + fetchURL);
                     dispatch(postDetailErrored(true));
@@ -378,10 +379,13 @@ export function votePost(post, param) {
             .then(() => {
                 if (param === 'upVote') {
                     dispatch(upVotePost(true));
+                    dispatch(postDetailFetchData(post));
+
                 }
                 if (param === 'downVote') {
 
                     dispatch(downVotePost(true));
+                    dispatch(postDetailFetchData(post));
 
                 }
             })

@@ -21,11 +21,11 @@ class Post extends Component {
     votePost(post, param, e) {
         e.preventDefault();
         this.props.votePost(post.id,param);
-        this.props.postDetailFetchData(this.props.post.id);
+        // this.props.postDetailFetchData(this.props.post.id);
     }
 
     render() {
-        const {post, comments} = this.props;
+        const {post} = this.props;
 
 
         return (
@@ -92,7 +92,7 @@ class Post extends Component {
                         <div className="p-2">
                             <p className="card-text">
                                 <small className="text-muted"><i className="fa fa-comment fa-fw"/>
-                                    <strong> {comments.length} </strong>
+                                    <strong> {post.comments.length} </strong>
                                     comments
                                 </small>
                             </p>

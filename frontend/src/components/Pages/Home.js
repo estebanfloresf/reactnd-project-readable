@@ -17,10 +17,14 @@ class Home extends Component {
         this.props.postsFetchData();
     }
 
+    componentWillReceiveProps(nextProps){
+        console.log(nextProps.posts);
+        console.log(this.props.posts);
+    }
 
-    render() {
+
+        render() {
         const {categories, posts, comments} = this.props;
-        console.log(comments);
 
         if (this.props.categorieshasErrored) {
             return <div><p>Sorry! There was an error loading the categories</p></div>

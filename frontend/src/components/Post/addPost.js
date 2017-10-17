@@ -24,9 +24,9 @@ class addPost extends Component {
 
         this.props.insertCommentSuccess(false);
         this.props.deleteCommentSuccess(false);
-        this.getCategories();
+        this.props.categoriesFetchData();
         if (this.props.match.params.post) {
-            this.getPostID(this.props.match.params.post);
+            this.props.postDetailFetchData(this.props.match.params.post);
             this.setState({
                 action: 'PUT'
             });
@@ -38,13 +38,6 @@ class addPost extends Component {
         }
     }
 
-    getCategories() {
-        this.props.categoriesFetchData();
-    }
-
-    getPostID(postID) {
-        this.props.postDetailFetchData(postID);
-    }
 
     onChange(field, e) {
         this.props.updatePostDetailField(field, e.currentTarget.value);

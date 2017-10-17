@@ -2,9 +2,9 @@ import {
     CATEGORIES_ERROR,
     CATEGORIES_LOADING,
     CATEGORIES_FETCH,
-    CATEGORYDETAIL_FETCH,
-    CATEGORYDETAIL_ERROR,
-    CATEGORYDETAIL_LOADING}
+    CATEGORY_DETAIL_FETCH,
+    CATEGORY_DETAIL_ERROR,
+    CATEGORY_DETAIL_LOADING}
     from "../actions/Category";
 
 
@@ -34,7 +34,7 @@ export function categories(state = [], action) {
 }
 export function categoryDetailErrored(state = false, action) {
     switch (action.type) {
-        case CATEGORYDETAIL_ERROR:
+        case CATEGORY_DETAIL_ERROR:
             return action.hasErrored;
         default:
             return state;
@@ -42,16 +42,17 @@ export function categoryDetailErrored(state = false, action) {
 }
 export function categoryDetailLoading(state = false, action) {
     switch (action.type) {
-        case CATEGORYDETAIL_LOADING:
+        case CATEGORY_DETAIL_LOADING:
             return action.isLoading;
         default:
             return state;
     }
 }
 export function categoryDetail(state = [], action) {
+
     switch (action.type) {
-        case  CATEGORYDETAIL_FETCH:
-            return action.categories;
+        case  CATEGORY_DETAIL_FETCH:
+            return action.categoryPosts;
         default:
             return state;
     }

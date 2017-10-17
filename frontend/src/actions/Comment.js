@@ -1,4 +1,5 @@
 import {url, uuid, dateNow} from "../utils/helpers";
+import {postDetailFetchData} from "./Post";
 
 
 export const INSERT_COMMENT_LOADING = 'INSERT_COMMENT_LOADING';
@@ -181,7 +182,7 @@ export function insertComment(comment, postID) {
     //Change the api endpoint in case is a put action
     if (comment.id !== '') {
         fetchURL += '/' + comment.id;
-        param = 'PUT'
+        param = 'PUT';
     }
     else {
         comment.id = uuid();
@@ -217,8 +218,8 @@ export function insertComment(comment, postID) {
             .then(() => {
                 dispatch(deleteCommentSuccess(false));
                 dispatch(insertCommentSuccess(true));
-                dispatch(getPostComments(postID));
                 dispatch(commentsFetchData(postID));
+                dispatch(postDetailFetchData(postID));
 
             })
             .catch(function (error) {
@@ -260,7 +261,9 @@ export function deleteCommentAction(commentID, postID) {
 
                 dispatch(deleteCommentSuccess(true));
                 dispatch(commentsFetchData(postID));
-                dispatch(getPostComments(postID))
+
+                dispatch(postDetailFetchData(postID));
+
 
             })
             .catch(function (error) {
