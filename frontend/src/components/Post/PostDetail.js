@@ -72,7 +72,7 @@ class PostDetail extends Component {
 
         const {postDetail, postDeleted, history, commentsSuccess} = this.props;
         const {insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError} = this.state;
-        console.log(insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError)
+
         return (
             <div>
                 {
@@ -97,22 +97,25 @@ class PostDetail extends Component {
                             </div>
 
                             : deleteSuccess ?
-                                <div className="alert alert-success"     style={{display: deleteSuccess ? 'block' : 'none'}}>
+                                <div className="alert alert-success"
+                                     style={{display: deleteSuccess ? 'block' : 'none'}}>
                                     <button type="button" className="close" aria-label="Close">
                                         <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                                     </button>
                                     <strong>Great! </strong>Your comment has been deleted
                                 </div>
                                 : deleteError ?
-                                    <div className="alert alert-danger" style={{display: deleteError ? 'block' : 'none'}}>
+                                    <div className="alert alert-danger"
+                                         style={{display: deleteError ? 'block' : 'none'}}>
                                         <button type="button" className="close" aria-label="Close">
                                             <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
                                         </button>
                                         <strong>Holy guacamole! </strong>There was a problem while deleting your
-                                        comment.
+                                                                         comment.
                                     </div>
                                     : deleteLoading &&
-                                    <div className="alert alert-light" style={{display: deleteLoading ? 'block' : 'none'}}>
+                                    <div className="alert alert-light"
+                                         style={{display: deleteLoading ? 'block' : 'none'}}>
                                         <a className="close" onClick={this.hideAlert.bind(this)}>×</a>
                                         <strong>Loading</strong>Your comment is being deleted
                                     </div>
@@ -127,7 +130,7 @@ class PostDetail extends Component {
                                     aria-hidden="true"/>
                                     Back to Home Page</Link>
                                 <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
-                                    post</p></div>
+                                                                                    post</p></div>
                             </div>
                             : this.props.postDetail.title.length > 0 ? <div>
 
@@ -143,25 +146,29 @@ class PostDetail extends Component {
                                         <Post key={postDetail.id} post={postDetail}/>
                                     </div>
                                     {
-                                        this.props.commentsLoading ?
-                                            <div className="alert alert-info" role="alert"><p>Loading…</p></div> :
-                                            this.props.commentsErrored ?
+
+                                        commentsSuccess.length > 0 ?
+                                            commentsSuccess.map((comment) =>
+                                                <div className="p-2" key={comment.id}><Comment comment={comment}/>
+                                                </div>)
+                                            :  this.props.commentsLoading ?
+                                            <div className="alert alert-info" role="alert"><p>Loading…</p></div>
+                                            : this.props.commentsErrored ?
                                                 <div className="alert alert-danger" role="alert"><p>Sorry! We did
-                                                    not find any
-                                                    comments</p>
+                                                                                                    not find any
+                                                                                                    comments</p>
                                                 </div> :
-                                                commentsSuccess.length > 0 ? commentsSuccess.map((comment) =>
-                                                        <div className="p-2" key={comment.id}><Comment comment={comment}/>
-                                                        </div>)
-                                                    :
-                                                    <div className="alert alert-light" role="alert"><p> Care to leave a
-                                                        new comment?
-                                                        Click on the
-                                                        add button
-                                                        at the
-                                                        bottom of
-                                                        the screen
-                                                        <span role="img" aria-label="">😉</span></p></div>
+
+
+
+                                            <div className="alert alert-light" role="alert"><p> Care to leave a
+                                                                                                new comment?
+                                                                                                Click on the
+                                                                                                add button
+                                                                                                at the
+                                                                                                bottom of
+                                                                                                the screen
+                                                <span role="img" aria-label="">😉</span></p></div>
                                     }
                                 </div>
                                 : this.props.postLoading ? <div className="p-2">
@@ -177,7 +184,7 @@ class PostDetail extends Component {
                                             aria-hidden="true"/>
                                             Back to Home Page</Link>
                                         <div className="alert alert-danger" role="alert"><p>Sorry! We did not find that
-                                            post</p></div>
+                                                                                            post</p></div>
                                     </div>
                     }
                 </div>

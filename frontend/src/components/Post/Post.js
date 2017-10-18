@@ -2,22 +2,24 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {formatDate} from "../../utils/helpers";
 import {connect} from 'react-redux';
-import {postToDelete,votePost, postDetailFetchData} from "../../actions/Post";
-import {commentsFetchData,insertCommentSuccessAction} from '../../actions/Comment';
+import {postToDelete, votePost, postDetailFetchData} from "../../actions/Post";
+import {commentsFetchData, insertCommentSuccessAction} from '../../actions/Comment';
 
 class Post extends Component {
 
     componentWillMount() {
         this.props.commentsFetchData(this.props.post.id);
     }
+
     deletePost(post, e) {
         e.preventDefault();
         this.props.insertCommentSuccessAction(false);
         this.props.postToDelete(post);
     }
+
     votePost(post, param, e) {
         e.preventDefault();
-        this.props.votePost(post.id,param);
+        this.props.votePost(post.id, param);
         // this.props.postDetailFetchData(this.props.post.id);
     }
 
@@ -40,7 +42,8 @@ class Post extends Component {
                         </div>
                         <div className="p-2">
 
-                            <button type="button" id="delete" className="btn btn-link  btn-danger btn-sm" data-toggle="modal"
+                            <button type="button" id="delete" className="btn btn-link  btn-danger btn-sm"
+                                    data-toggle="modal"
                                     onClick={this.deletePost.bind(this, post)}
                                     data-target="#deletePost"
                             ><i className="fa fa-trash"
@@ -56,7 +59,8 @@ class Post extends Component {
                     <div className="d-flex flex-row justify-content-around align-items-center">
                         <div className="p-2">
                             <p className="card-text" id="card-text-info">
-                                <small className="text-capitalize"><i className="text-primary fa fa-user fa-fw"/> {post.author}
+                                <small className="text-capitalize"><i
+                                    className="text-primary fa fa-user fa-fw"/> {post.author}
                                 </small>
                             </p>
                         </div>
@@ -65,8 +69,9 @@ class Post extends Component {
 
                             <div className="p-2">
                                 <small className="">
-                                    <button className="btn btn-link btn-sm"     onClick={this.votePost.bind(this, post, "upVote")}>
-                                        <span><i  className="text-primary fa fa-thumbs-up fa-fw"/></span>
+                                    <button className="btn btn-link btn-sm"
+                                            onClick={this.votePost.bind(this, post, "upVote")}>
+                                        <span><i className="text-primary fa fa-thumbs-up fa-fw"/></span>
                                     </button>
                                 </small>
                             </div>
@@ -77,7 +82,7 @@ class Post extends Component {
                                 <small className="">
                                     <button className="btn btn-link btn-sm"
                                             onClick={this.votePost.bind(this, post, "downVote")}>
-                                        <span><i  className="text-primary fa fa-thumbs-down fa-fw"/></span></button>
+                                        <span><i className="text-primary fa fa-thumbs-down fa-fw"/></span></button>
                                 </small>
                             </div>
                         </div>
@@ -116,6 +121,7 @@ class Post extends Component {
         );
     }
 }
+
 const mapStateToProps = state => {
     return {
         postToDelete: state.postToDelete,

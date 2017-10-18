@@ -27,6 +27,15 @@ class CategoryDetail extends Component {
         }
     }
 
+    addPost(category, e) {
+        e.preventDefault();
+
+        this.props.history.push({
+            pathname: '/addPost',
+            state: {some: 'state'}
+        });
+
+    }
 
 
     render() {
@@ -58,6 +67,12 @@ class CategoryDetail extends Component {
                         </div>
                     }
                 </div>
+
+                <button id="addcomment" value="addComment" className="btn btn-primary" data-toggle="modal"
+                        data-target="#commentModal" data-comment="addComment"
+                        onClick={this.addPost.bind(this, categoryName)}>
+                    <i className="fa fa-plus" aria-hidden="true"/>
+                </button>
 
             </div>
         )

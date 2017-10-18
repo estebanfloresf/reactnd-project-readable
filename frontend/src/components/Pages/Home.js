@@ -20,21 +20,6 @@ class Home extends Component {
 
     render() {
         const {categories, posts, comments} = this.props;
-        //
-        // if (this.props.categorieshasErrored) {
-        //     return <div><p>Sorry! There was an error loading the categories</p></div>
-        // }
-        //
-        // if (this.props.categoriesisLoading) {
-        //     return <p>Loading…</p>;
-        // }
-        // if (this.props.postshasErrored) {
-        //     return <div><p>Sorry! There was an error loading the items</p></div>
-        // }
-        //
-        // if (this.props.postsisLoading) {
-        //     return <p>Loading…</p>;
-        // }
 
         return (
 
@@ -59,7 +44,14 @@ class Home extends Component {
 
                         <p className="title display-3">Categories</p>
 
-                        <CategoryList categories={categories}/>
+                        {
+                            categories.length>0 ? <CategoryList categories={categories}/>
+                                : this.props.categorieshasErrored ?
+                                <div><p>Sorry! There was an error loading the categories</p></div>
+                                :this.props.categoriesisLoading &&  <p>Loading…</p>
+
+                        }
+
                     </div>
                 </div>
 

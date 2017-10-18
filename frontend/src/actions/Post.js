@@ -1,6 +1,7 @@
 import {dateNow, url, uuid} from "../utils/helpers";
 import history from '../history';
 import { getPostComments} from "./Comment";
+import {categoryDetailFetchData} from "./Category";
 
 
 
@@ -241,7 +242,8 @@ export function postDetailFetchData(postID) {
                     })
             )
             .then((post) => {
-                dispatch(postDetailFetch(post))
+                dispatch(postDetailFetch(post));
+                dispatch(categoryDetailFetchData(post.category));
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message + ' ' + fetchURL);
@@ -377,6 +379,7 @@ export function votePost(post, param) {
                     dispatch(upVotePost(true));
                     dispatch(postDetailFetchData(post));
                     dispatch(postsFetchData());
+
 
                 }
                 if (param === 'downVote') {

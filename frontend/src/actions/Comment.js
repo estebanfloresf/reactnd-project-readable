@@ -15,6 +15,8 @@ export const UPDATE_COMMENT_FIELD = 'UPDATE_COMMENT_FIELD';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const DELETE_COMMENT_LOADING = 'DELETE_COMMENT_LOADING';
 export const DELETE_COMMENT_ERRORED = 'DELETE_COMMENT_ERRORED';
+export const UPVOTE_COMMENT = ' UPVOTE_COMMENT';
+export const DOWNVOTE_COMMENT = ' DOWNVOTE_COMMENT';
 
 
 //ALL COMMENTS
@@ -24,14 +26,12 @@ export function commentsErrored(bool) {
         hasErrored: bool
     };
 }
-
 export function commentsLoading(bool) {
     return {
         type: GET_COMMENT_LOADING,
         isLoading: bool
     };
 }
-
 export function commentSuccess(comments) {
 
     return {
@@ -47,14 +47,12 @@ export function insertCommentErrored(bool) {
         addCommentErrored: bool
     };
 }
-
 export function insertCommentLoading(bool) {
     return {
         type: INSERT_COMMENT_LOADING,
         addCommentLoading: bool
     };
 }
-
 export function insertCommentSuccessAction(bool) {
     return {
         type: INSERT_COMMENT_SUCCESS,
@@ -69,14 +67,12 @@ export function deleteCommentErrored(bool) {
         deleteCommentErrored: bool
     };
 }
-
 export function deleteCommentLoading(bool) {
     return {
         type: DELETE_COMMENT_LOADING,
         deleteCommentLoading: bool
     };
 }
-
 export function deleteCommentSuccess(bool) {
     return {
         type: DELETE_COMMENT,
@@ -109,6 +105,19 @@ export const updateComment = (field, value) => ({
     }
 });
 
+export function upVoteComment(bool) {
+    return {
+        type: UPVOTE_COMMENT,
+        upVoteComment: bool
+    };
+}
+
+export function downVoteComment(bool) {
+    return {
+        type: DOWNVOTE_COMMENT,
+        downVoteComment: bool
+    };
+}
 
 //GET ALL THE COMMENTS
 export function commentsFetchData(postID) {
@@ -142,7 +151,7 @@ export function commentsFetchData(postID) {
             });
     };
 }
-
+//GET COMMENTS OF A POST
 export function getPostComments(postID) {
     const fetchURL = url('posts/' + postID + '/comments');
     return fetch(
@@ -273,5 +282,48 @@ export function deleteCommentAction(commentID, postID) {
             );
     };
 }
+
+//VOTE COMMENT
+export function voteComment(comment, param) {
+    const fetchURL = url('comments/' + comment);
+    return (dispatch) => {
+        fetch(
+            fetchURL,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'readableApp',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({"option": param})
+            }
+        )
+            .then((response) => {
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response;
+            })
+            .then((response) => response.json())
+            .then((comment) => {
+                if (param === 'upVote') {
+
+                    dispatch(upVoteComment(true));
+                    dispatch(commentsFetchData(comment.parentId));
+                }
+                if (param === 'downVote') {
+                    dispatch(downVoteComment(true));
+                    dispatch(commentsFetchData(comment.parentId));
+
+                }
+            })
+            .catch(function (error) {
+                    console.log('There has been a problem with your fetch operation: ' + error.message);
+                }
+            );
+    };
+}
+
 
 

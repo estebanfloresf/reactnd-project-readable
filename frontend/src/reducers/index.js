@@ -38,7 +38,8 @@ import {
     insertCommentSuccess,
     deleteCommentErrored,
     deleteCommentLoading,
-    deleteCommentSuccess
+    deleteCommentSuccess,
+    voteComment
 
 } from "./Comment";
 
@@ -74,7 +75,6 @@ export default combineReducers({
     deleteCommentErrored,
     deleteCommentLoading,
     deleteCommentSuccess,
-    votePost
-
-
+    votePost,
+    voteComment
 });

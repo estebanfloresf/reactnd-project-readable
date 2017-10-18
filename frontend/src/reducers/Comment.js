@@ -11,7 +11,9 @@ import {
     UPDATE_COMMENT_FIELD,
     INSERT_COMMENT_ERRORED,
     INSERT_COMMENT_LOADING,
-    INSERT_COMMENT_SUCCESS
+    INSERT_COMMENT_SUCCESS,
+    UPVOTE_COMMENT,
+    DOWNVOTE_COMMENT
 } from "../actions/Comment";
 
 
@@ -139,6 +141,17 @@ export function deleteCommentSuccess(state = false, action) {
     switch (action.type) {
         case  DELETE_COMMENT:
             return action.deleteCommentSuccess;
+        default:
+            return state;
+    }
+}
+
+export function voteComment(state=false, action) {
+    switch (action.type){
+        case UPVOTE_COMMENT:
+            return action.upVoteComment;
+        case DOWNVOTE_COMMENT:
+            return action.downVoteComment;
         default:
             return state;
     }

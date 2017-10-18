@@ -22,7 +22,7 @@ class addPost extends Component {
 
     componentDidMount() {
 
-        this.props.insertCommentSuccess(false);
+        this.props.insertCommentSuccessAction(false);
         this.props.deleteCommentSuccess(false);
         this.props.categoriesFetchData();
         if (this.props.match.params.post) {
@@ -37,7 +37,6 @@ class addPost extends Component {
             });
         }
     }
-
 
     onChange(field, e) {
         this.props.updatePostDetailField(field, e.currentTarget.value);
@@ -88,7 +87,7 @@ class addPost extends Component {
     render() {
         const {categories, post, history} = this.props;
         const {authorField, titleField, bodyField} = this.state;
-
+console.log(this.props);
         return (
 
             <div>
@@ -125,7 +124,7 @@ class addPost extends Component {
                                 this.props.categoriesisLoading ?
                                     <p className="alert alert-info" role="alert">Loading Categories...</p> :
                                     <select className="form-control text-capitalize" id="postCategory"
-                                            value={post.category} onChange={this.onChange.bind(this, 'category')}>{
+                                            value={ post.category} onChange={this.onChange.bind(this, 'category')}>{
                                         categories && categories.map((category) => {
 
                                             return (
@@ -149,7 +148,7 @@ class addPost extends Component {
 
 
                         <button type="submit" className="btn btn-primary btn-lg btn-block" data-toggle="modal"
-                               data-submit="submit">Submit
+                               data-submit="submit">Save
                         </button>
                         <Link to="/" className="btn btn-light btn-lg btn-block">Cancel</Link>
                     </div>
