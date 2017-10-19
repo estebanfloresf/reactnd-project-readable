@@ -14,7 +14,7 @@ import {
     INSERT_COMMENT_SUCCESS,
     UPVOTE_COMMENT,
     DOWNVOTE_COMMENT
-} from "../actions/Comment";
+} from "../actions/types";
 
 
 const commentIniState = {

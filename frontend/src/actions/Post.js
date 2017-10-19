@@ -1,28 +1,28 @@
 import {dateNow, url, uuid} from "../utils/helpers";
 import history from '../history';
-import { getPostComments} from "./Comment";
+import {getPostComments} from "./Comment";
 import {categoryDetailFetchData} from "./Category";
 
+import {
+    POSTS_ERROR,
+    POSTS_LOADING,
+    POSTS_FETCH,
+    POSTDETAIL_ERROR,
+    POSTDETAIL_LOADING,
+    POSTDETAIL_FETCH,
+    CREATE_POSTDETAIL_FETCH,
+    UPDATE_POSTDETAIL_FIELD,
+    INSERT_POST_LOADING,
+    INSERT_POST_ERRORED,
+    INSERT_POST,
+    POST_TO_DELETE,
+    DELETE_POST_LOADING,
+    DELETE_POST_ERRORED,
+    DELETE_POST,
+    UPVOTE,
+    DOWNVOTE
 
-
-export const POSTS_ERROR = 'POSTS_ERROR';
-export const POSTS_LOADING = 'POSTS_LOADING';
-export const POSTS_FETCH = 'POSTS_FETCH';
-export const POSTDETAIL_ERROR = 'POSTDETAIL_ERROR';
-export const POSTDETAIL_LOADING = 'POSTDETAIL_LOADING';
-export const POSTDETAIL_FETCH = 'POSTDETAIL_FETCH';
-export const CREATE_POSTDETAIL_FETCH = 'CREATE_POSTDETAIL_FETCH';
-export const UPDATE_POSTDETAIL_FIELD = 'UPDATE_POSTDETAIL_FIELD';
-export const INSERT_POST_LOADING = 'INSERT_POST_LOADING';
-export const INSERT_POST_ERRORED = 'INSERT_POST_ERRORED';
-export const INSERT_POST = 'INSERT_POST';
-export const POST_TO_DELETE = 'POST_TO_DELETE';
-export const DELETE_POST_LOADING = 'DELETE_POST_LOADING';
-export const DELETE_POST_ERRORED = 'DELETE_POST_ERRORED';
-export const DELETE_POST = 'DELETE_POST';
-export const UPVOTE = 'UPVOTE';
-export const DOWNVOTE = 'DOWNVOTE';
-export const ORDER_BY = 'ORDER_BY';
+} from './types';
 
 
 //ALL POSTS
@@ -47,7 +47,6 @@ export function postsFetch(posts) {
         posts
     };
 }
-
 
 
 //SINGLE POST
@@ -127,7 +126,6 @@ export function downVotePost(bool) {
         downVoteSuccess: bool
     };
 }
-
 
 
 //DELETE POST
@@ -295,7 +293,9 @@ export function insertPostData(post, param) {
             })
             .then((response) => response.json())
             .then((post) => {
+
                 dispatch(insertPostAction(true));
+
             })
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);

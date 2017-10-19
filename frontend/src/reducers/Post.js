@@ -16,7 +16,7 @@ import {
     DELETE_POST_LOADING,
     UPVOTE,DOWNVOTE,
 
-} from '../actions/Post';
+} from '../actions/types';
 
 
 
@@ -25,7 +25,7 @@ const postInitialState = {
     author: '',
     body: '',
     title: '',
-    category: '',
+    category: 'react',
     timestamp: null,
     deleted: false,
     voteScore: 0,
