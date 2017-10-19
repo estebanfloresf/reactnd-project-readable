@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import {categoriesFetchData, categoryDetailFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
-import Link from "react-router-dom/es/Link";
-import CategoryList from '../Category/CategoryList';
+import Category from '../Category/Category';
 import Post from "../Post/Post";
 
 
@@ -11,7 +10,8 @@ class CategoryDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            categoryPosts: []
+            categoryPosts: [],
+            order: 'scores',
         };
     }
 
@@ -29,12 +29,24 @@ class CategoryDetail extends Component {
 
     addPost(category, e) {
         e.preventDefault();
+        this.props.history.push('/addPost');
 
-        this.props.history.push({
-            pathname: '/addPost',
-            state: {some: 'state'}
-        });
+    }
 
+    orderPosts(e) {
+        e.preventDefault();
+        this.setState({order: e.target.value});
+
+        if (e.target.value === 'date') {
+            this.props.categoryPosts.sort(function (a, b) {
+                return (a.timestamp >= b.timestamp) ? -1 : ((b.timestamp > a.timestamp) ? 1 : 0);
+            });
+        }
+        if (e.target.value === 'scores') {
+            this.props.categoryPosts.sort(function (a, b) {
+                return (a.voteScore >= b.voteScore) ? -1 : ((b.voteScore > a.voteScore) ? 1 : 0);
+            });
+        }
     }
 
 
@@ -49,7 +61,29 @@ class CategoryDetail extends Component {
                 <div className="col-md-12">
                     <h4 className="title display-3 text-capitalize"> {categoryName}</h4>
 
-                    <CategoryList categories={categories}/>
+                    <div className="col-md-12 d-flex flex-row align-items-center" id="order">
+                        <div className="p-2">
+
+                            <select className="btn btn-outline-info btn-sm dropdown-toggle" value={this.state.order}
+                                    onChange={this.orderPosts.bind(this)}>
+                                <option key="scores" value="scores">Scores</option>
+                                <option key="date" value="date">Date</option>
+                            </select>
+
+
+                        </div>
+                        <div className="p-2">
+                            <div className="col-md-12 d-flex flex-wrap">
+                                {categories && categories.map(
+                                    (category) => {
+                                        return <Category key={category.name} category={category}/>
+                                    }
+                                )}
+                            </div>
+                        </div>
+
+                    </div>
+
 
                     {categoryPosts.length > 0 ?
 
@@ -58,12 +92,9 @@ class CategoryDetail extends Component {
                         <div className="d-flex align-items-center">
                             <div className="p-2">Whoop's sorry no posts available for <span
                                 className="text-capitalize text-bold">{categoryName}</span> category, want to be the
-                                                 first?
+                                first?
                             </div>
-                            <div className="p-2">
-                                <Link className="btn btn-primary btn-sm" to="/addPost"> <i
-                                    className="fa fa-plus-circle fa-fw" aria-hidden="true"/>Add Post</Link>
-                            </div>
+
                         </div>
                     }
                 </div>

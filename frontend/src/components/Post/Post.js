@@ -136,6 +136,8 @@ const mapDispatchToProps = {
     votePost
 };
 
+
+
 export default connect(mapStateToProps, mapDispatchToProps)(Post);
 
 

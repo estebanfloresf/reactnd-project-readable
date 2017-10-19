@@ -17,8 +17,10 @@ class addPost extends Component {
             titleField: false,
             bodyField: false,
             action: '',
+            category: ''
         };
     }
+
 
     componentDidMount() {
 
@@ -26,9 +28,11 @@ class addPost extends Component {
         this.props.deleteCommentSuccess(false);
         this.props.categoriesFetchData();
         if (this.props.match.params.post) {
+
             this.props.postDetailFetchData(this.props.match.params.post);
             this.setState({
-                action: 'PUT'
+                action: 'PUT',
+
             });
         } else {
             this.props.createPostDetail();
@@ -87,7 +91,8 @@ class addPost extends Component {
     render() {
         const {categories, post, history} = this.props;
         const {authorField, titleField, bodyField} = this.state;
-console.log(this.props);
+
+
         return (
 
             <div>

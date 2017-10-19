@@ -58,4 +58,5 @@ const mapDispatchToProps = {
     postDetailFetchData
 };
 
+
 export default withRouter( connect(mapStateToProps,mapDispatchToProps)(deletePost));

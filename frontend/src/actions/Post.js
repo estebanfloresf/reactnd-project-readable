@@ -22,6 +22,7 @@ export const DELETE_POST_ERRORED = 'DELETE_POST_ERRORED';
 export const DELETE_POST = 'DELETE_POST';
 export const UPVOTE = 'UPVOTE';
 export const DOWNVOTE = 'DOWNVOTE';
+export const ORDER_BY = 'ORDER_BY';
 
 
 //ALL POSTS
@@ -46,6 +47,7 @@ export function postsFetch(posts) {
         posts
     };
 }
+
 
 
 //SINGLE POST
@@ -85,7 +87,6 @@ export function insertPostLoading(bool) {
     };
 }
 
-
 export function insertPostAction(bool) {
     return {
         type: INSERT_POST,
@@ -94,6 +95,7 @@ export function insertPostAction(bool) {
 }
 
 
+//GENERAL ACTIONS
 export const createPostDetail = () => ({
     type: CREATE_POSTDETAIL_FETCH,
 
@@ -106,7 +108,6 @@ export const updatePostDetailField = (field, value) => ({
         value
     }
 });
-
 
 export const postToDelete = (post) => ({
     type: POST_TO_DELETE,
@@ -128,6 +129,7 @@ export function downVotePost(bool) {
 }
 
 
+
 //DELETE POST
 export function deletePostErrored(bool) {
     return {
@@ -143,7 +145,6 @@ export function deletePostLoading(bool) {
     };
 }
 
-
 export function deletePostAction(post) {
     return {
         type: DELETE_POST,
@@ -151,8 +152,6 @@ export function deletePostAction(post) {
     };
 }
 
-
-//Redux Thunk
 
 //GET ALL THE POSTS
 export function postsFetchData() {
