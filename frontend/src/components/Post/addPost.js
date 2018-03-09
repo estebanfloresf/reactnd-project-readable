@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {postDetailFetchData, createPostDetail, updatePostDetailField, insertPostData} from "../../actions/Post";
-import {insertCommentSuccessAction,deleteCommentSuccess} from "../../actions/Comment";
+import {insertCommentSuccessAction, deleteCommentSuccess} from "../../actions/Comment";
 import {categoriesFetchData} from "../../actions/Category";
 import {connect} from 'react-redux';
 
@@ -17,8 +17,10 @@ class addPost extends Component {
             titleField: false,
             bodyField: false,
             action: '',
+            category: ''
         };
     }
+
 
     componentDidMount() {
 
@@ -26,9 +28,11 @@ class addPost extends Component {
         this.props.deleteCommentSuccess(false);
         this.props.categoriesFetchData();
         if (this.props.match.params.post) {
+
             this.props.postDetailFetchData(this.props.match.params.post);
             this.setState({
-                action: 'PUT'
+                action: 'PUT',
+
             });
         } else {
             this.props.createPostDetail();
@@ -59,11 +63,14 @@ class addPost extends Component {
         }
     }
 
-    handleSubmit(post, e) {
+    handleSubmit(post,e) {
         e.preventDefault();
+
         if (post.author && post.title && post.body) {
             //    make the call to post/put the post item
             this.props.insertPostData(post, this.state.action);
+            this.props.history.push(`/${post.category}/${post.id}`)
+
         }
         else {
             if (post.author.trim() === '') {
@@ -85,20 +92,21 @@ class addPost extends Component {
     }
 
     render() {
-        const {categories, post, history} = this.props;
+        const {categories, post,  insertPostLoading,insertPostErrored} = this.props;
         const {authorField, titleField, bodyField} = this.state;
-console.log(this.props);
+
+
         return (
 
             <div>
                 {
-                    this.props.insertPostLoading ? <div className="text-info">Loading</div> :
-                        this.props.insertPostSuccess ? history.push(`/${post.category}/${post.id}`) :
-                            this.props.insertPostErrored &&
+                   insertPostLoading ? <div className="text-info">Loading</div> :
+                        // this.props.insertPostSuccess ? history.push(`/${post.category}/${post.id}`) :
+                          insertPostErrored &&
                             <div className="text-danger">There has been an error</div>
 
                 }
-                <form onSubmit={this.handleSubmit.bind(this, post)}>
+                <form onSubmit={this.handleSubmit.bind(this,post)}>
                     <div className="form-group">
                         <label htmlFor="postAuthor"/>Your Name
                         <input type="text" className="form-control" id="postAuthor" placeholder="Author Name"
@@ -124,7 +132,7 @@ console.log(this.props);
                                 this.props.categoriesisLoading ?
                                     <p className="alert alert-info" role="alert">Loading Categories...</p> :
                                     <select className="form-control text-capitalize" id="postCategory"
-                                            value={ post.category} onChange={this.onChange.bind(this, 'category')}>{
+                                            value={post.category} onChange={this.onChange.bind(this, 'category')}>{
                                         categories && categories.map((category) => {
 
                                             return (
@@ -144,11 +152,11 @@ console.log(this.props);
                             <small>You must provide a description</small>
                         </div>}
                     </div>
-                    <div >
+                    <div>
 
 
                         <button type="submit" className="btn btn-primary btn-lg btn-block" data-toggle="modal"
-                               data-submit="submit">Save
+                                data-submit="submit">Save
                         </button>
                         <Link to="/" className="btn btn-light btn-lg btn-block">Cancel</Link>
                     </div>

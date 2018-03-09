@@ -14,8 +14,9 @@ import {
     DELETE_POST,
     DELETE_POST_ERRORED,
     DELETE_POST_LOADING,
-    UPVOTE,DOWNVOTE
-} from '../actions/Post';
+    UPVOTE,DOWNVOTE,
+
+} from '../actions/types';
 
 
 
@@ -58,7 +59,8 @@ export function posts(state = [], action) {
             action.posts.filter((post)=> post.deleted !== false);
             // Sort from highest to lowest votes when returning the array
             action.posts.sort(function (a, b) {
-                return (a.voteScore > b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0);
+
+                return (a.voteScore >= b.voteScore)? -1 : ((b.voteScore > a.voteScore)? 1 : 0);
             });
            return  action.posts;
 

@@ -1,15 +1,15 @@
-
 import {url} from "../utils/helpers";
 import {getPostComments} from "./Comment";
 
-export const CATEGORIES_ERROR= 'CATEGORIES_ERROR';
-export const CATEGORIES_LOADING= 'CATEGORIES_LOADING';
-export const CATEGORIES_FETCH= 'CATEGORIES_FETCH';
+import {
+    CATEGORIES_ERROR,
+    CATEGORIES_LOADING,
+    CATEGORIES_FETCH,
+    CATEGORY_DETAIL_ERROR,
+    CATEGORY_DETAIL_LOADING,
+    CATEGORY_DETAIL_FETCH,
 
-export const CATEGORY_DETAIL_ERROR= 'CATEGORY_DETAIL_ERROR';
-export const CATEGORY_DETAIL_LOADING= 'CATEGORY_DETAIL_LOADING';
-export const CATEGORY_DETAIL_FETCH= 'CATEGORY_DETAIL_FETCH';
-
+} from './types';
 
 //ALL CATEGORIES
 export function categoriesErrored(bool) {
@@ -28,12 +28,10 @@ export function categoriesLoading(bool) {
 
 export function categoriesFetch(categories) {
     return {
-        type:CATEGORIES_FETCH,
+        type: CATEGORIES_FETCH,
         ...categories
     };
 }
-
-
 
 
 //SINGLE CATEGORY
@@ -46,7 +44,7 @@ export function categoryDetailErrored(bool) {
 
 export function categoryDetailLoading(bool) {
     return {
-        type: CATEGORIES_LOADING,
+        type: CATEGORY_DETAIL_LOADING,
         isLoading: bool
     };
 }
@@ -96,7 +94,7 @@ export function categoriesFetchData() {
 // GET  POSTS FROM SPECIFIC CATEGORY
 export function categoryDetailFetchData(category) {
 
-    const fetchURL = url(category+ '/posts');
+    const fetchURL = url(category + '/posts');
 
     return (dispatch) => {
         dispatch(categoryDetailLoading(true));
@@ -136,7 +134,7 @@ export function categoryDetailFetchData(category) {
                     )
                 )
             )
-            .then((postsCategories)=>
+            .then((postsCategories) =>
 
                 dispatch(categoryDetailFetch(postsCategories))
             )

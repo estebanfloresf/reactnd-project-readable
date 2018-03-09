@@ -5,7 +5,7 @@ import {
     CATEGORY_DETAIL_FETCH,
     CATEGORY_DETAIL_ERROR,
     CATEGORY_DETAIL_LOADING}
-    from "../actions/Category";
+    from "../actions/types";
 
 
 export function categoriesErrored(state = false, action) {

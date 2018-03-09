@@ -24,7 +24,8 @@ class PostDetail extends Component {
             insertError: false,
             deleteSuccess: false,
             deleteLoading: false,
-            deleteError: false
+            deleteError: false,
+            insertPost: false
         };
     }
 
@@ -48,6 +49,7 @@ class PostDetail extends Component {
         nextProps.deleteCommentSuccess ? this.setState({deleteSuccess: true}) : this.setState({deleteSuccess: false});
         nextProps.deleteCommentLoading ? this.setState({deleteLoading: true}) : this.setState({deleteLoading: false});
         nextProps.deleteCommentErrored ? this.setState({deleteError: true}) : this.setState({deleteError: false})
+        nextProps.insertPostSuccess ? this.setState({insertPost: true}) : this.setState({insertPost: false})
     }
 
     addComment(e) {
@@ -64,19 +66,28 @@ class PostDetail extends Component {
             insertError: false,
             deleteSuccess: false,
             deleteLoading: false,
-            deleteError: false
+            deleteError: false,
+            insertPost: false,
         });
     }
 
     render() {
 
         const {postDetail, postDeleted, history, commentsSuccess} = this.props;
-        const {insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError} = this.state;
+        const {insertSuccess, insertLoading, insertError, deleteSuccess, deleteLoading, deleteError,insertPost} = this.state;
 
         return (
             <div>
                 {
-                    insertSuccess ?
+                    insertPost ?
+                        <div className="alert alert-success" style={{display: insertPost ? 'block' : 'none'}}>
+                            <button type="button" className="close" aria-label="Close">
+                                <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
+                            </button>
+                            <strong>Great! </strong>Your post has been saved
+                        </div>
+                        :
+                        insertSuccess ?
                         <div className="alert alert-success" style={{display: insertSuccess ? 'block' : 'none'}}>
                             <button type="button" className="close" aria-label="Close">
                                 <span aria-hidden="true" onClick={this.hideAlert.bind(this)}>&times;</span>
@@ -223,6 +234,7 @@ function mapStateToProps(state) {
         deleteCommentSuccess: state.deleteCommentSuccess,
         deleteCommentLoading: state.deleteCommentLoading,
         deleteCommentErrored: state.deleteCommentErrored,
+        insertPostSuccess: state.insertPostSuccess
 
     };
 }

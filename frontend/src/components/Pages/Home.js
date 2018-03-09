@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import CategoryList from '../Category/CategoryList';
-import {commentsFetchData,insertCommentSuccessAction,deleteCommentSuccess} from '../../actions/Comment';
+import Category from '../Category/Category';
+import {commentsFetchData, insertCommentSuccessAction, deleteCommentSuccess} from '../../actions/Comment';
 import {postsFetchData} from "../../actions/Post";
 import DeletePost from "../Post/deletePost";
 import Post from "../Post/Post";
@@ -10,12 +10,34 @@ import {connect} from 'react-redux';
 
 
 class Home extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {order: 'scores'};
+
+    }
+
 
     componentDidMount() {
         this.props.categoriesFetchData();
         this.props.postsFetchData();
         this.props.insertCommentSuccessAction(false);
         this.props.deleteCommentSuccess(false);
+    }
+
+    orderPosts(e) {
+        e.preventDefault();
+        this.setState({order: e.target.value});
+
+        if (e.target.value === 'date') {
+            this.props.posts.sort(function (a, b) {
+                return (a.timestamp >= b.timestamp) ? -1 : ((b.timestamp > a.timestamp) ? 1 : 0);
+            });
+        }
+        if (e.target.value === 'scores') {
+            this.props.posts.sort(function (a, b) {
+                return (a.voteScore >= b.voteScore) ? -1 : ((b.voteScore > a.voteScore) ? 1 : 0);
+            });
+        }
     }
 
     render() {
@@ -43,15 +65,21 @@ class Home extends Component {
                     <div className="col-md-12">
 
                         <p className="title display-3">Categories</p>
+                        <div className="col-md-12 d-flex flex-wrap">
+                            {
+                                categories.length > 0 ?
 
-                        {
-                            categories.length>0 ? <CategoryList categories={categories}/>
-                                : this.props.categorieshasErrored ?
-                                <div><p>Sorry! There was an error loading the categories</p></div>
-                                :this.props.categoriesisLoading &&  <p>Loading…</p>
+                                    categories.map((category) => {
+                                            return (<Category key={category.name} category={category}/>)
+                                        }
+                                    )
 
-                        }
+                                    : this.props.categorieshasErrored ?
+                                    <div><p>Sorry! There was an error loading the categories</p></div>
+                                    : this.props.categoriesisLoading && <p>Loading…</p>
 
+                            }
+                        </div>
                     </div>
                 </div>
 
@@ -61,18 +89,14 @@ class Home extends Component {
 
                         <div className="col-md-12 d-flex flex-row align-content-end" id="order">
                             <div className="p-2">
-                                <div className="btn-group" role="group">
-                                    <button id="btnGroupDrop1" type="button"
-                                            className="btn btn-outline-info btn-sm dropdown-toggle"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Order By
-                                    </button>
-                                    <div className="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                        <Link className="dropdown-item" to="/">Date</Link>
-                                        <Link className="dropdown-item" to="/">Scores</Link>
 
-                                    </div>
-                                </div>
+                                <select className="btn btn-outline-info btn-sm dropdown-toggle" value={this.state.order}
+                                        onChange={this.orderPosts.bind(this)}>
+                                    <option key="scores" value="scores">Scores</option>
+                                    <option key="date" value="date">Date</option>
+                                </select>
+
+
                             </div>
                             <div className="p-2">
                                 <Link className="btn btn-primary btn-sm" to="/addPost"> <i
@@ -87,18 +111,16 @@ class Home extends Component {
                                 return <Post key={post.id} post={post} comments={comments}/>
                             })
                             :
-                            this.props.postsisLoading?
-                               <div className="p-2">
-                                   Loading
-                               </div>
+                            this.props.postsisLoading ?
+                                <div className="p-2">
+                                    Loading
+                                </div>
                                 :
-                            this.props.postshasErrored?
-                            <div><p>Sorry! There was an error loading the items</p></div>
+                                this.props.postshasErrored ?
+                                    <div><p>Sorry! There was an error loading the items</p></div>
 
-
-                                :
-                                <div className="p-2">Whoop's sorry no posts available, want to be the first?</div>
-
+                                    :
+                                    <div className="p-2">Whoop's sorry no posts available, want to be the first?</div>
                         }
 
 
@@ -131,7 +153,8 @@ const mapDispatchToProps = {
     postsFetchData,
     commentsFetchData,
     insertCommentSuccessAction,
-    deleteCommentSuccess
+    deleteCommentSuccess,
+
 };
 
 
