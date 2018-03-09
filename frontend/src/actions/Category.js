@@ -138,7 +138,8 @@ export function categoryDetailFetchData(category) {
             )
             .then((postsCategories)=>
 
-                dispatch(categoryDetailFetch(postsCategories)))
+                dispatch(categoryDetailFetch(postsCategories))
+            )
             .catch(function (error) {
                     console.log('There has been a problem with your fetch operation: ' + error.message);
                     dispatch(categoryDetailErrored(true));
