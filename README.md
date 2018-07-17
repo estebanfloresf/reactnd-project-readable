@@ -6,12 +6,7 @@ This is the starter project for the final assessment project for Udacity's Redux
 
 To get started:
 
-* Install and start the API server
-  * `cd api-server`
-  * `npm install`
-  * `node server`
-* In another terminal window, type the following
-  * `cd frontend`
+* Install and start the API server and client 
   * `npm install`
   * `npm start`
 

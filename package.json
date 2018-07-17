@@ -1,0 +1,28 @@
+{
+  "name": "2_reactnd-project-readable",
+  "version": "1.0.0",
+  "description": "project udacity",
+  "main": "index.js",
+  "dependencies": {
+    "concurrently": "^3.6.0",
+    "react-modal": "^2.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "npm test",
+    "build": "concurrently \"cd client && npm build\" \"cd server && npm build\"",
+    "install": "(cd client && npm) && (cd api-server && npm)",
+    "start": "concurrently \"cd client && PORT=3000 npm start\" \"cd api-server && PORT=3001 npm start\" ",
+    "start:prod": "cd api-server && npm start:prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/estebanfloresf/reactnd-project-readable.git"
+  },
+  "author": "Esteban Flores",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/estebanfloresf/reactnd-project-readable/issues"
+  },
+  "homepage": "https://github.com/estebanfloresf/reactnd-project-readable#readme"
+}
